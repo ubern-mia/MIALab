@@ -55,6 +55,7 @@ Which metrics are suitable for our task? Can we change the validation procedure?
 
 ###### Materials
 
+- `mialab.evaluation.metrics`
 - A. A. Taha and A. Hanbury, "Metrics for evaluating 3D medical image segmentation: analysis, selection, and tool", BMC Med. Imaging, vol. 15, no. 1, pp. 1–28, 2015.
 
 ## Decision Forest Parameter Tuning
