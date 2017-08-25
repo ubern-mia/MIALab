@@ -1,0 +1,73 @@
+\documentclass[journal]{IEEEtran}
+\usepackage{graphicx}
+
+\ifCLASSOPTIONcompsoc
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\else
+\usepackage[caption=false,font=footnotesize]{subfig}
+\fi
+
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\begin{document}
+
+\title{Distal Femur Segmentation\\on MR Images Using Random Forests}
+
+\author{Fabian~Balsiger, %~\IEEEmembership{Member,~IEEE,}
+        Tiziano~Ronchetti, %~\IEEEmembership{Fellow,~OSA,}
+        and~Martin~Pletscher %,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
+\thanks{The authors are students at the department of Biomedical Engineering, University of Bern, Switzerland. Use e-mails fabian.balsiger@students.unibe.ch and martin.pletscher@students.unibe.ch to contact F. Balsiger and M. Pletscher, respectively. T. Ronchetti can be contacted under tiziano.ronchetti@bfh.ch.}% <-this % stops a space
+\thanks{Manuscript received January 7, 2017.}}
+
+\markboth{Medical Image Analysis Laboratory 2017}%
+{Shell \MakeLowercase{\textit{et al.}}: MIA Lab}
+
+\maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract or keywords.
+\begin{abstract}
+Segmentation of the distal femur from magnetic resonance (MR) images plays a crucial role in clinical practice. Diagnosis, disease progression monitoring, preoperative planning, and treatment analysis of diseases like osteoarthritis are applications. We developed a fully automatic method to segment the distal femur on MR images. Our method uses random forests (RF) and consists of two main phases: training and segmentation, i.e., a RF model is trained that enables RF voting to classify the distal femur on MR images. We evaluated our method with 20 MR data sets manually labeled by experts. A leave-one-out cross-validation was performed ($n=10$) and Dice similarity coefficients (DSC) were obtained. The mean DSC is $92.37 \pm 0.0266$. Mean sensitivity is $91.57 \%$ and mean specificity is $99.29 \%$. Training the RF model with 19 data sets took in average 791 seconds and segmenting an image 45 seconds ($n=200$). Our method is suitable to segment the distal femur with high accuracy and precision. Moreover, the duration to segment the femur with less than a minute is feasible for clinical use.
+\end{abstract}
+
+% Note that keywords are not normally used for peerreview papers.
+\begin{IEEEkeywords}
+Fully automated femur segmentation, femur detection, segmentation, random forest (RF), magnetic resonance imaging (MRI).
+\end{IEEEkeywords}
+
+\IEEEpeerreviewmaketitle
+
+\input{introduction}
+\input{method}
+\input{results}
+\input{discussion}
+\input{conclusion}
+
+\appendices
+\section{Choice of Parameters}
+\label{secAppendixA}
+The method is generally insensitive to most of the parameter settings. A change in the below introduced parameters does not affect the segmentation outcome significantly. However, it can affect the computational effort to build the RF model and to segment an image.
+\subsection{Random Forest Parameters}
+
+\textit{Number of trees}: The number of trees to train the RF has been determined by trial and error to be 20. Underfitting occurred with a number of trees lower than 20 in certain cases. More than 20 trees does not improve the DSC significantly and thus has no benefit.
+
+\textit{Number of voxels}: We used $5 \%$ of the voxels that show femur and $5 \%$ of the non-femur voxels from each data set to train the RF. Tests showed that the DSC does not improve significantly with increasing number of voxels used to train the RF. Though, the computational time is increased by factor 2.5 for each additional $5 \%$ voxels.
+
+\textit{Volumetric neighborhood}: We determined a neighborhood of $I~x~J~x~K=5~x~5~x~3$ voxels for the volumetric features (i.e., mean, variance, and entropy) by trial and error. Tests showed that a smaller or larger neighborhood does negatively affect the RF voting outcome. A change in the neighborhood size does not significantly affect the computational effort.
+
+\subsection{Segmentation Parameters}
+\textit{Scaling factor}: The image that is segmented was scaled to a smaller size to achieve a faster segmentation. A scaling by $0.5$ has been determined for our evaluation. Segmentation without scaling does not improve the segmentation result significantly but does increase the computational time by factor 4.
+
+\section*{Acknowledgment}
+The authors would like to thank Prof. Dr. Mauricio Reyes for his generous support and helpful feedback during the laboratory and for providing the materials. He gave us an excellent introduction to the field of random forests, statistical shape models, and active shape models.
+
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
+\ifCLASSOPTIONcaptionsoff
+  \newpage
+\fi
+
+\input{bib}
+
+\end{document}
+
