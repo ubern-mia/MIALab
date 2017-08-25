@@ -12,7 +12,7 @@ import mialab.classifier.decision_forest as df
 
 
 class DataCollection:
-    """Represents a collection of data points for machine learning."""
+    """Represents a collection of data (features) with associated labels (if any)."""
 
     UNKNOWN_LABEL = -1
 
@@ -29,14 +29,12 @@ class DataCollection:
     def add_data(self, data, label: int=UNKNOWN_LABEL):
         """Adds data to the collection.
 
-        TODO: not efficient (see http://stackoverflow.com/a/32179912)
-
         Args:
-            data (?): ...
-            label (int):
+            data (list of float): The data, e.g. [0.1, 0.2].
+            label (int): The data's associated label.
 
         Raises:
-            ValueError:
+            ValueError: If the data's dimension matches not the DataCollection's dimension.
         """
         if len(data) != self.dimension:
             raise ValueError('Data has not expected dimensionality')
@@ -47,9 +45,9 @@ class DataCollection:
             self.data = np.array(data, dtype=np.float32)
 
         if label != DataCollection.UNKNOWN_LABEL and self.labels is not None:
-            self.labels = np.append(self.labels, [label]).astype(np.uint8, copy=False)
+            self.labels = np.append(self.labels, [label]).astype(np.int32, copy=False)
         elif label != DataCollection.UNKNOWN_LABEL:
-            self.labels = np.array([label], np.uint8)
+            self.labels = np.array([label], np.int32)
 
     def has_labels(self) -> bool:
         """Determines whether the data have labels associated.
@@ -70,7 +68,18 @@ class DataCollection:
 
 
 class Reader:
-    """Represents a point reader, which reads a list of points from a text file."""
+    """Represents a point reader, which reads a list of points from a text file.
+
+    The text file needs to have the following format:
+    1 	 231.293210 	 201.938881
+    1 	 164.756169 	 162.208593
+    2 	 859.625948 	 765.342651
+    3 	 839.740553 	 228.076223
+
+    Where the first column is the label y of the point. The second and third columns are x1 and x2,
+    i.e. the features one and two (or in other words the (x, y) coordinates of the 2-D point).
+    The above example contains four points.
+    """
 
     @staticmethod
     def load(file_path) -> DataCollection:
@@ -90,11 +99,17 @@ class Reader:
 
 
 class Generator:
-    """Represents a point generator."""
+    """Represents a point generator.
+
+    The points have an integer spacing and no associated labels.
+    """
 
     @staticmethod
-    def get_test_data(grid_size):
+    def get_test_data(grid_size: int):
         """Gets testing data.
+
+        Args:
+            grid_size (int): The point cloud grid size.
 
         Returns:
             np.ndarray: An array of test data.
@@ -103,6 +118,20 @@ class Generator:
         rng = np.linspace(0, grid_size - 1, grid_size)
         grid = np.meshgrid(rng, rng)
         return np.append(grid[0].reshape(-1, 1), grid[1].reshape(-1, 1), axis=1).astype(np.float32, copy=False)
+
+    @staticmethod
+    def get_test_data_with_label(grid_size: int):
+        """Gets testing data.
+
+        Args:
+            grid_size (int): The point cloud grid size.
+
+        Returns:
+            np.ndarray, np.ndarray: Arrays of test data and labels.
+        """
+        data = Generator.get_test_data(grid_size)
+        labels = np.zeros((data.shape[0], 1)).astype(np.int32)
+        return data, labels
 
 
 class Plotter:
@@ -133,11 +162,11 @@ class Plotter:
         self.image.save(file_name, 'PNG')
 
     def plot_points(self, data, labels, radius=3):
-        """
+        """Plots points on an image.
 
         Args:
-            data (np.ndarray): The data to plot.
-            labels ():
+            data (np.ndarray): The data (point coordinates) to plot.
+            labels (np.ndarray): The data's associated labels.
             radius (int): The point radius.
         """
         it = np.nditer(labels, flags=['f_index'])
@@ -152,6 +181,12 @@ class Plotter:
             it.iternext()
 
     def plot_pixels_proba(self, data, probabilities):
+        """Plots probabilities on an image.
+
+        Args:
+            data (np.ndarray): The data (probability coordinates) to plot.
+            probabilities (np.ndarray): The data's associated probabilities.
+        """
         it = np.nditer(probabilities, flags=['f_index'])
         for idx in range(probabilities.shape[0]):
             value = data[idx]
@@ -163,7 +198,15 @@ class Plotter:
 
             it.iternext()
 
-    def get_color(self, label_probabilities):
+    def get_color(self, label_probabilities: np.ndarray):
+        """Gets the color for a probability.
+
+        Args:
+            label_probabilities (np.ndarray): The probabilities.
+
+        Returns:
+            (int, int, int): A tuple representing an RGB color code.
+        """
         color = np.array([0.0, 0.0, 0.0])
 
         for i in range(label_probabilities.size):
@@ -207,7 +250,7 @@ def main(_):
     forest = df.DecisionForest(params)
     print('Decision forest training...')
     forest.train(data.data, data.labels)
-    # or use load_estimator to load a model (note to set the params.model_dir)
+    # or use load_estimator to load a model (create a DecisionForestParameters object and set the model_dir)
     # forest.load_estimator()
 
     # apply the forest to test data

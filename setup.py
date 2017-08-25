@@ -13,10 +13,10 @@ with open('LICENSE') as f:
 
 REQUIRED_PACKAGES = [
     'matplotlib >= 2.0.2',
-    'numpy >= 1.12.1',
-    'SimpleITK >= 1.0.0',
-    'tensorflow >= 1.2.0',
-    'PIL'
+    'numpy >= 1.13.1',
+    'SimpleITK >= 1.0.1',
+    'tensorflow >= 1.2.1',
+    'Pillow >= 4.2.1'
 ]
 
 TEST_PACKAGES = [
