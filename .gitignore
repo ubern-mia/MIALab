@@ -232,3 +232,7 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
+
+### Project specific stuff
+bin/toy-example-model/
+bin/toy-example-result/

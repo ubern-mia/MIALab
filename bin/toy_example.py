@@ -183,6 +183,9 @@ def main(_):
     model_dir = os.path.join(FLAGS.model_dir, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     os.makedirs(model_dir, exist_ok=True)
 
+    # generate result directory
+    os.makedirs(FLAGS.result_dir, exist_ok=True)
+
     # read file with training data
     data = Reader.load(FLAGS.input_file)
 
@@ -247,7 +250,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '--input_file',
         type=str,
-        default='./data/exp1_n2.txt',
+        default='./../data/exp1_n2.txt',
         help='Input file with 2-dimensional coordinates and corresponding label.'
     )
 

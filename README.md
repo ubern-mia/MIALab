@@ -21,7 +21,7 @@ Enjoy!
 
 ----
 
-Found a bug or do you have suggestions? Open an issue or submit a pull request.
+Found a bug or do you have suggestions? Open an issue or better submit a pull request.
 
 ## Data
 
