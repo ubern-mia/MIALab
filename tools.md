@@ -75,6 +75,7 @@
 ###### Organize
 
 - [Mendeley](https://www.mendeley.com/): Tool to organize your references (and create your bibliography)
+- [Mendeley Desktop](https://www.mendeley.com/downloads): Client for Mendeley [Win, Mac, Linux]
 
 ------
 
