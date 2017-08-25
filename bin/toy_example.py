@@ -26,13 +26,17 @@ class DataCollection:
         self.data = None  # use float32 since TensorFlow does not support float64
         self.labels = None
 
-    def add_data(self, data, label=UNKNOWN_LABEL):
-        """
+    def add_data(self, data, label: int=UNKNOWN_LABEL):
+        """Adds data to the collection.
+
         TODO: not efficient (see http://stackoverflow.com/a/32179912)
-        :param data:
-        :param label:
-        :return: None.
-        :raises: ValueError
+
+        Args:
+            data (?): ...
+            label (int):
+
+        Raises:
+            ValueError:
         """
         if len(data) != self.dimension:
             raise ValueError('Data has not expected dimensionality')
@@ -47,26 +51,37 @@ class DataCollection:
         elif label != DataCollection.UNKNOWN_LABEL:
             self.labels = np.array([label], np.uint8)
 
-    def has_labels(self):
-        """
-        Determines whether the data have labels associated.
-        :return: True if the data have labels associated; otherwise, False.
+    def has_labels(self) -> bool:
+        """Determines whether the data have labels associated.
+
+        Returns:
+            bool: True if the data have labels associated; otherwise, False.
         """
         return self.label_count() != 0
 
-    def label_count(self):
+    def label_count(self) -> int:
+        """Determines the number of labels.
+
+        Returns:
+            int: The number of labels.
+        """
         unique_labels = np.unique(self.labels)
         return unique_labels.size
+
 
 class Reader:
     """Represents a point reader, which reads a list of points from a text file."""
 
     @staticmethod
     def load(file_path) -> DataCollection:
-        """Loads a file that contains 2-dimensional data."""
+        """Loads a file that contains 2-dimensional data.
+
+        Returns:
+            DataCollection: A data collection with points.
+        """
 
         data = DataCollection(2)
-        file = open(file_path, "r")
+        file = open(file_path, 'r')
         for line in file:
             values = re.split(r'\t+', line)
             data.add_data([float(values[1]), float(values[2])], int(values[0]) - 1)
@@ -81,8 +96,10 @@ class Generator:
     def get_test_data(grid_size):
         """Gets testing data.
 
-        :return: An array of test data.
+        Returns:
+            np.ndarray: An array of test data.
         """
+
         rng = np.linspace(0, grid_size - 1, grid_size)
         grid = np.meshgrid(rng, rng)
         return np.append(grid[0].reshape(-1, 1), grid[1].reshape(-1, 1), axis=1).astype(np.float32, copy=False)
@@ -96,7 +113,7 @@ class Plotter:
 
         The plotter supports up to four class labels.
         """
-        self.image = Image.new("RGB", (1000, 1000), (255, 255, 255))
+        self.image = Image.new('RGB', (1000, 1000), (255, 255, 255))
         self.draw = ImageDraw.Draw(self.image)
 
         # default label colors (add more colors to support more labels)
@@ -105,17 +122,24 @@ class Plotter:
                              (4, 154, 10),
                              (13, 26, 188)]
 
-    def save(self, file_name):
+    def save(self, file_name: str):
         """Saves the plot as PNG image.
 
-        :param file_name: The file name.
-        :return: None.
+        Args:
+            file_name (str): The file name.
         """
-        if not file_name.lower().endswith(".png"):
-            file_name += ".png"
-        self.image.save(file_name, "PNG")
+        if not file_name.lower().endswith('.png'):
+            file_name += '.png'
+        self.image.save(file_name, 'PNG')
 
     def plot_points(self, data, labels, radius=3):
+        """
+
+        Args:
+            data (np.ndarray): The data to plot.
+            labels ():
+            radius (int): The point radius.
+        """
         it = np.nditer(labels, flags=['f_index'])
         while not it.finished:
             value = data[it.index]
@@ -156,7 +180,7 @@ def main(_):
     """Trains a decision forest classifier on a two-dimensional point cloud."""
 
     # generate model directory (use datetime to ensure that the directory is empty)
-    model_dir = os.path.join(FLAGS.model_dir, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    model_dir = os.path.join(FLAGS.model_dir, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     os.makedirs(model_dir, exist_ok=True)
 
     # read file with training data
@@ -184,7 +208,7 @@ def main(_):
     # forest.load_estimator()
 
     # apply the forest to test data
-    print("Decision forest testing...")
+    print('Decision forest testing...')
     probabilities, predictions = forest.predict(test_data)
 
     # or directly evaluate when labels are known
@@ -205,7 +229,7 @@ def main(_):
 if __name__ == "__main__":
     """The program's entry point."""
 
-    parser = argparse.ArgumentParser(description="2-dimensional point classification with decision forests")
+    parser = argparse.ArgumentParser(description='2-dimensional point classification with decision forests')
     parser.add_argument(
         '--model_dir',
         type=str,
