@@ -22,3 +22,17 @@ Enjoy!
 ----
 
 Found a bug or do you have suggestions? Open an issue or submit a pull request.
+
+## Data
+
+###### Medical Images
+
+The medical images will be provided trough Ilias.
+
+###### Toy Example
+
+The toy example data in the data directory is taken from the Sherwood library [1].
+
+## References
+
+[1] Microsoft Research, "Sherwood C++ and C# code library for decision forests", 2012. [Online]. Available: http://research.microsoft.com/en-us/downloads/52d5b9c3-a638-42a1-94a5-d549e2251728/. [Accessed: 16-Mar-2016].
