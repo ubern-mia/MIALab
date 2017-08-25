@@ -52,7 +52,7 @@
 
 ###### Editors
 
-- [Overleaf](): Online LaTeX editor, collaborative writing, and publishing tool
+- [Overleaf](https://www.overleaf.com/): Online LaTeX editor, collaborative writing, and publishing tool
 - [TeXstudio](http://www.texstudio.org/): Desktop editor [Win, Mac, Linux]
 - [Texmaker](http://www.xm1math.net/texmaker/): Desktop editor [Win, Mac, Linux]
 - or pick any ([list of tex editors](https://en.wikipedia.org/wiki/Comparison_of_TeX_editors))
