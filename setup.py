@@ -16,6 +16,7 @@ REQUIRED_PACKAGES = [
     'numpy >= 1.12.1',
     'SimpleITK >= 1.0.0',
     'tensorflow >= 1.2.0',
+    'PIL'
 ]
 
 TEST_PACKAGES = [
