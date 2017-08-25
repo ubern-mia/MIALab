@@ -74,7 +74,7 @@
 
 ###### Organize
 
-- [Mendely](https://www.mendeley.com/): Tool to organize your references (and create your bibliography)
+- [Mendeley](https://www.mendeley.com/): Tool to organize your references (and create your bibliography)
 
 ------
 
