@@ -1,17 +1,62 @@
-"""todo(fabianbalsiger): comment"""
+"""The loading module holds classes to load data."""
 import os
 
 
-class IDataLoader:
+class DataLoaderBase:
+    """Represents a base class for data loading."""
+    
+    def __init__(self):
+        """Initializes a new instance of the DataLoaderBase class."""
+    
+    def __iter__(self):
+        """Gets an iterator object.
+        
+        Returns:
+            DataLoaderBase: Itself.
+        """
+        return self
+    
+    def __next__(self):
+        """Gets the next data item.
+        
+        Returns:
+            object: The data item.
+        """
+        raise NotImplementedError()
 
-    def __int__(self):
-        pass
+
+class FileSystemDataLoader(DataLoaderBase):
+    """Represents a file system data loader.
+
+    Given a dictionary, where keys represent an identifier and values the paths to directories with the data,
+    the data can be loaded sequentially.
+    """
+    
+    def __init__(self, 
+                 data: dict,
+                 file_extension: str='.nii.gz'):
+        """Initializes a new instance of the FileSystemDataLoader class.
+
+        Args:
+            data (dict): The data dictionary. Keys (str) represent an identifier and 
+                values (str) the paths to directories with the data.
+            file_extension (str): The data's file extension (with or without the dot).
+        """
+        self.data = data
+        
+    def __next__(self):
+        """Gets the next data item.
+        
+        Returns:
+            object: The data item.
+        """
+        raise NotImplementedError()
 
 
-class FileSystemDataLoader(IDataLoader):
-    """Represents an image loader.
+class FileSystemCrawler:
+    """Represents file system crawler.
 
-    Given a root directory, the loader searches all subdirectories which contain images.
+    Given a root directory, the crawler searches all subdirectories which contain images.
     """
 
     def __init__(self,
