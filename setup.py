@@ -16,7 +16,8 @@ REQUIRED_PACKAGES = [
     'numpy >= 1.13.1',
     'SimpleITK >= 1.0.1',
     'tensorflow >= 1.2.1',
-    'Pillow >= 4.2.1'
+    'Pillow >= 4.2.1',
+    'pydensecrf >= 0.1'
 ]
 
 TEST_PACKAGES = [
