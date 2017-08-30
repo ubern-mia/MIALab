@@ -51,8 +51,9 @@ This is the syllabus of to the medical image analysis laboratory (MIALab). The l
 
 01.11.2017 / Reyes, Balsiger, Jungo, Suter
 
-* (P) Brief presentation about approach / progress / challenges / **insights** (max. 5 slides)
+* (H) Brief presentation about approach / progress / challenges / **insights** (max. 5 slides and 7 minutes)
 * (P) Discussion, feedback, and input
+* (P) Coding / working on the project
 
 ## Week 8: Data Visualization
 
