@@ -1,3 +1,8 @@
+"""A decision forest toy example.
+
+Trains and evaluates a decision forest classifier on a 2-D point cloud.
+"""
+
 import argparse
 import datetime
 import os
