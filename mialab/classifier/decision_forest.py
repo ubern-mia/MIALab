@@ -1,3 +1,4 @@
+"""The decision forest module holds implementations of decision forests (random forests)."""
 import numpy as np
 from tensorflow.contrib.learn.python.learn.estimators import estimator
 from tensorflow.contrib.learn.python.learn import metric_spec
@@ -56,7 +57,7 @@ class DecisionForest:
     """Represents a decision forest classifier."""
 
     def __init__(self, parameters: DecisionForestParameters=DecisionForestParameters()):
-        """Initialize an new instance of the DecisionForest class."""
+        """Initializes an new instance of the DecisionForest class."""
 
         self.parameters = None  # tensor_forest.ForestHParams
         self.estimator = None  # estimator.SKCompat
@@ -110,8 +111,7 @@ class DecisionForest:
         return probabilities, predictions
 
     def evaluate(self, data: np.ndarray, labels: np.ndarray):
-        """
-        Predicts and directly evaluates the results.
+        """Predicts and directly evaluates the results.
 
         Args:
             data (np.ndarray): The data to predict.
