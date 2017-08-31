@@ -2,6 +2,8 @@
 Tools
 =====
 
+This list summarizes the software tools and libraries we are going to use or we can recommend to use.
+
 Python
 ------
 
@@ -16,6 +18,7 @@ Libraries
 - `matplotlib <https://matplotlib.org/>`_: Plotting library
 - `seaborn <https://seaborn.pydata.org/>`_: Statistical data visualization
 - `miapy <https://github.com/istb-mia/miapy>`_: Generic and often used code for medical image analysis (developed by your lecturers!)
+- `Sphinx <http://www.sphinx-doc.org/en/stable/index.html>`_: A Python documentation generator
 
 Integrated development environment (IDE)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
