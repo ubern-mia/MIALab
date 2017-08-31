@@ -21,12 +21,12 @@ import mialab.evaluation.validation as valid
 FLAGS = None  # the program flags
 
 
-def load_images(img_id, path):
+def load_images(img_id: str, path: str):
     """todo(fabianbalsiger): comment
 
     Args:
-        img_id ():
-        path ():
+        img_id (str):
+        path (str):
 
     Returns:
 
@@ -34,8 +34,11 @@ def load_images(img_id, path):
     pass
 
 
-def init_evaluator() -> eval.Evaluator:
+def init_evaluator(directory: str) -> eval.Evaluator:
     """Initializes an evaluator.
+
+    Args:
+        directory (str): The directory for the results file.
 
     Returns:
         eval.Evaluator: An evaluator.
@@ -43,7 +46,7 @@ def init_evaluator() -> eval.Evaluator:
     os.makedirs(FLAGS.result_dir, exist_ok=True)  # generate result directory, if it does not exists
 
     evaluator = eval.Evaluator(eval.ConsoleEvaluatorWriter(5))
-    evaluator.add_writer(eval.CSVEvaluatorWriter(os.path.join(FLAGS.result_dir, 'results.csv')))
+    evaluator.add_writer(eval.CSVEvaluatorWriter(os.path.join(directory, 'results.csv')))
     evaluator.add_label(1, "WhiteMatter")
     evaluator.metrics = [metric.DiceCoefficient()]
     return evaluator
@@ -51,8 +54,6 @@ def init_evaluator() -> eval.Evaluator:
 
 def main(_):
     """todo(fabianbalsiger): comment"""
-
-
 
     # load the images
     directory_loader = load.FileSystemDataLoader(FLAGS.data_dir)
@@ -82,11 +83,12 @@ def main(_):
         forest.train(train_data, train_labels)
         print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
+        print('-' * 5, 'Testing...')
 
 if __name__ == "__main__":
     """The program's entry point."""
 
-    parser = argparse.ArgumentParser(description='Medical image analysis pipeline for brain compartment segmentation')
+    parser = argparse.ArgumentParser(description='Medical image analysis pipeline for brain tissue segmentation')
     parser.add_argument(
         '--model_dir',
         type=str,

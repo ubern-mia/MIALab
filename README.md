@@ -13,7 +13,7 @@ We have set up an entire pipeline to solve this task, specifically:
 - Post-processing
 - Evaluation
 
-During the laboratory you will team up in groups of 2-3 students and investigate one of these pipeline elements in-depth (see [experiments](docs/experiments.md)).
+During the laboratory you will team up in groups of 2-3 students and investigate one of these pipeline elements in-depth (see [experiments](docs/experiments.rst)).
 You will get to know and to use various libraries and software tools needed in the daily life as biomedical engineer in the medical image analysis domain (see [tools](docs/tools.md)).
 Note the [syllabus](docs/syllabus.rst) for a rough plan of the next 14 weeks and deadlines.
 
