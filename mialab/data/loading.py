@@ -32,7 +32,7 @@ class FileSystemDataLoader(DataLoaderBase):
     the data can be loaded sequentially.
     """
     
-    def __init__(self, 
+    def __init__(self,
                  data: dict,
                  file_extension: str='.nii.gz'):
         """Initializes a new instance of the FileSystemDataLoader class.
@@ -42,6 +42,7 @@ class FileSystemDataLoader(DataLoaderBase):
                 values (str) the paths to directories with the data.
             file_extension (str): The data's file extension (with or without the dot).
         """
+        super().__init__()
         self.data = data
         
     def __next__(self):
