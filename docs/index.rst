@@ -47,7 +47,7 @@ Enjoy!
     package_filtering
 
 Indices
-=======
+----------
 
 * :ref:`genindex`
 * :ref:`modindex`
