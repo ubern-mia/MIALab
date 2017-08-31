@@ -43,7 +43,7 @@ Can we leverage the segmentation performance by post-processing?
 ###### Materials
 
 - `mialab.filtering.postprocessing`, e.g. use `DenseCRF`
-- https://arxiv.org/abs/1210.5644
+- R. S. Olson, W. La Cava, Z. Mustahsan, A. Varik, and J. H. Moore, Data-driven Advice for Applying Machine Learning to Bioinformatics Problems, Aug. 2017.
 - P. Cattin and V. Roth, Biomedical Image Analysis - Mathematical Morphology, 2013. [Online]. Available: http://informatik.unibas.ch/fileadmin/Lectures/FS2013/CS252/morphology13.pdf [Accessed: 25-Aug-2017]
 
 ## Evaluation
