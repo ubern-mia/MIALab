@@ -51,7 +51,7 @@ This is the syllabus of to the medical image analysis laboratory (MIALab). The l
 
 01.11.2017 / Reyes, Balsiger, Jungo, Suter
 
-* (H) Brief presentation about approach / progress / challenges / **insights** (max. 5 slides and 7 minutes)
+* (H) Brief presentation about approach / progress / challenges / **insights** (max. 7 minutes)
 * (P) Discussion, feedback, and input
 * (P) Coding / working on the project
 
@@ -97,7 +97,7 @@ This is the syllabus of to the medical image analysis laboratory (MIALab). The l
 
 20.12.2017 / Reyes, Balsiger, Jungo, Suter
 
-* (H) Presentations (12 minutes + 3 minutes questions)
+* (H) Presentations (max. 12 minutes + 3 minutes questions)
 * (H) Discussion of overall results
 * (H) Feedback on lecture
 

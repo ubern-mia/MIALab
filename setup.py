@@ -16,6 +16,7 @@ REQUIRED_PACKAGES = [
     'numpy >= 1.13.1',
     'Pillow >= 4.2.1',
     'pydensecrf >= 0.1'
+    'recommonmark >=0.4.0'
     'SimpleITK >= 1.0.1',
     'sphinx >= 1.6',
     'sphinx_rtd_theme >= 0.2.4',

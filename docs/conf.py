@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # MIALab documentation build configuration file, created by
-# sphinx-quickstart on Tue May 30 21:31:00 2017.
+# sphinx-quickstart on Thur August 31 10:58:00 2017.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -17,9 +17,12 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import os
 import sphinx_rtd_theme
 import sys
-import os
+
+from recommonmark.parser import CommonMarkParser
+
 
 sys.path.insert(0, os.path.abspath('.'))  # docs directory
 sys.path.insert(0, os.path.abspath('../mialab'))  # root directory of project
@@ -46,10 +49,12 @@ extensions = ['sphinx.ext.autodoc',
 templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
-# You can specify multiple suffix as a list of string:
-#
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
+
+# Add the Markdown parser
+source_parsers = {
+   '.md': CommonMarkParser,
+}
 
 # The master toctree document.
 master_doc = 'index'
@@ -57,7 +62,7 @@ master_doc = 'index'
 # General information about the project.
 project = 'mialab'
 copyright = '2017, MIA group, ISTB, University of Bern'
-author = 'Fabian Balsiger'
+author = 'Mauricio Reyes'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -139,8 +144,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'miapy.tex', 'miapy Documentation',
-     'Fabian Balsiger', 'manual'),
+    (master_doc, 'mialab.tex', 'miapy Documentation',
+     author, 'manual'),
 ]
 
 
@@ -149,7 +154,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'miapy', 'miapy Documentation',
+    (master_doc, project, 'miapy Documentation',
      [author], 1)
 ]
 
@@ -160,7 +165,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'miapy', 'miapy Documentation',
+    (master_doc, project, 'miapy Documentation',
      author, 'miapy', 'One line description of project.',
      'Miscellaneous'),
 ]

@@ -2,7 +2,7 @@
 
 ## Python
 
-- We use [Python 3.5](https://docs.python.org/3.6/) inside an [Anaconda](https://www.continuum.io/downloads) environment.
+- We use [Python 3.6](https://docs.python.org/3.6/) inside an [Anaconda](https://www.continuum.io/downloads) environment.
 
 ###### Libraries
 
@@ -22,8 +22,6 @@
 ## Git
 
 - [git](https://git-scm.com/): required base of the version control system [Win, Mac, Linux]
-
-
 - [GitHub](https://github.com/): free git repository hosting service
 
 ###### GUI Clients
