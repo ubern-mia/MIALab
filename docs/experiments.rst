@@ -20,7 +20,7 @@ Materials
 - `mialab.filtering.preprocessing`, e.g. `SkullStrip`
 - L. G. Nyúl, J. K. Udupa, and X. Zhang, "New variants of a method of MRI scale standardization.", IEEE Trans. Med. Imaging, vol. 19, no. 2, pp. 143–50, Feb. 2000.
 - J.-P. Bergeest and F. Jäger, "A Comparison of Five Methods for Signal Intensity Standardization in MRI", in Bildverarbeitung für die Medizin 2008, Berlin Heidelberg: Springer, 2008, pp. 36–40.
-- `scikit-learn <http://scikit-learn.org/stable/modules/preprocessing.html#preprocessing>`_: Pre-processing data
+- `scikit-learn Pre-processing data <http://scikit-learn.org/stable/modules/preprocessing.html#preprocessing>`_
 
 Registration
 --------------------
@@ -94,7 +94,7 @@ Do other machine learning algorithms perform better on our task?
 Materials
 ^^^^^^^^^
 
-- `scikit-learn <http://scikit-learn.org/stable/supervised_learning.html#supervised-learning>`_: Supervised machine learning algorithms
+- `scikit-learn Supervised machine learning algorithms <http://scikit-learn.org/stable/supervised_learning.html#supervised-learning>`_
 - R. S. Olson, W. La Cava, Z. Mustahsan, A. Varik, and J. H. Moore, "Data-driven Advice for Applying Machine Learning to Bioinformatics Problems", Aug. 2017.
 
 Feature Engineering
@@ -118,5 +118,5 @@ Materials
 ^^^^^^^^^
 
 - `mialab.feature_selection.mutual_information`
-- `scikit-learn <http://scikit-learn.org/stable/modules/decomposition.html#decompositions>`_: Dimensionality reduction
+- `scikit-learn Dimensionality reduction <http://scikit-learn.org/stable/modules/decomposition.html#decompositions>`_
 - http://ieeexplore.ieee.org/document/1453511/

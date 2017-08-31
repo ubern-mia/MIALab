@@ -21,8 +21,6 @@ import os
 import sphinx_rtd_theme
 import sys
 
-from recommonmark.parser import CommonMarkParser
-
 
 sys.path.insert(0, os.path.abspath('.'))  # docs directory
 sys.path.insert(0, os.path.abspath('../mialab'))  # root directory of project
@@ -49,12 +47,7 @@ extensions = ['sphinx.ext.autodoc',
 templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
-source_suffix = ['.rst', '.md']
-
-# Add the Markdown parser
-source_parsers = {
-   '.md': CommonMarkParser,
-}
+source_suffix = ['.rst']
 
 # The master toctree document.
 master_doc = 'index'
