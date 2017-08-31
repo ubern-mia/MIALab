@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import SimpleITK as sitk
 
-import miapy.filtering.filter as miapy_fltr
+import mialab.filtering.filter as fltr
 
 
 class RegistrationType(Enum):
@@ -25,7 +25,7 @@ class RegistrationType(Enum):
     RIGID = 2
 
 
-class MultiModalRegistrationParams(miapy_fltr.IFilterParams):
+class MultiModalRegistrationParams(fltr.IFilterParams):
     """Represents parameters for the multi-modal rigid registration."""
 
     def __init__(self, fixed_image: sitk.Image, fixed_image_mask: sitk.Image=None, plot_directory_path: str=''):
@@ -43,7 +43,7 @@ class MultiModalRegistrationParams(miapy_fltr.IFilterParams):
         self.plot_directory_path = plot_directory_path
 
 
-class MultiModalRegistration(miapy_fltr.IFilter):
+class MultiModalRegistration(fltr.IFilter):
     """Represents a multi-modal image registration filter.
 
     The filter estimates a 3-dimensional rigid or affine transformation between images of different modalities using

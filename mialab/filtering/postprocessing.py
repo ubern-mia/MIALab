@@ -7,10 +7,10 @@ import pydensecrf.densecrf as crf
 import pydensecrf.utils as crf_util
 import SimpleITK as sitk
 
-import mialab.filtering.filter as miapy_fltr
+import mialab.filtering.filter as fltr
 
 
-class DenseCRFParams(miapy_fltr.IFilterParams):
+class DenseCRFParams(fltr.IFilterParams):
     """Dense CRF parameters."""
     def __init__(self):
         self.img_t1 = sitk.Image()
@@ -18,7 +18,7 @@ class DenseCRFParams(miapy_fltr.IFilterParams):
         self.img_proba = sitk.Image()
 
 
-class DenseCRF(miapy_fltr.IFilter):
+class DenseCRF(fltr.IFilter):
     """A dense conditional random field (dCRF).
 
     Implements the work of Krähenbühl and Koltun, Efficient Inference in Fully Connected CRFs
@@ -103,7 +103,7 @@ class DenseCRF(miapy_fltr.IFilter):
         return img_out
 
 
-class LargestNConnectedComponents(miapy_fltr.IFilter):
+class LargestNConnectedComponents(fltr.IFilter):
     """Represents a largest N connected components filter.
 
     Extracts the largest N connected components from a label image.
@@ -128,7 +128,7 @@ class LargestNConnectedComponents(miapy_fltr.IFilter):
         self.number_of_components = number_of_components
         self.consecutive_component_labels = consecutive_component_labels
 
-    def execute(self, image: sitk.Image, params: miapy_fltr.IFilterParams = None) -> sitk.Image:
+    def execute(self, image: sitk.Image, params: fltr.IFilterParams = None) -> sitk.Image:
         """Executes the largest N connected components filter on an image.
 
         Args:
