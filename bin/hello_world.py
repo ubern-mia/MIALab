@@ -33,7 +33,6 @@ def main(_):
 
     # --- SimpleITK
     image = sitk.Image(256, 128, 64, sitk.sitkInt16)
-    help(image)
     print('Image dimension:', image.GetDimension())
     print('Voxel value before setting:', image.GetPixel(0, 0, 0))
     image.SetPixel(0, 0, 0, 1)
@@ -48,6 +47,7 @@ def main(_):
 
     plt.show()
 
+    print('Everything seems to work fine!')
 
 if __name__ == "__main__":
     """The program's entry point."""
