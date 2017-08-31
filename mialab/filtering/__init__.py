@@ -11,6 +11,12 @@ Filter pipeline (:mod:`filtering.filter`)
 .. automodule:: filtering.filter
     :members:
 
+Miscellaneous (:mod:`filtering.misc`)
+-------------------------------------
+
+.. automodule:: filtering.misc
+    :members:
+
 Pre-processing (:mod:`filtering.preprocessing`)
 -----------------------------------------------
 
@@ -27,6 +33,12 @@ Registration (:mod:`filtering.registration`)
 --------------------------------------------
 
 .. automodule:: filtering.registration
+    :members:
+
+Feature extraction (:mod:`filtering.feature_extraction`)
+--------------------------------------------------------
+
+.. automodule:: filtering.feature_extraction
     :members:
 
 """
