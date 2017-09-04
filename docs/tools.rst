@@ -39,7 +39,7 @@ GUI Clients
 - `GitHub Desktop <https://desktop.github.com/>`_: [Win, Mac]
 - `GitKraken <https://www.gitkraken.com/>`_: [Win, Mac, Linux]
 - `Git Extensions <https://gitextensions.github.io/>`_: [Win]
-- `git-gui <https://git-scm.com/docs/git-gui>`_: Rudimentary GUI that comes with [git](https://git-scm.com/>`_ [Win, Mac, Linux]
+- `git-gui <https://git-scm.com/docs/git-gui>`_: Rudimentary GUI that comes with `git <https://git-scm.com/>`_ [Win, Mac, Linux]
 - or use the git client contained in PyCharm
 
 Image Viewer
