@@ -7,21 +7,21 @@ This is the syllabus of to the medical image analysis laboratory (MIALab). The l
 Week 1: Introduction
 --------------------
 
-20.09.2017 / Reyes, Balsiger, Jungo, Suter
+20.09.2017 / Balsiger, Jungo, Suter
 
 - \(T\) Overview and aim
 - \(T\) Medical problem / Image data
 - \(P\) Display medical image data with ITK-SNAP
 - \(P\) Install the Python environment
+- \(P\) 2-D decision forest toy example
 
-Week 2: Machine Learning and Medical Image Analysis Pipeline
+Week 2: Medical Image Analysis Pipeline
 ------------------------------------------------------------
 
-27.09.2017 / Balsiger, Jungo
+27.09.2017 / Reyes, Balsiger, Jungo
 
-- \(T\) Brief machine learning introduction
-- \(P\) 2-D decision forest toy example
 - \(T\) Introduction to the medical image analysis pipeline
+- \(T\) Brief machine learning introduction
 - \(T\) Overview of available experiments
 - \(H\) Formation of groups and experiment selection
 
@@ -55,21 +55,21 @@ Week 6: Coding
 
 - \(P\) Coding / working on the project
 
-Week 7: Midterm Presentations
+Week 7: Presenting
 ------------------------------
 
-01.11.2017 / Reyes, Balsiger, Jungo, Suter
+01.11.2017 / Reyes
+
+- \(T\) Introduction on presenting
+- \(P\) Coding / Writing
+
+Week 8: Midterm Presentations
+------------------------------
+
+08.11.2017 / Reyes, Balsiger, Jungo, Suter
 
 - \(H\) Brief presentation about approach / progress / challenges / **insights** (max. 7 minutes)
 - \(P\) Discussion, feedback, and input
-- \(P\) Coding / working on the project
-
-Week 8: Data Visualization
-------------------------------
-
-08.11.2017 / Balsiger, Jungo, Suter
-
-- \(T\) Introduction on scientific data visualization (plotting), design guidelines
 - \(P\) Coding / working on the project
 
 Week 9: MEDICA
@@ -77,21 +77,21 @@ Week 9: MEDICA
 
 15.11.2017 / -
 
-Week 10: Writing
------------------
+Week 10: Data Visualization
+------------------------------
 
 22.11.2017 / Reyes
 
-- \(T\) Introduction on paper writing
-- \(T\) Brief introduction on LaTeX
-- \(P\) Coding / Writing
+- \(T\) Introduction on scientific data visualization (plotting), design guidelines
+- \(P\) Coding / working on the project
 
-Week 11: Presenting
---------------------
+Week 11: Writing
+-----------------
 
 29.11.2017 / Reyes
 
-- \(T\) Introduction on presenting
+- \(T\) Introduction on paper writing
+- \(T\) Brief introduction on LaTeX
 - \(P\) Coding / Writing
 
 Week 12: Coding
