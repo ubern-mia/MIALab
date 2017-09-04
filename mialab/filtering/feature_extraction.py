@@ -2,6 +2,129 @@
 import numpy as np
 import SimpleITK as sitk
 
+import mialab.filtering.filter as fltr
+
+
+def first_order_texture_features_function(values):
+    """Calculates first-order texture features.
+
+    Args:
+        values (np.array): The values to calculate the first-order texture features from.
+
+    Returns:
+        np.array: A vector containing the first-order texture features:
+            - mean
+            - variance
+            - sigma
+            - skewness
+            - kurtosis
+            - entropy
+            - energy
+            - snr
+            - min
+            - max
+            - range
+            - percentile10th
+            - percentile25th
+            - percentile50th
+            - percentile75th
+            - percentile90th
+    """
+    mean = np.mean(values)
+    std = np.std(values)
+    min = np.min(values)
+    max = np.max(values)
+    return np.array([mean,
+                     np.var(values),
+                     std,
+                     0.0,
+                     1.0,
+                     2.0,
+                     3.0,
+                     mean / std,  # snr
+                     min,
+                     max,
+                     max - min,
+                     np.percentile(values, 10),
+                     np.percentile(values, 25),
+                     np.percentile(values, 50),
+                     np.percentile(values, 75),
+                     np.percentile(values, 90)
+                     ])
+
+
+class NeighborhoodFeatureExtractor(fltr.IFilter):
+    """Represents a feature extractor filter, which works on a neighborhood."""
+
+    def __init__(self):
+        """Initializes a new instance of the NeighborhoodFeatureExtractor class."""
+        super().__init__()
+        self.is_three_dimensional = False
+        self.neighborhood_radius = 3
+        self.function = first_order_texture_features_function
+
+    def execute(self, image: sitk.Image, params: fltr.IFilterParams=None) -> sitk.Image:
+        """Executes a z-score normalization on an image.
+
+        Args:
+            image (sitk.Image): The image.
+            params (fltr.IFilterParams): The parameters (unused).
+
+        Returns:
+            sitk.Image: The normalized image.
+
+        Raises:
+            ValueError: If image is not 3-D.
+        """
+
+        if image.GetDimension() != 3:
+            raise ValueError('image needs to be 3-D')
+
+        # test the function and get the output dimension for later reshaping
+        function_output = self.function(np.array([1, 2, 3]))
+        if np.isscalar(function_output):
+            img_out = sitk.Image(image.GetSize(), sitk.sitkFloat32)
+        elif not isinstance(function_output, np.ndarray):
+            raise ValueError('function must return a scalar or a 1-D np.ndarray')
+        elif function_output.ndim > 1:
+            raise ValueError('function must return a scalar or a 1-D np.ndarray')
+        elif function_output.shape[0] <= 1:
+            raise ValueError('function must return a scalar or a 1-D np.ndarray with at least two elements')
+        else:
+            img_out = sitk.Image(image.GetSize(), sitk.sitkVectorFloat32, function_output.shape[0])
+
+        img_out_arr = sitk.GetArrayFromImage(img_out)
+
+        img_arr_padded = np.pad(img_out_arr, self.neighborhood_radius, 'symmetric')
+
+        img_arr = sitk.GetArrayFromImage(image)
+        z, y, x = img_arr.shape
+
+        offset = self.neighborhood_radius * 2 + 1
+
+        for xx in range(x):
+            for yy in range(y):
+                for zz in range(z):
+
+                    val = self.function(img_arr_padded[zz:zz + offset, yy:yy + offset, xx:xx + offset])
+
+                    # val = func(img_arr_padded[zz-nbhd:zz+nbhd, yy-nbhd:yy+nbhd, xx-nbhd:xx+nbhd])
+                    img_out_arr[zz, yy, xx] = val
+
+        img_out = sitk.GetImageFromArray(img_out_arr)
+        img_out.CopyInformation(image)
+
+        return img_out
+
+    def __str__(self):
+        """Gets a printable string representation.
+
+        Returns:
+            str: String representation.
+        """
+        return 'NeighborhoodFeatureExtractor:\n' \
+            .format(self=self)
+
 
 class RandomizedTrainingMaskGenerator:
     """Represents a training mask generator.
