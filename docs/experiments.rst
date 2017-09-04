@@ -94,6 +94,11 @@ What features could be used to improve our model?
 - Investigate other features (e.g., histogram of oriented gradients (HOGs))
 - Hemisphere feature
 
+Materials
+^^^^^^^^^
+
+- todo
+
 Feature Selection
 ----------------------------------------
 
