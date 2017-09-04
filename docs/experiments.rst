@@ -69,25 +69,13 @@ Materials
 - `mialab.evaluation.metrics`
 - A. A. Taha and A. Hanbury, "Metrics for evaluating 3D medical image segmentation: analysis, selection, and tool", BMC Med. Imaging, vol. 15, no. 1, pp. 1–28, 2015.
 
-Decision Forest Parameter Tuning
-----------------------------------------
-
-Can we improve the segmentation performance by parameter tuning? What is the influence of each parameter?
-
-- Overfitting
-- Tree depth
-- Forest size
-
-Materials
-^^^^^^^^^
-
-- A. Criminisi and J. Shotton, Decision Forests for Computer Vision and Medical Image Analysis, 1st ed. London: Springer, 2013.
-
 Machine Learning Algorithms
 ----------------------------------------
 
-Do other machine learning algorithms perform better on our task?
+Do other machine learning algorithms perform better on our task? Can we improve the segmentation performance by parameter tuning?
 
+- Overfitting
+- Parameter tuning (tree depth, forest size)
 - Support Vector Machine (SVM)
 - Variants of decision forests (e.g., gradient boosted trees)
 
@@ -95,6 +83,7 @@ Materials
 ^^^^^^^^^
 
 - `scikit-learn Supervised machine learning algorithms <http://scikit-learn.org/stable/supervised_learning.html#supervised-learning>`_
+- A. Criminisi and J. Shotton, Decision Forests for Computer Vision and Medical Image Analysis, 1st ed. London: Springer, 2013.
 - R. S. Olson, W. La Cava, Z. Mustahsan, A. Varik, and J. H. Moore, "Data-driven Advice for Applying Machine Learning to Bioinformatics Problems", Aug. 2017.
 
 Feature Engineering
@@ -120,3 +109,9 @@ Materials
 - `mialab.feature_selection.mutual_information`
 - `scikit-learn Dimensionality reduction <http://scikit-learn.org/stable/modules/decomposition.html#decompositions>`_
 - http://ieeexplore.ieee.org/document/1453511/
+
+Deep Learning
+----------------------------------------
+
+....
+
