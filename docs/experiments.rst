@@ -118,5 +118,9 @@ Materials
 Deep Learning
 ----------------------------------------
 
-....
+Deep learning has gained much attention in the last years outperforming methods such as decision forests. What is the performance of a deep learning method on our task?
 
+- Implement a deep learning method
+
+Materials
+^^^^^^^^^
