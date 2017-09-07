@@ -10,7 +10,7 @@ The loading module (:mod:`data.loading`)
 
 .. autoclass:: data.loading.DataLoaderBase
 
-.. autoclass:: data.loading.FileSystemDataLoader
+.. autoclass:: data.loading.SITKImageLoader
 
 .. autoclass:: data.loading.FileSystemCrawler
 

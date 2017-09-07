@@ -1,5 +1,8 @@
 """The loading module holds classes to load data."""
+from abc import ABCMeta, abstractmethod
 import os
+
+import SimpleITK as sitk
 
 
 class DataLoaderBase:
@@ -7,25 +10,45 @@ class DataLoaderBase:
     
     def __init__(self):
         """Initializes a new instance of the DataLoaderBase class."""
-    
+
     def __iter__(self):
         """Gets an iterator object.
-        
+
         Returns:
             DataLoaderBase: Itself.
         """
         return self
-    
+
     def __next__(self):
         """Gets the next data item.
-        
+
         Returns:
             object: The data item.
         """
         raise NotImplementedError()
 
 
-class FileSystemDataLoader(DataLoaderBase):
+class FilePathGenerator(metaclass=ABCMeta):
+    """TODO"""
+
+    @staticmethod
+    @abstractmethod
+    def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
+        """
+
+        Args:
+            id_ ():
+            root_dir ():
+            file_key ():
+            file_extension ():
+
+        Returns:
+            str:
+        """
+        raise NotImplementedError()
+
+
+class SITKImageLoader(DataLoaderBase):
     """Represents a file system data loader.
 
     Given a dictionary, where keys represent an identifier and values the paths to directories with the data,
@@ -33,25 +56,35 @@ class FileSystemDataLoader(DataLoaderBase):
     """
     
     def __init__(self,
-                 data: dict,
+                 data_source: dict,
+                 file_keys: list,
+                 file_path_generator: FilePathGenerator,
                  file_extension: str='.nii.gz'):
-        """Initializes a new instance of the FileSystemDataLoader class.
+        """Initializes a new instance of the SITKImageLoader class.
 
         Args:
-            data (dict): The data dictionary. Keys (str) represent an identifier and 
+            data_source (dict): The data dictionary. Keys (str) represent an identifier and
                 values (str) the paths to directories with the data.
-            file_extension (str): The data's file extension (with or without the dot).
+            file_keys (list): A list of strings, which represent file suffixes. TODO
+            file_path_generator (FilePathGenerator): ...
+            file_extension (str): The images' file extension (with or without dot).
         """
         super().__init__()
-        self.data = data
-        
+        self.data_source = data_source
+        self.file_keys = file_keys
+        self.file_path_generator = file_path_generator
+        self.file_extension = file_extension if file_extension.startswith('.') else '.' + file_extension
+
     def __next__(self):
-        """Gets the next data item.
-        
-        Returns:
-            object: The data item.
-        """
-        raise NotImplementedError()
+        for id_, path in self.data_source.items():
+            data_dict = {}
+            for item in self.file_keys:
+                file_path = self.file_path_generator.get_full_file_path(id_, path, item, self.file_extension)
+                data_dict[item] = sitk.ReadImage(file_path)
+
+            return id_, path, data_dict
+
+        raise StopIteration()
 
 
 class FileSystemCrawler:
@@ -84,7 +117,7 @@ class FileSystemCrawler:
             root_dir/Information
                 /Atlas.mha
 
-        >>> loader = FileSystemDataLoader(".", 'Patient', '.mha')
+        >>> loader = SITKImageLoader('root_dir', 'Patient', '.mha')
         >>> for k, v in loader.image_path_dict.items():
         >>>     print(k, v)
         Patient1 ./Patient1
@@ -95,7 +128,7 @@ class FileSystemCrawler:
         self.img_file_extension = img_file_extension
 
         if not os.path.isdir(self.root_dir):
-            raise ValueError("root_dir should point to an existing directory")
+            raise ValueError('root_dir should point to an existing directory')
 
         # search the root directory for image directories
         image_dirs = next(os.walk(self.root_dir))[1]

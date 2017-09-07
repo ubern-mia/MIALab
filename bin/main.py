@@ -4,6 +4,7 @@ The pipeline is used for brain compartment segmentation using a decision forest 
 """
 import argparse
 import datetime
+from enum import Enum
 import multiprocessing
 import os
 import sys
@@ -21,7 +22,15 @@ import mialab.evaluation.validation as valid
 FLAGS = None  # the program flags
 
 
-def load_images(img_id: str, path: str):
+class ImageTypes(Enum):
+    """Represents the image types."""
+    T1 = 1
+    T2 = 2
+    GroundTruth = 3
+    BrainMask = 4
+
+
+def load_images(img_id: str, path: str, img):
     """todo(fabianbalsiger): comment
 
     Args:
@@ -31,7 +40,8 @@ def load_images(img_id: str, path: str):
     Returns:
 
     """
-    pass
+    print(img_id)
+    return img
 
 
 def init_evaluator(directory: str) -> eval.Evaluator:
@@ -52,13 +62,41 @@ def init_evaluator(directory: str) -> eval.Evaluator:
     return evaluator
 
 
+class BrainImageFilePathGenerator(load.FilePathGenerator):
+
+    @staticmethod
+    def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
+        if file_key == ImageTypes.T1:
+            file_name = 'T1native_biasfieldcorr_noskull'
+        elif file_key == ImageTypes.T2:
+            file_name = 'T2native_biasfieldcorr_noskull'
+        elif file_key == ImageTypes.GroundTruth:
+            file_name = 'labels_native'
+        elif file_key == ImageTypes.BrainMask:
+            file_name = 'Brainmasknative'
+        else:
+            raise ValueError('Unknown key')
+
+        return os.path.join(root_dir, file_name + file_extension)
+
+
 def main(_):
-    """todo(fabianbalsiger): comment"""
+    """Brain tissue segmentation using decision forests.
+
+    The main routine executes the medical image analysis pipeline:
+        - Image loading
+        - ...
+    """
+    # the list of images we will load
+    image_list = [ImageTypes.T1, ImageTypes.T2, ImageTypes.GroundTruth]
 
     # load the images
-    directory_loader = load.FileSystemDataLoader(FLAGS.data_dir)
+    crawler = load.FileSystemCrawler(FLAGS.data_dir)
+    image_directories = crawler.image_path_dict
+    image_loader = load.SITKImageLoader(image_directories, image_list, BrainImageFilePathGenerator())
+
     with multiprocessing.Pool() as p:
-        images = p.starmap(load_images, directory_loader.image_path_dict.items())
+        images = p.starmap_async(load_images, image_loader)
 
     # initialize decision forest parameters
     params = df.DecisionForestParameters()
@@ -84,6 +122,7 @@ def main(_):
         print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
         print('-' * 5, 'Testing...')
+
 
 if __name__ == "__main__":
     """The program's entry point."""
