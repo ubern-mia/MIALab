@@ -10,30 +10,54 @@ import sys
 import timeit
 
 import numpy as np
+import SimpleITK as sitk
 from tensorflow.python.platform import app
 
-import mialab.data.structure as ds
 import mialab.classifier.decision_forest as df
 import mialab.data.loading as load
+import mialab.data.structure as structure
 import mialab.evaluation.evaluator as eval
 import mialab.evaluation.metric as metric
 import mialab.evaluation.validation as valid
+import mialab.filtering.filter as fltr
+import mialab.filtering.preprocessing as fltr_prep
+import mialab.filtering.registration as fltr_reg
 
 FLAGS = None  # the program flags
+IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
+T1_ATLAS_IMG = sitk.Image()
+T2_ATLAS_IMG = sitk.Image()
 
 
-def pipeline(id_: str, paths: dict):
+def execute_pipeline(id_: str, paths: dict):
     """todo(fabianbalsiger): comment
 
     Args:
-        img_id (str):
-        path (str):
+        id_ (str): An image identifier.
+        paths (str):
 
     Returns:
 
     """
-    print(id_)
-    return id_
+
+    print('-' * 5, 'Processing', id_)
+
+    # load image
+    path = paths.pop(id_, '')
+    img = {img_key: sitk.ReadImage(path) for img_key, path in paths.items()}
+    img = structure.BrainImage(id_, path, img)
+
+    # construct pipeline
+    pipeline = fltr.FilterPipeline()
+    pipeline.add_filter(fltr_prep.NormalizeZScore())
+    pipeline.add_filter(fltr_reg.MultiModalRegistration())
+    pipeline.set_param(fltr_reg.MultiModalRegistrationParams(T1_ATLAS_IMG), 1)
+
+    img.images[structure.BrainImageTypes.T1] = pipeline.execute(img.images[structure.BrainImageTypes.T1])
+    pipeline.set_param(fltr_reg.MultiModalRegistrationParams(T2_ATLAS_IMG), 1)
+    img.images[structure.BrainImageTypes.T2] = pipeline.execute(img.images[structure.BrainImageTypes.T2])
+
+    return img
 
 
 def init_evaluator(directory: str) -> eval.Evaluator:
@@ -58,19 +82,23 @@ class BrainImageFilePathGenerator(load.FilePathGenerator):
 
     @staticmethod
     def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
-        if file_key == ds.BrainImageTypes.T1:
+        if file_key == structure.BrainImageTypes.T1:
             file_name = 'T1native_biasfieldcorr_noskull'
-        elif file_key == ds.BrainImageTypes.T2:
+        elif file_key == structure.BrainImageTypes.T2:
             file_name = 'T2native_biasfieldcorr_noskull'
-        elif file_key == ds.BrainImageTypes.GroundTruth:
+        elif file_key == structure.BrainImageTypes.GroundTruth:
             file_name = 'labels_native'
-        elif file_key == ds.BrainImageTypes.BrainMask:
+        elif file_key == structure.BrainImageTypes.BrainMask:
             file_name = 'Brainmasknative'
         else:
             raise ValueError('Unknown key')
 
         return os.path.join(root_dir, file_name + file_extension)
 
+
+def load_atlas(dir_path: str):
+    T1_ATLAS_IMG = sitk.ReadImage(os.path.join(dir_path, 'sometext.nii.gz'))
+    T2_ATLAS_IMG = sitk.ReadImage(os.path.join(dir_path, 'sometext.nii.gz'))
 
 def main(_):
     """Brain tissue segmentation using decision forests.
@@ -80,15 +108,14 @@ def main(_):
         - ...
     """
 
-    # the list of images we will load
-    image_list = [ds.BrainImageTypes.T1, ds.BrainImageTypes.T2, ds.BrainImageTypes.GroundTruth]
+    load_atlas(os.path.join(FLAGS.data_dir, 'atlas'))
 
     # crawl the image directories
-    crawler = load.FileSystemDataCrawler(FLAGS.data_dir, image_list, BrainImageFilePathGenerator())
+    crawler = load.FileSystemDataCrawler(FLAGS.data_dir, IMAGE_KEYS, BrainImageFilePathGenerator())
 
     # create a pool to parallelize the image processing
     with multiprocessing.Pool() as p:
-        images = p.starmap(pipeline, crawler.data.items())
+        images = p.starmap(execute_pipeline, crawler.data.items())
 
     # initialize decision forest parameters
     params = df.DecisionForestParameters()
