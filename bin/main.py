@@ -21,6 +21,7 @@ import mialab.evaluation.metric as metric
 import mialab.evaluation.validation as valid
 import mialab.filtering.filter as fltr
 import mialab.filtering.preprocessing as fltr_prep
+import mialab.filtering.postprocessing as fltr_postp
 import mialab.filtering.registration as fltr_reg
 
 FLAGS = None  # the program flags
@@ -60,6 +61,20 @@ def execute_pipeline(id_: str, paths: dict):
     return img
 
 
+def execute_postprocessing(id_: str, img: BrainImage, segmentation, probability) -> sitk.Image:
+    
+    print('-' * 5, 'Post-process', id_)
+    
+    # construct pipeline
+    pipeline = fltr.FilterPipeline()
+    pipeline.add_filter(fltr_postp.DenseCRF())
+    pipeline.set_param(fltr_postp.DenseCRFParams(img.images[structure.BrainImageTypes.T1],
+                                                 img.images[structure.BrainImageTypes.T2],
+                                                 probability), 0)
+    
+    return pipeline.execute(segmentation)
+
+    
 def init_evaluator(directory: str) -> eval.Evaluator:
     """Initializes an evaluator.
 
