@@ -12,10 +12,17 @@ import mialab.filtering.filter as fltr
 
 class DenseCRFParams(fltr.IFilterParams):
     """Dense CRF parameters."""
-    def __init__(self):
-        self.img_t1 = sitk.Image()
-        self.img_t2 = sitk.Image()
-        self.img_proba = sitk.Image()
+    def __init__(self, img_t1: sitk.Image, img_t2: sitk.Image, img_proba: sitk.Image):
+        """Initializes a new instance of the DenseCRFParams
+        
+        Args:
+            img_t1 (sitk.Image): The T1 image.
+            img_t2 (sitk.Image): The T2 image.
+            img_proba (sitk.Image): The posterior probability image.
+        """
+        self.img_t1 = img_t1
+        self.img_t2 = img_t2
+        self.img_proba = img_proba
 
 
 class DenseCRF(fltr.IFilter):
