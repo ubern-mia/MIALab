@@ -4,7 +4,6 @@ The pipeline is used for brain compartment segmentation using a decision forest 
 """
 import argparse
 import datetime
-from enum import Enum
 import multiprocessing
 import os
 import sys
@@ -13,6 +12,7 @@ import timeit
 import numpy as np
 from tensorflow.python.platform import app
 
+import mialab.data.structure as ds
 import mialab.classifier.decision_forest as df
 import mialab.data.loading as load
 import mialab.evaluation.evaluator as eval
@@ -20,14 +20,6 @@ import mialab.evaluation.metric as metric
 import mialab.evaluation.validation as valid
 
 FLAGS = None  # the program flags
-
-
-class ImageTypes(Enum):
-    """Represents the image types."""
-    T1 = 1
-    T2 = 2
-    GroundTruth = 3
-    BrainMask = 4
 
 
 def load_images(img_id: str, path: str, img):
@@ -66,13 +58,13 @@ class BrainImageFilePathGenerator(load.FilePathGenerator):
 
     @staticmethod
     def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
-        if file_key == ImageTypes.T1:
+        if file_key == ds.BrainImageTypes.T1:
             file_name = 'T1native_biasfieldcorr_noskull'
-        elif file_key == ImageTypes.T2:
+        elif file_key == ds.BrainImageTypes.T2:
             file_name = 'T2native_biasfieldcorr_noskull'
-        elif file_key == ImageTypes.GroundTruth:
+        elif file_key == ds.BrainImageTypes.GroundTruth:
             file_name = 'labels_native'
-        elif file_key == ImageTypes.BrainMask:
+        elif file_key == ds.BrainImageTypes.BrainMask:
             file_name = 'Brainmasknative'
         else:
             raise ValueError('Unknown key')
@@ -88,7 +80,7 @@ def main(_):
         - ...
     """
     # the list of images we will load
-    image_list = [ImageTypes.T1, ImageTypes.T2, ImageTypes.GroundTruth]
+    image_list = [ds.BrainImageTypes.T1, ds.BrainImageTypes.T2, ds.BrainImageTypes.GroundTruth]
 
     # load the images
     crawler = load.FileSystemCrawler(FLAGS.data_dir)
@@ -96,7 +88,7 @@ def main(_):
     image_loader = load.SITKImageLoader(image_directories, image_list, BrainImageFilePathGenerator())
 
     with multiprocessing.Pool() as p:
-        images = p.starmap_async(load_images, image_loader)
+        images = p.starmap(load_images, list(image_loader))
 
     # initialize decision forest parameters
     params = df.DecisionForestParameters()
