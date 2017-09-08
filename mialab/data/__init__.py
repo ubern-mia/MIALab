@@ -8,15 +8,14 @@ This package provides data handling.
 The loading module (:mod:`data.loading`)
 --------------------------------------------------
 
-.. autoclass:: data.loading.DataLoaderBase
+.. autoclass:: data.loading.FilePathGenerator
 
-.. autoclass:: data.loading.SITKImageLoader
+.. autoclass:: data.loading.FileSystemDataCrawler
 
-.. autoclass:: data.loading.FileSystemCrawler
-
-The data structure module (:mod:`data.data_structure`)
+The data structure module (:mod:`data.structure`)
 ------------------------------------------------------
 
-.. autoclass:: data.data_structure.BrainImage
+.. autoclass:: data.structure.BrainImageTypes
+.. autoclass:: data.structure.BrainImage
 
 """

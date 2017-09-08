@@ -22,7 +22,7 @@ import mialab.evaluation.validation as valid
 FLAGS = None  # the program flags
 
 
-def load_images(img_id: str, path: str, img):
+def pipeline(id_: str, paths: dict):
     """todo(fabianbalsiger): comment
 
     Args:
@@ -32,8 +32,8 @@ def load_images(img_id: str, path: str, img):
     Returns:
 
     """
-    print(img_id)
-    return img
+    print(id_)
+    return id_
 
 
 def init_evaluator(directory: str) -> eval.Evaluator:
@@ -79,16 +79,16 @@ def main(_):
         - Image loading
         - ...
     """
+
     # the list of images we will load
     image_list = [ds.BrainImageTypes.T1, ds.BrainImageTypes.T2, ds.BrainImageTypes.GroundTruth]
 
-    # load the images
-    crawler = load.FileSystemCrawler(FLAGS.data_dir)
-    image_directories = crawler.image_path_dict
-    image_loader = load.SITKImageLoader(image_directories, image_list, BrainImageFilePathGenerator())
+    # crawl the image directories
+    crawler = load.FileSystemDataCrawler(FLAGS.data_dir, image_list, BrainImageFilePathGenerator())
 
+    # create a pool to parallelize the image processing
     with multiprocessing.Pool() as p:
-        images = p.starmap(load_images, list(image_loader))
+        images = p.starmap(pipeline, crawler.data.items())
 
     # initialize decision forest parameters
     params = df.DecisionForestParameters()

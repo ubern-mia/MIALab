@@ -1,8 +1,6 @@
 """The data structure module holds model classes."""
 from enum import Enum
 
-import SimpleITK as sitk
-
 
 class BrainImageTypes(Enum):
     """Represents the image types."""
@@ -27,3 +25,4 @@ class BrainImage:
         self.id_ = id_
         self.path = path
         self.images = images
+        self.feature_matrix = None
