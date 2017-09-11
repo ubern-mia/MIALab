@@ -25,4 +25,5 @@ class BrainImage:
         self.id_ = id_
         self.path = path
         self.images = images
+        self.feature_images = {}
         self.feature_matrix = None

@@ -56,15 +56,15 @@ def first_order_texture_features_function(values):
 class NeighborhoodFeatureExtractor(fltr.IFilter):
     """Represents a feature extractor filter, which works on a neighborhood."""
 
-    def __init__(self):
+    def __init__(self, kernel=(3,3,3), function_=first_order_texture_features_function):
         """Initializes a new instance of the NeighborhoodFeatureExtractor class."""
         super().__init__()
-        self.is_three_dimensional = False
         self.neighborhood_radius = 3
-        self.function = first_order_texture_features_function
+        self.kernel = kernel
+        self.function = function_
 
     def execute(self, image: sitk.Image, params: fltr.IFilterParams=None) -> sitk.Image:
-        """Executes a z-score normalization on an image.
+        """Executes a neighborhood feature extractor on an image.
 
         Args:
             image (sitk.Image): The image.
@@ -95,20 +95,23 @@ class NeighborhoodFeatureExtractor(fltr.IFilter):
 
         img_out_arr = sitk.GetArrayFromImage(img_out)
 
-        img_arr_padded = np.pad(img_out_arr, self.neighborhood_radius, 'symmetric')
+        z_offset = self.kernel[2]
+        y_offset = self.kernel[1]
+        x_offset = self.kernel[0]
+        pad = ((0, z_offset), (0, y_offset), (0, x_offset), (0, 0))
+        img_arr_padded = np.pad(img_out_arr, pad, 'symmetric')
 
         img_arr = sitk.GetArrayFromImage(image)
         z, y, x = img_arr.shape
 
-        offset = self.neighborhood_radius * 2 + 1
+        # offset = self.neighborhood_radius * 2 + 1
+
 
         for xx in range(x):
             for yy in range(y):
                 for zz in range(z):
 
-                    val = self.function(img_arr_padded[zz:zz + offset, yy:yy + offset, xx:xx + offset])
-
-                    # val = func(img_arr_padded[zz-nbhd:zz+nbhd, yy-nbhd:yy+nbhd, xx-nbhd:xx+nbhd])
+                    val = self.function(img_arr_padded[zz:zz + z_offset, yy:yy + y_offset, xx:xx + x_offset])
                     img_out_arr[zz, yy, xx] = val
 
         img_out = sitk.GetImageFromArray(img_out_arr)
@@ -123,6 +126,27 @@ class NeighborhoodFeatureExtractor(fltr.IFilter):
             str: String representation.
         """
         return 'NeighborhoodFeatureExtractor:\n' \
+            .format(self=self)
+
+
+class NormalizedAtlasCoordinates(fltr.IFilter):
+    """Represents a normalized atlas coordinates feature extractor."""
+
+    def __init__(self):
+        """Initializes a new instance of the NormalizedAtlasCoordinates class."""
+        super().__init__()
+
+    def execute(self, image: sitk.Image, params: fltr.IFilterParams = None) -> sitk.Image:
+
+        return image
+
+    def __str__(self):
+        """Gets a printable string representation.
+
+        Returns:
+            str: String representation.
+        """
+        return 'NormalizedAtlasCoordinates:\n' \
             .format(self=self)
 
 
