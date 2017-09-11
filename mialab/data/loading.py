@@ -1,5 +1,6 @@
 """The loading module holds classes to load data."""
 from abc import ABCMeta, abstractmethod
+from typing import List
 import os
 
 
@@ -20,6 +21,15 @@ class FilePathGenerator(metaclass=ABCMeta):
         Returns:
             str:
         """
+        raise NotImplementedError()
+
+
+class DirectoryFilter(metaclass=ABCMeta):
+    """TODO"""
+
+    @staticmethod
+    @abstractmethod
+    def filter_directories(dirs: List[str]) -> List[str]:
         raise NotImplementedError()
 
 
@@ -51,7 +61,7 @@ class FileSystemDataCrawler:
                  root_dir: str,
                  file_keys: list,
                  file_path_generator: FilePathGenerator,
-                 dir_filter: str = None,
+                 dir_filter: DirectoryFilter=None,
                  file_extension: str='.nii.gz'):
         """Initializes a new instance of the SITKImageLoader class.
 
@@ -59,7 +69,7 @@ class FileSystemDataCrawler:
             root_dir (str): The path to the root directory, which contains subdirectories with the data.
             file_keys (list): A list of strings, which represent file suffixes. TODO
             file_path_generator (FilePathGenerator): TODO
-            dir_filter (str): A string to filter the data directories (contains filter).
+            dir_filter (str): TODO
             file_extension (str): The data file extension (with or without dot).
         """
         super().__init__()
@@ -98,7 +108,7 @@ class FileSystemDataCrawler:
 
         if self.dir_filter:
             # filter the data directories
-            data_dirs = [data_dir for data_dir in data_dirs if data_dir.__contains__(self.dir_filter)]
+            data_dirs = self.dir_filter.filter_directories(data_dirs)
 
         return {
             data_dir: os.path.join(self.root_dir, data_dir)
