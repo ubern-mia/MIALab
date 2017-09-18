@@ -5,6 +5,49 @@ import SimpleITK as sitk
 import mialab.filtering.filter as fltr
 
 
+class AtlasCoordinates(fltr.IFilter):
+    """Represents an atlas coordinates feature extractor."""
+
+    def __init__(self):
+        """Initializes a new instance of the AtlasCoordinates class."""
+        super().__init__()
+
+    def execute(self, image: sitk.Image, params: fltr.IFilterParams = None) -> sitk.Image:
+        dim1, dim2, dim3 = image.GetSize()  # x, y, z
+
+        # create matrix with homogenous indices in axis 3
+        coords = np.zeros((dim1, dim2, dim3, 4))
+        coords[..., 0] = np.arange(dim1)[:, np.newaxis, np.newaxis]
+        coords[..., 1] = np.arange(dim2)[np.newaxis, :, np.newaxis]
+        coords[..., 2] = np.arange(dim3)[np.newaxis, np.newaxis, :]
+        coords[..., 3] = 1
+
+        # reshape such that each voxel is one row
+        lincoords = np.reshape(coords, [coords.shape[0] * coords.shape[1] * coords.shape[2], 4])
+
+        tmpmat = image.GetDirection() + image.GetOrigin()
+
+        tfm = np.reshape(tmpmat, [3, 4], order='F')
+
+        tfm = np.vstack((tfm, [0, 0, 0, 1]))
+
+        atlascoords = (tfm @ np.transpose(lincoords))[0:3, :]
+        atlascoordsvol = np.reshape(np.transpose(atlascoords), [dim3, dim2, dim1, 3], 'F')
+
+        img_out = sitk.GetImageFromArray(atlascoordsvol)
+        img_out.CopyInformation(image)
+
+        return img_out
+
+    def __str__(self):
+        """Gets a printable string representation.
+        Returns:
+            str: String representation.
+        """
+        return 'AtlasCoordinates:\n' \
+            .format(self=self)
+
+
 def first_order_texture_features_function(values):
     """Calculates first-order texture features.
 
@@ -32,6 +75,7 @@ def first_order_texture_features_function(values):
     """
     mean = np.mean(values)
     std = np.std(values)
+    snr = mean / std if std != 0 else 0
     min = np.min(values)
     max = np.max(values)
     return np.array([mean,
@@ -41,7 +85,7 @@ def first_order_texture_features_function(values):
                      1.0,
                      2.0,
                      3.0,
-                     mean / std,  # snr
+                     snr,
                      min,
                      max,
                      max - min,
@@ -94,18 +138,14 @@ class NeighborhoodFeatureExtractor(fltr.IFilter):
             img_out = sitk.Image(image.GetSize(), sitk.sitkVectorFloat32, function_output.shape[0])
 
         img_out_arr = sitk.GetArrayFromImage(img_out)
+        img_arr = sitk.GetArrayFromImage(image)
+        z, y, x = img_arr.shape
 
         z_offset = self.kernel[2]
         y_offset = self.kernel[1]
         x_offset = self.kernel[0]
-        pad = ((0, z_offset), (0, y_offset), (0, x_offset), (0, 0))
-        img_arr_padded = np.pad(img_out_arr, pad, 'symmetric')
-
-        img_arr = sitk.GetArrayFromImage(image)
-        z, y, x = img_arr.shape
-
-        # offset = self.neighborhood_radius * 2 + 1
-
+        pad = ((0, z_offset), (0, y_offset), (0, x_offset))
+        img_arr_padded = np.pad(img_arr, pad, 'symmetric')
 
         for xx in range(x):
             for yy in range(y):
@@ -126,27 +166,6 @@ class NeighborhoodFeatureExtractor(fltr.IFilter):
             str: String representation.
         """
         return 'NeighborhoodFeatureExtractor:\n' \
-            .format(self=self)
-
-
-class NormalizedAtlasCoordinates(fltr.IFilter):
-    """Represents a normalized atlas coordinates feature extractor."""
-
-    def __init__(self):
-        """Initializes a new instance of the NormalizedAtlasCoordinates class."""
-        super().__init__()
-
-    def execute(self, image: sitk.Image, params: fltr.IFilterParams = None) -> sitk.Image:
-
-        return image
-
-    def __str__(self):
-        """Gets a printable string representation.
-
-        Returns:
-            str: String representation.
-        """
-        return 'NormalizedAtlasCoordinates:\n' \
             .format(self=self)
 
 
