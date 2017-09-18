@@ -26,4 +26,6 @@ class BrainImage:
         self.path = path
         self.images = images
         self.feature_images = {}
-        self.feature_matrix = None
+        self.feature_matrix = None  # a tuble (features, labels),
+        # where the shape of features is (n, number_of_features) and the shape of labels is (n, 1)
+        # with n being the amount of voxels
