@@ -9,7 +9,7 @@ To start with the installation,
 
 1. Download the `Anaconda installer <https://www.anaconda.com/download/>`_ for your operating system and Python 3.6.
 
-2. Download the MIALab repository content and extract it
+2. Clone this MIALab repository
 
 You can follow our install instructions here but for Anaconda instructions are available `online <https://docs.continuum.io/anaconda/install/>`_ as well.
 
@@ -17,39 +17,26 @@ Windows
 --------
 The installation has been tested on Windows 10.
 
-#. Launch the installer by double clicking
-
-#. Click Next
-
-#. Agree the license
-
-#. Select an install "Just Me" and click Next
-
-#. Select an install directory and click Next
-
-#. Choose whether to add Anaconda to your PATH environment variable. We recommend not adding Anaconda to the PATH environment variable, since this can interfere with other software.
-
-#. Choose whether to register Anaconda as your default Python 3.6. Unless you plan on installing and running multiple versions of Anaconda, or multiple versions of Python, you should accept the default and leave this box checked.
-
-#. Click Install
-
-#. Click Next
-
-#. Unselect the checkboxes and lick Finish
+#. Anaconda installation (`official website <https://docs.anaconda.com/anaconda/install/windows.html>`_)
+   
+   - Launch the installer
+   - Select an install for “Just Me” unless you’re installing for all users (which requires Windows Administrator privileges)
+   - Choose whether to add Anaconda to your PATH environment variable. We recommend not adding Anaconda to the PATH environment variable, since this can interfere with other software.
+   - Choose whether to register Anaconda as your default Python 3.6. Unless you plan on installing and running multiple versions of Anaconda, or multiple versions of Python, you should accept the default and leave this box checked.
 
 #. Verify the installation by opening the Anaconda Navigator
+   
+#. TODO create environment
+   
+
 
 Linux
 ------
 Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
 
-#. Make script executable 
+#. Run Anaconda installation script (`official website <https://docs.anaconda.com/anaconda/install/linux>`_)
    
-   - :bash:`chmod +x <path_to_file>/Anaconda3-4.4.0-Linux-x86_64.sh` (make file executable)
-
-#. Run Anaconda installation script
-   
-   - :bash:`<path_to_file>/Anaconda3-4.4.0-Linux-x86_64.sh` (run the installation script)
+   - :bash:`bash <path_to_file>/Anaconda3-4.4.0-Linux-x86_64.sh` (run the installation script)
      
      - Scroll to the bottom of the license and enter :bash:`yes` to agree the license
      - Accept suggested installation path (or change it if you know what you do)
@@ -85,16 +72,13 @@ Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
 
 macOS
 ------
-The installation has been tested on todo(fabianbalsiger).
+The installation has not been tested.
 
-1. Launch the installer by double clicking
+#. Anaconda installation (`official website <https://docs.anaconda.com/anaconda/install/mac-os>`_)
+   
+   - Launch the installer
+   - On the Destination Select screen, select "Install for me only"
 
-2. Answer the prompts on the Introduction, Read Me, and License screens
+#. Verify the installation by opening the Anaconda Navigator
 
-3. Select Install for me only
-
-4. Change the install directory if you want (by default Anaconda installs in your home directory)
-
-5. Click Install
-
-6. Click Close
+#. TODO create environment
