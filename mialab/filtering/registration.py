@@ -174,8 +174,8 @@ class MultiModalRegistration(fltr.IFilter):
         if params.plot_directory_path:
             RegistrationPlotter(self.registration, params.fixed_image, image, initial_transform, params.plot_directory_path)
 
-        transform = self.registration.Execute(sitk.Cast(params.fixed_image, sitk.sitkFloat32),
-                                              sitk.Cast(image, sitk.sitkFloat32))
+        self.transform = self.registration.Execute(sitk.Cast(params.fixed_image, sitk.sitkFloat32),
+                                                   sitk.Cast(image, sitk.sitkFloat32))
 
         if self.verbose:
             print('MultiModalRegistration:\n Final metric value: {0}'.format(self.registration.GetMetricValue()))
@@ -184,7 +184,7 @@ class MultiModalRegistration(fltr.IFilter):
         elif self.number_of_iterations == self.registration.GetOptimizerIteration():
             print('MultiModalRegistration: Optimizer terminated at number of iterations and did not converge!')
 
-        return sitk.Resample(image, params.fixed_image, transform, sitk.sitkLinear, 0.0, image.GetPixelIDValue())
+        return sitk.Resample(image, params.fixed_image, self.transform, sitk.sitkLinear, 0.0, image.GetPixelIDValue())
 
     def __str__(self):
         """Gets a nicely printable string representation.
