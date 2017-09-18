@@ -13,34 +13,51 @@ class AtlasCoordinates(fltr.IFilter):
         super().__init__()
 
     def execute(self, image: sitk.Image, params: fltr.IFilterParams = None) -> sitk.Image:
-        dim1, dim2, dim3 = image.GetSize()  # x, y, z
+        """Executes a atlas coordinates feature extractor on an image.
+
+        Args:
+            image (sitk.Image): The image.
+            params (fltr.IFilterParams): The parameters (unused).
+
+        Returns:
+            sitk.Image: The atlas coordinates image
+                (a vector image with 3 components, which represent the physical x, y, z coordinates in mm).
+
+        Raises:
+            ValueError: If image is not 3-D.
+        """
+
+        if image.GetDimension() != 3:
+            raise ValueError('image needs to be 3-D')
+
+        x, y, z = image.GetSize()
 
         # create matrix with homogenous indices in axis 3
-        coords = np.zeros((dim1, dim2, dim3, 4))
-        coords[..., 0] = np.arange(dim1)[:, np.newaxis, np.newaxis]
-        coords[..., 1] = np.arange(dim2)[np.newaxis, :, np.newaxis]
-        coords[..., 2] = np.arange(dim3)[np.newaxis, np.newaxis, :]
+        coords = np.zeros((x, y, z, 4))
+        coords[..., 0] = np.arange(x)[:, np.newaxis, np.newaxis]
+        coords[..., 1] = np.arange(y)[np.newaxis, :, np.newaxis]
+        coords[..., 2] = np.arange(z)[np.newaxis, np.newaxis, :]
         coords[..., 3] = 1
 
         # reshape such that each voxel is one row
-        lincoords = np.reshape(coords, [coords.shape[0] * coords.shape[1] * coords.shape[2], 4])
+        lin_coords = np.reshape(coords, [coords.shape[0] * coords.shape[1] * coords.shape[2], 4])
 
+        # generate transformation matrix
         tmpmat = image.GetDirection() + image.GetOrigin()
-
         tfm = np.reshape(tmpmat, [3, 4], order='F')
-
         tfm = np.vstack((tfm, [0, 0, 0, 1]))
 
-        atlascoords = (tfm @ np.transpose(lincoords))[0:3, :]
-        atlascoordsvol = np.reshape(np.transpose(atlascoords), [dim3, dim2, dim1, 3], 'F')
+        atlas_coords = (tfm @ np.transpose(lin_coords))[0:3, :]
+        atlas_coords = np.reshape(np.transpose(atlas_coords), [z, y, x, 3], 'F')
 
-        img_out = sitk.GetImageFromArray(atlascoordsvol)
+        img_out = sitk.GetImageFromArray(atlas_coords)
         img_out.CopyInformation(image)
 
         return img_out
 
     def __str__(self):
         """Gets a printable string representation.
+
         Returns:
             str: String representation.
         """
