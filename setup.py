@@ -2,10 +2,10 @@ import sys
 from setuptools import find_packages, setup
 
 
-if not sys.hexversion < 0x03050000:
+if sys.version_info < (3,5):
     sys.exit("Requires Python 3.5 or higher")
 
-with open('README.md') as f:
+with open('README.rst') as f:
     readme = f.read()
 
 with open('LICENSE') as f:
@@ -15,11 +15,11 @@ REQUIRED_PACKAGES = [
     'matplotlib >= 2.0.2',
     'numpy >= 1.13.1',
     'Pillow >= 4.2.1',
-    'pydensecrf >= 0.1'
+    'pydensecrf >= 1.0rc1',
     'SimpleITK >= 1.0.1',
     'sphinx >= 1.6',
     'sphinx_rtd_theme >= 0.2.4',
-    'tensorflow >= 1.2.1',
+    'tensorflow == 1.2.1',
 ]
 
 TEST_PACKAGES = [
