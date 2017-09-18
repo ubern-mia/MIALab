@@ -129,7 +129,7 @@ class NeighborhoodFeatureExtractor(fltr.IFilter):
             .format(self=self)
 
 
-class NormalizedAtlasCoordinates(fltr.IFilter):
+class AtlasCoordinates(fltr.IFilter):
     """Represents a normalized atlas coordinates feature extractor."""
 
     def __init__(self):
@@ -137,8 +137,30 @@ class NormalizedAtlasCoordinates(fltr.IFilter):
         super().__init__()
 
     def execute(self, image: sitk.Image, params: fltr.IFilterParams = None) -> sitk.Image:
+		
+		dim1, dim2, dim3 = image.GetSize()
 
-        return image
+		coords = np.zeros((dim1, dim2, dim3, 4))
+
+		coords[..., 0] = np.arange(dim1)[:, np.newaxis, np.newaxis]
+		coords[..., 1] = np.arange(dim2)[np.newaxis, :, np.newaxis]
+		coords[..., 2] = np.arange(dim3)[np.newaxis, np.newaxis, :]
+		coords[..., 3] = 1
+
+		lincoords = np.reshape(coords,[coords.shape[0]*coords.shape[1]*coords.shape[2],4])
+
+		tmpmat = image.GetDirection()+image.GetOrigin()
+
+		tfm = np.reshape(tmpmat,[3,4],order='F')
+
+		tfm = np.vstack((tfm, [0,0,0,1]))
+
+		atlascoords = (tfm @ np.transpose(lincoords))[0:3,:]
+		atlascoordsvol = np.reshape(np.transpose(atlascoords),[dim1,dim2,dim3,3],'F')
+		
+		img_out = sitk.GetImageFromArray(atlascoordsvol)
+
+        return img_out
 
     def __str__(self):
         """Gets a printable string representation.
