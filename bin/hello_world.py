@@ -29,7 +29,7 @@ def main(_):
     sess = tf.Session()
 
     # Run the op
-    print(sess.run(hello))
+    print(sess.run(hello).decode(sys.getdefaultencoding()))
 
     # --- SimpleITK
     image = sitk.Image(256, 128, 64, sitk.sitkInt16)

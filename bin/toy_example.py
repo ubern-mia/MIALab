@@ -228,7 +228,8 @@ def main(_):
     """Trains a decision forest classifier on a two-dimensional point cloud."""
 
     # generate model directory (use datetime to ensure that the directory is empty)
-    model_dir = os.path.join(FLAGS.model_dir, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    t = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    model_dir = os.path.join(FLAGS.model_dir, t)
     os.makedirs(model_dir, exist_ok=True)
 
     # generate result directory
@@ -274,31 +275,33 @@ def main(_):
     plotter = Plotter()
     plotter.plot_pixels_proba(test_data, np.array(probabilities))
     plotter.plot_points(data.data, data.labels)
-    plotter.save(os.path.join(FLAGS.result_dir, 'result.png'))
+    plotter.save(os.path.join(FLAGS.result_dir, 'result_{}.png'.format(t)))
 
 
 if __name__ == "__main__":
     """The program's entry point."""
 
+    script_dir = os.path.dirname(sys.argv[0])
+
     parser = argparse.ArgumentParser(description='2-dimensional point classification with decision forests')
     parser.add_argument(
         '--model_dir',
         type=str,
-        default='./toy-example-model',
+        default=os.path.join(script_dir, 'toy-example-model'),
         help='Base directory for output models.'
     )
 
     parser.add_argument(
         '--result_dir',
         type=str,
-        default='./toy-example-result',
+        default=os.path.join(script_dir, 'toy-example-result'),
         help='Directory for results.'
     )
 
     parser.add_argument(
         '--input_file',
         type=str,
-        default='./../data/exp1_n2.txt',
+        default=os.path.join(script_dir, '../data/exp1_n2.txt'),
         help='Input file with 2-dimensional coordinates and corresponding label.'
     )
 
