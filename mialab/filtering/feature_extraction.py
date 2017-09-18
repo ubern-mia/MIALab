@@ -159,7 +159,8 @@ class AtlasCoordinates(fltr.IFilter):
 		atlascoordsvol = np.reshape(np.transpose(atlascoords),[dim1,dim2,dim3,3],'F')
 		
 		img_out = sitk.GetImageFromArray(atlascoordsvol)
-
+		img_out.CopyInformation(image)
+		
         return img_out
 
     def __str__(self):
