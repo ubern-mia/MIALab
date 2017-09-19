@@ -25,7 +25,7 @@ The installation has been tested on Windows 10.
 #. Anaconda installation (`official website <https://docs.anaconda.com/anaconda/install/windows.html>`_)
    
    - Launch the installer
-   - Select an install for “Just Me” unless you’re installing for all users (which requires Windows Administrator privileges)
+   - Select an install for "Just Me" unless you’re installing for all users (which requires Windows administrator privileges)
    - Choose whether to add Anaconda to your PATH environment variable. We recommend not adding Anaconda to the PATH environment variable, since this can interfere with other software.
    - Choose whether to register Anaconda as your default Python 3.6. Unless you plan on installing and running multiple versions of Anaconda, or multiple versions of Python, you should accept the default and leave this box checked.
 
@@ -45,11 +45,10 @@ The installation has been tested on Windows 10.
 #. Install all required packages for the MIALab
    
    - :bash:`cd /d \path\to\MIALab\repository`
-   - :bash:`pip install .` will install all required packages
-   - - if you do not have the `visual studio build tools 2015 <http://landinghub.visualstudio.com/visual-cpp-build-tools>`_ installed the installation of pydensecrf will fail and you have two options:
+   - :bash:`pip install .` will install all required packages. If you do not have the `Visual C++ 2015 Build Tools <http://landinghub.visualstudio.com/visual-cpp-build-tools>`_ installed, the installation of ``pydensecrf`` will fail and you have two options:
 
-       - Option 1: install the `visual studio build tools 2015 <http://landinghub.visualstudio.com/visual-cpp-build-tools>`_, execute :bash:`pip install cython -U` and rerun :bash:`pip install .`
-       - Option 2: unzip the pydensecrf_win.zip from ILIAS and place the two folders in <path_to_Anaconda>\envs\mialab\Lib\site-packages\
+      - Option 1: install the `Visual C++ 2015 Build Tools <http://landinghub.visualstudio.com/visual-cpp-build-tools>`_, execute :bash:`pip install cython -U` and rerun :bash:`pip install .`
+      - Option 2: unzip the ``pydensecrf_win.zip`` from ILIAS and place the two folders in ``<path_to_Anaconda>\envs\mialab\Lib\site-packages\``
 
 #. Execute the hello world to verify the installation
    
@@ -58,7 +57,7 @@ The installation has been tested on Windows 10.
 #. Run Sphinx to create the documentation
    
    - :bash:`sphinx-build -b html .\docs .\docs\_build`
-   - The documentation is now available under :bash:`.\docs\_build/index.html`
+   - The documentation is now available under ``.\docs\_build\index.html``
    
 
 Linux
@@ -107,7 +106,7 @@ Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
 #. Run Sphinx to create the documentation
    
    - :bash:`sphinx-build -b html ./docs ./docs/_build`
-   - The documentation is now available under :bash:`./docs/_build/index.html`
+   - The documentation is now available under ``./docs/_build/index.html``
 
 
 macOS
@@ -153,4 +152,4 @@ The installation has not been tested.
 #. Run Sphinx to create the documentation
    
    - :bash:`sphinx-build -b html ./docs ./docs/_build`
-   - The documentation is now available under :bash:`./docs/_build/index.html`
+   - The documentation is now available under ``./docs/_build/index.html``
