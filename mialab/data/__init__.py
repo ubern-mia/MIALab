@@ -6,7 +6,7 @@ Data (:mod:`data` package)
 This package provides data handling.
 
 The conversion module (:mod:`data.conversion`)
----------------------------------------
+----------------------------------------------
 
 .. automodule:: data.conversion
     :members:
