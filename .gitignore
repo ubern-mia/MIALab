@@ -236,5 +236,7 @@ xcuserdata/
 ### Project specific stuff
 bin/toy-example-model/
 bin/toy-example-result/
+bin/mia-model/
+bin/mia-result/
 *.nii.gz
 *.mha
