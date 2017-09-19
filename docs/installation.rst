@@ -49,12 +49,16 @@ The installation has been tested on Windows 10.
    - - if you do not have the `visual studio build tools 2015 <http://landinghub.visualstudio.com/visual-cpp-build-tools>`_ installed the installation of pydensecrf will fail and you have two options:
 
        - Option 1: install the `visual studio build tools 2015 <http://landinghub.visualstudio.com/visual-cpp-build-tools>`_, execute :bash:`pip install cython -U` and rerun :bash:`pip install .`
-       - Option 2: unzip the pydensecrf_win.zip from ILIAS and place the two folders in <path_to_Anaconda>/envs/mialab/Lib/site-packages/
+       - Option 2: unzip the pydensecrf_win.zip from ILIAS and place the two folders in <path_to_Anaconda>\envs\mialab\Lib\site-packages\
+
+#. Execute the hello world to verify the installation
+   
+   - :bash:`python .\bin\hello_world.py`
          
 #. Run Sphinx to create the documentation
    
-   - :bash:`cd sphinx-build -b html ./docs ./docs/_build`
-   - The documentation is now available under :bash:`./docs/_build/index.html`
+   - :bash:`sphinx-build -b html .\docs .\docs\_build`
+   - The documentation is now available under :bash:`.\docs\_build/index.html`
    
 
 Linux
@@ -102,7 +106,7 @@ Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
 
 #. Run Sphinx to create the documentation
    
-   - :bash:`cd sphinx-build -b html ./docs ./docs/_build`
+   - :bash:`sphinx-build -b html ./docs ./docs/_build`
    - The documentation is now available under :bash:`./docs/_build/index.html`
 
 
@@ -148,5 +152,5 @@ The installation has not been tested.
  
 #. Run Sphinx to create the documentation
    
-   - :bash:`cd sphinx-build -b html ./docs ./docs/_build`
+   - :bash:`sphinx-build -b html ./docs ./docs/_build`
    - The documentation is now available under :bash:`./docs/_build/index.html`
