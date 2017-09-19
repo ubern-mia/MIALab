@@ -88,6 +88,9 @@ todo_include_todos = True
 # The output image format for rendered math images.
 imgmath_image_format = 'svg'
 
+# Enable to output the class and the __init__ method docstring
+autoclass_content = 'both'
+
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
