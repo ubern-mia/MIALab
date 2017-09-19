@@ -34,7 +34,7 @@ Materials
 ^^^^^^^^^
 
 - `mialab.filtering.registration`, e.g. use the `RegistrationPlotter`
-- P. Viola and W. M. I. Wells, "Alignment by maximization of mutual information", Proc. IEEE Int. Conf. Comput. Vis., vol. 24, no. 2, pp. 16–23, 1995.
+- P. Viola and W. M. I. Wells, Alignment by maximization of mutual information, Proc. IEEE Int. Conf. Comput. Vis., vol. 24, no. 2, pp. 16–23, 1995.
 - P. Cattin and V. Roth, Biomedical Image Analysis, 2016. [Online]. Available: https://miac.unibas.ch/BIA/ [Accessed: 25-Aug-2017].
 - `SimpleITK Notebooks <http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/>`_: See chapters 60-67
 - `ITK Software Guide, Book 2 <https://itk.org/ITKSoftwareGuide/html/Book2/ITKSoftwareGuide-Book2ch3.html>`_: In C++ but with a thorough description
@@ -52,7 +52,8 @@ Materials
 ^^^^^^^^^
 
 - `mialab.filtering.postprocessing`, e.g. use `DenseCRF`
-- R. S. Olson, W. La Cava, Z. Mustahsan, A. Varik, and J. H. Moore, Data-driven Advice for Applying Machine Learning to Bioinformatics Problems, Aug. 2017.
+- P. Krähenbühl and V. Koltun, Efficient Inference in Fully Connected CRFs with Gaussian Edge Potentials, Advances in Neural Information Processing Systems, vol. 24, pp. 109-117, 2011.
+- S. Nowozin and C. H. Lampert, Structured Learning and Prediction in Computer Vision, Foundations and Trends in Computer Graphics and Vision, vol. 6, pp. 185-365, 2010.
 - P. Cattin and V. Roth, Biomedical Image Analysis - Mathematical Morphology, 2013. [Online]. Available: http://informatik.unibas.ch/fileadmin/Lectures/FS2013/CS252/morphology13.pdf [Accessed: 25-Aug-2017]
 
 Evaluation
@@ -124,3 +125,5 @@ Deep learning has gained much attention in the last years outperforming methods 
 
 Materials
 ^^^^^^^^^
+
+- todo
