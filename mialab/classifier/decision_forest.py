@@ -26,9 +26,10 @@ class DecisionForestParameters:
     def set_max_nodes(self, max_tree_depth: int):
         """Sets the maximum nodes according to the maximum tree depth.
 
-        The maximum number of nodes in a binary tree of depth $k$ is given by
-        $1 + 2 + 4 + 8 + ... + 2^k = \frac{2^{k+1} - 1}{2 - 1} = 2^{k + 1} -1$.
-        note that this assumes a full built tree.
+        The maximum number of nodes in a binary tree of depth :math:`k` is given
+        by :math:`1 + 2 + 4 + 8 + ... + 2^k = \\frac{2^{k+1} - 1}{2 - 1} = 2^{k + 1} -1`.
+
+        Note that this assumes a fully built tree.
 
         Args:
             max_tree_depth (int): The maximum tree depth.
@@ -57,7 +58,11 @@ class DecisionForest:
     """Represents a decision forest classifier."""
 
     def __init__(self, parameters: DecisionForestParameters=DecisionForestParameters()):
-        """Initializes an new instance of the DecisionForest class."""
+        """Initializes an new instance of the DecisionForest class.
+
+        Args:
+            parameters (DecisionForestParameters): The parameters.
+        """
 
         self.parameters = None  # tensor_forest.ForestHParams
         self.estimator = None  # estimator.SKCompat
@@ -113,17 +118,19 @@ class DecisionForest:
     def evaluate(self, data: np.ndarray, labels: np.ndarray):
         """Predicts and directly evaluates the results.
 
+        Examples:
+            To evaluate the prediction of the decision forest use:
+
+            >>> results = forest.evaluate(data, labels)
+            >>> for key in sorted(results):
+            >>>     print('%s: %s' % (key, results[key]))
+
         Args:
             data (np.ndarray): The data to predict.
             labels (np.ndarray): A numpy array where labels[i] returns the label of observation i.
                 E.g. labels.shape = (100, 1), where number of observations=100 with one label.
         Returns:
             dict: A dict of evaluation metrics.
-
-        Examples:
-        >>>results = forest.evaluate(data, labels)
-        >>>for key in sorted(results):
-        >>>    print('%s: %s' % (key, results[key]))
         """
 
         if self.estimator is None:
