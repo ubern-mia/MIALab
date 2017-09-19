@@ -178,6 +178,11 @@ class FeatureExtractor:
             # - 1 (white matter): circa 1300000 voxels
             # - 2 (grey matter): circa 1800000 voxels
             # - 3 (ventricles): circa 130000 voxels
+
+            # you can exclude background voxels from the training mask generation
+            # mask_background = self.img.images[structure.BrainImageTypes.BrainMask]
+            # and use background_mask=mask_background in get_mask()
+
             mask = fltr_feat.RandomizedTrainingMaskGenerator.get_mask(self.img.images[structure.BrainImageTypes.GroundTruth],
                                                                       [0, 1, 2, 3],
                                                                       [0.0003, 0.004, 0.003, 0.04])
@@ -316,7 +321,7 @@ def post_process(img: structure.BrainImage, segmentation: sitk.Image, probabilit
     
     return pipeline.execute(segmentation)
 
-    
+
 def init_evaluator(directory: str, result_file_name: str='results.csv') -> eval.Evaluator:
     """Initializes an evaluator.
 

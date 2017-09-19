@@ -206,7 +206,7 @@ class RandomizedTrainingMaskGenerator:
                 where 0=background, 1=label1, 2=label2, ..., e.g. [0, 1]
             label_percentages (list of float): The percentage of voxels of a corresponding label to extract as mask,
                 e.g. [0.2, 0.2].
-            background_mask (sitk.Image): A mask, where intensity 1 indicates voxels to exclude independent of the label.
+            background_mask (sitk.Image): A mask, where intensity 0 indicates voxels to exclude independent of the label.
 
         Returns:
             sitk.Image: The training mask.
