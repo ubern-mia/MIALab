@@ -45,7 +45,7 @@ GUI Clients
 Image Viewer
 ------------
 
-- `ITK-Snap <http://www.itksnap.org/pmwiki/pmwiki.php>`_: Simple tool to check results and do manual corrections [Win, Mac, Linux]
+- `ITK-SNAP <http://www.itksnap.org/pmwiki/pmwiki.php>`_: Simple tool to check results and do manual corrections [Win, Mac, Linux]
 - `3D Slicer <https://www.slicer.org/>`_: More advanced tool [Win, Mac, Linux]
 - `ParaView <https://www.paraview.org/>`_: Visualization software  [Win, Mac, Linux]
 
