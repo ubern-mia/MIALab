@@ -26,7 +26,13 @@ def main(_):
 
     The main routine executes the medical image analysis pipeline:
         - Image loading
-        - ...
+        - Registration
+        - Pre-processing
+        - Feature extraction
+        - Decision forest classifier model building
+        - Segmentation using the decision forest classifier model on unseen images
+        - Post-processing of the segmentation
+        - Evaluation of the segmentation
     """
 
     # load atlas images
