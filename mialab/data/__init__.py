@@ -14,14 +14,13 @@ The conversion module (:mod:`data.conversion`)
 The loading module (:mod:`data.loading`)
 --------------------------------------------------
 
-.. autoclass:: data.loading.FilePathGenerator
-
-.. autoclass:: data.loading.FileSystemDataCrawler
+.. automodule:: data.loading
+    :members:
 
 The data structure module (:mod:`data.structure`)
 ------------------------------------------------------
 
-.. autoclass:: data.structure.BrainImageTypes
-.. autoclass:: data.structure.BrainImage
+.. automodule:: data.structure
+    :members:
 
 """
