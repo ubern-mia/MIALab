@@ -14,8 +14,9 @@ class BiasFieldCorrectorParams(fltr.IFilterParams):
             mask (sitk.Image): A mask image (0=background; 1=mask).
 
         Examples:
-        To generate a default mask use Otsu's thresholding:
-        >>> sitk.OtsuThreshold( image, 0, 1, 200 )
+            To generate a default mask use Otsu's thresholding:
+
+            >>> sitk.OtsuThreshold( image, 0, 1, 200 )
         """
         self.mask = mask
 

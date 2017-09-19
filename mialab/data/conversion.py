@@ -128,9 +128,11 @@ class NumpySimpleITKImageBridge:
 
         Args:
             array (np.ndarray): The image as numpy array. The shape can be either:
+
                 - shape=(n,), where n = total number of voxels
                 - shape=(n,v), where n = total number of voxels and v = number of components per pixel (vector image)
                 - shape=(<reversed image size>), what you get from sitk.GetArrayFromImage()
+
             properties (ImageProperties): The image properties.
 
         Returns:
@@ -188,7 +190,7 @@ class NumpySimpleITKImageBridge:
 class SimpleITKNumpyImageBridge:
     """A SimpleITK to numpy bridge.
 
-    Converts SimpleITK images to numpy arrays. Use the ``NumpySimpleITKImageBridge`` to convert back.
+    Converts SimpleITK images to numpy arrays. Use the :py:class:`NumpySimpleITKImageBridge` to convert back.
     """
 
     @staticmethod

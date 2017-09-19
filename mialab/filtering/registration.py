@@ -52,14 +52,13 @@ class MultiModalRegistration(fltr.IFilter):
     - Gradient descent optimization
 
     Examples:
+        The following example shows the usage of the MultiModalRegistration class.
 
-    The following example shows the usage of the MultiModalRegistration class.
-
-    >>> fixed_image = sitk.ReadImage('/path/to/image/fixed.mha')
-    >>> moving_image = sitk.ReadImage('/path/to/image/moving.mha')
-    >>> registration = MultiModalRegistration()  # specify parameters to your needs
-    >>> parameters = MultiModalRegistrationParams(fixed_image)
-    >>> registered_image = registration.execute(moving_image, parameters)
+        >>> fixed_image = sitk.ReadImage('/path/to/image/fixed.mha')
+        >>> moving_image = sitk.ReadImage('/path/to/image/moving.mha')
+        >>> registration = MultiModalRegistration()  # specify parameters to your needs
+        >>> parameters = MultiModalRegistrationParams(fixed_image)
+        >>> registered_image = registration.execute(moving_image, parameters)
     """
 
     def __init__(self,

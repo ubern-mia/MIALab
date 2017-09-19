@@ -135,21 +135,20 @@ class Evaluator:
 
     Examples:
 
-    >>> evaluator = Evaluator(ConsoleEvaluatorWriter(5))
-    >>> evaluator.add_writer(CSVEvaluatorWriter('/some/path/to/results.csv'))
-    >>> evaluator.add_label(0, 'Background')
-    >>> evaluator.add_label(1, 'Structure')
-    >>> evaluator.add_metric(mtrc.DiceCoefficient())
-    >>> evaluator.add_metric(mtrc.VolumeSimilarity())
-    >>> evaluator.evaluate(prediction, ground_truth, 'Patient1')
-    The console output would be:
-              ID       LABEL        DICE     VOLSMTY
-        Patient1  Background     0.99955     0.99976
-        Patient1       Nerve     0.70692     0.84278
-    The results.csv would contain:
-    ID;LABEL;DICE;VOLSMTY
-    Patient1;Background;0.999548418549;0.999757743496
-    Patient1;Nerve;0.70692469107;0.842776093884
+        >>> evaluator = Evaluator(ConsoleEvaluatorWriter(5))
+        >>> evaluator.add_writer(CSVEvaluatorWriter('/some/path/to/results.csv'))
+        >>> evaluator.add_label(0, 'Background')
+        >>> evaluator.add_label(1, 'Structure')
+        >>> evaluator.add_metric(mtrc.DiceCoefficient())
+        >>> evaluator.add_metric(mtrc.VolumeSimilarity())
+        >>> evaluator.evaluate(prediction, ground_truth, 'Patient1')
+                  ID       LABEL        DICE     VOLSMTY
+            Patient1  Background     0.99955     0.99976
+            Patient1       Nerve     0.70692     0.84278
+        The results.csv would contain:
+        ID;LABEL;DICE;VOLSMTY
+        Patient1;Background;0.999548418549;0.999757743496
+        Patient1;Nerve;0.70692469107;0.842776093884
     """
 
     def __init__(self, writer: IEvaluatorWriter=None):

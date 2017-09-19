@@ -8,7 +8,7 @@ import os
 class FilePathGenerator(metaclass=ABCMeta):
     """Represents an abstract file path generator.
 
-    This class is used in FileSystemDataCrawler to convert a human readable data identifier to an data file path,
+    This class is used in :py:class:`FileSystemDataCrawler` to convert a human readable data identifier to an data file path,
     which allows to load the data.
     """
 
@@ -32,7 +32,7 @@ class FilePathGenerator(metaclass=ABCMeta):
 class DirectoryFilter(metaclass=ABCMeta):
     """Represents an abstract directory filter.
 
-    This class is used in FileSystemDataCrawler to filter a list of directories.
+    This class is used in  :py:class:`FileSystemDataCrawler` to filter a list of directories.
     """
 
     @staticmethod
@@ -53,46 +53,51 @@ class FileSystemDataCrawler:
     """Represents a file system data crawler.
 
     todo(fabianbalsiger): finish doc
-    Examples:
-        Suppose we have the following directory structure:
-        path/to/root_dir/Patient1
-            /Image.mha
-            /GroundTruth.mha
-        root_dir/Patient2
-            /Image.mha
-            /GroundTruth.mha
-        root_dir/Information
-            /Atlas.mha
 
-    >>> class MyImgType(Enum):
-    >>>     T1 = 1
-    >>>     GroundTruth = 2
-    >>>
-    >>> class MyFilePathGenerator(FilePathGenerator):
-    >>>     @staticmethod
-    >>>     def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
-    >>>         if file_key == MyImgType.T1:
-    >>>             file_name = 'Image'
-    >>>         elif file_key == MyImgType.GroundTruth:
-    >>>             file_name = 'GroundTruth'
-    >>>         else:
-    >>>             raise ValueError('Unknown key')
-    >>>
-    >>>         return os.path.join(root_dir, file_name + file_extension)
-    >>>
-    >>> class MyDirFilter(DirectoryFilter):
-    >>>     @staticmethod
-    >>>     def filter_directories(dirs: List[str]) -> List[str]:
-    >>>         return [dir for dir in dirs if dir.lower().__contains__('patient')]
-    >>>
-    >>> crawler = FileSystemDataCrawler('path/to/root_dir',
-    >>>                                 [MyImgType.T1, MyImgType.GroundTruth],
-    >>>                                 dir_filter=MyDirFilter(),
-    >>>                                 file_extension='.mha')
-    >>> for id_, path in crawler.data.items():
-    >>>     print(id_, path)
-    Patient1 path/to/root_dir/Patient1
-    Patient2 path/to/root_dir/Patient2
+    Examples:
+        Suppose we have the following directory structure::
+
+            path/to/root_dir
+                ./Patient1
+                    ./Image.mha
+                    ./GroundTruth.mha
+                ./Patient2
+                    ./Image.mha
+                    ./GroundTruth.mha
+                ./Atlas
+                    ./Atlas.mha
+
+        We can use the following code to load the images in the directories `Patient1` and `Patient2`:
+
+        >>> class MyImgType(Enum):
+        >>>     T1 = 1
+        >>>     GroundTruth = 2
+        >>>
+        >>> class MyFilePathGenerator(FilePathGenerator):
+        >>>     @staticmethod
+        >>>     def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
+        >>>         if file_key == MyImgType.T1:
+        >>>             file_name = 'Image'
+        >>>         elif file_key == MyImgType.GroundTruth:
+        >>>             file_name = 'GroundTruth'
+        >>>         else:
+        >>>             raise ValueError('Unknown key')
+        >>>
+        >>>         return os.path.join(root_dir, file_name + file_extension)
+        >>>
+        >>> class MyDirFilter(DirectoryFilter):
+        >>>     @staticmethod
+        >>>     def filter_directories(dirs: List[str]) -> List[str]:
+        >>>         return [dir for dir in dirs if dir.lower().__contains__('patient')]
+        >>>
+        >>> crawler = FileSystemDataCrawler('path/to/root_dir',
+        >>>                                 [MyImgType.T1, MyImgType.GroundTruth],
+        >>>                                 dir_filter=MyDirFilter(),
+        >>>                                 file_extension='.mha')
+        >>> for id_, path in crawler.data.items():
+        >>>     print(id_, path)
+        Patient1 path/to/root_dir/Patient1
+        Patient2 path/to/root_dir/Patient2
     """
     
     def __init__(self,

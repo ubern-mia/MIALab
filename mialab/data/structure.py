@@ -21,7 +21,7 @@ class BrainImage:
         Args:
             id_ (str): An identifier.
             path (str): Full path to the image directory.
-            images (dict): The images, where the key is a BrainImageTypes and the value is a SimpleITK image.
+            images (dict): The images, where the key is a :py:class:`BrainImageTypes` and the value is a SimpleITK image.
         """
 
         self.id_ = id_

@@ -15,7 +15,7 @@ class Relabel(fltr.IFilter):
     """Relabels the labels in the file by the provided rule"""
 
     def __init__(self, label_changes: Dict[int, Union[int, tuple]]) -> None:
-        """Initializes a new instance of the LargestNComponents class.
+        """Initializes a new instance of the Relabel class.
 
         Args:
             label_changes(Dict[int, Union[int, tuple]]): Label change rule where the key is the new label and
