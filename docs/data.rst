@@ -41,7 +41,7 @@ The original HCP data is available in a higher resolution (0.7mm voxel size), bu
 
 Atlas
 ====================
-The MR image and label files with 'MNI' are already registered to the `MNI152 atlas <http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009>_` using nonlinear FNIRT.
+The MR image and label files with 'MNI' are already registered to the `MNI152 atlas <http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009>`_ using nonlinear FNIRT.
 The relevant atlas files are provided on Ilias in the "Data" folder:
 
 - T1-weighted atlas image: ``mni_icbm152_t1_tal_nlin_sym_09a.nii.gz``
