@@ -1,4 +1,4 @@
-"""todo(fabianbalsiger): comment"""
+"""The feature extraction module contains classes for feature extraction."""
 import numpy as np
 import SimpleITK as sitk
 
@@ -98,7 +98,7 @@ def first_order_texture_features_function(values):
     return np.array([mean,
                      np.var(values),
                      std,
-                     0.0,
+                     0.0,  # todo(fabianbalsiger): finish implementation
                      1.0,
                      2.0,
                      3.0,
