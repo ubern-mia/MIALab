@@ -58,10 +58,10 @@ Week 6: Coding
 Week 7: Presenting
 ------------------------------
 
-01.11.2017 / Reyes
+01.11.2017 / Reyes, Balsiger, Jungo, Suter
 
 - \(T\) Introduction on presenting
-- \(P\) Coding / Writing
+- \(P\) Coding / working on the project
 
 Week 8: Midterm Presentations
 ------------------------------
