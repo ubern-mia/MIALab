@@ -10,7 +10,7 @@ from typing import Union
 import numpy as np
 import SimpleITK as sitk
 
-import mialab.evaluation.metric as metric
+import mialab.evaluation.metric as mtrc
 
 
 class IEvaluatorWriter(metaclass=ABCMeta):
@@ -174,7 +174,7 @@ class Evaluator:
 
         self.labels[label] = description
 
-    def add_metric(self, metric: metric.IMetric):
+    def add_metric(self, metric: mtrc.IMetric):
         """Adds a metric to the evaluation.
 
         Args:
@@ -220,7 +220,7 @@ class Evaluator:
             labels = np.in1d(ground_truth_array.ravel(), label, True).reshape(ground_truth_array.shape).astype(np.uint8)
 
             # calculate the confusion matrix for IConfusionMatrixMetric
-            confusion_matrix = metric.ConfusionMatrix(predictions, labels)
+            confusion_matrix = mtrc.ConfusionMatrix(predictions, labels)
 
             # flag indicating whether the images have been converted for ISimpleITKImageMetric
             converted_to_image = False
@@ -229,12 +229,12 @@ class Evaluator:
 
             # calculate the metrics
             for param_index, metric in enumerate(self.metrics):
-                if isinstance(metric, metric.IConfusionMatrixMetric):
+                if isinstance(metric, mtrc.IConfusionMatrixMetric):
                     metric.confusion_matrix = confusion_matrix
-                elif isinstance(metric, metric.INumpyArrayMetric):
+                elif isinstance(metric, mtrc.INumpyArrayMetric):
                     metric.ground_truth = labels
                     metric.segmentation = predictions
-                elif isinstance(metric, metric.ISimpleITKImageMetric):
+                elif isinstance(metric, mtrc.ISimpleITKImageMetric):
                     if not converted_to_image:
                         predictions_as_image = sitk.GetImageFromArray(predictions)
                         predictions_as_image.CopyInformation(image)
