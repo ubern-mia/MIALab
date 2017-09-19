@@ -1,6 +1,8 @@
 """The data structure module holds model classes."""
 from enum import Enum
 
+import mialab.data.conversion as conversion
+
 
 class BrainImageTypes(Enum):
     """Represents the image types."""
@@ -25,6 +27,7 @@ class BrainImage:
         self.id_ = id_
         self.path = path
         self.images = images
+        self.image_properties = conversion.ImageProperties(self.images[BrainImageTypes.GroundTruth])
         self.feature_images = {}
         self.feature_matrix = None  # a tuble (features, labels),
         # where the shape of features is (n, number_of_features) and the shape of labels is (n, 1)
