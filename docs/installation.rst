@@ -22,7 +22,7 @@ The installation has been tested on Windows 10.
    - :bash:`cd \path\to\where\you\want\the\code`
    - :bash:`git clone https://github.com/istb-mia/MIALab.git`
 
-#. Anaconda installation (`official website <https://docs.anaconda.com/anaconda/install/windows.html>`_)
+#. Anaconda installation (`official website <https://docs.anaconda.com/anaconda/install/windows.html>`__)
    
    - Launch the installer
    - Select an install for "Just Me" unless you’re installing for all users (which requires Windows administrator privileges)
@@ -73,7 +73,7 @@ Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
    - :bash:`cd \path\to\where\you\want\the\code`
    - :bash:`git clone https://github.com/istb-mia/MIALab.git`
 
-#. Run Anaconda installation script (`official website <https://docs.anaconda.com/anaconda/install/linux>`_)
+#. Run Anaconda installation script (`official website <https://docs.anaconda.com/anaconda/install/linux>`__)
    
    - :bash:`bash <path_to_file>/Anaconda3-4.4.0-Linux-x86_64.sh` (run the installation script)
      
@@ -122,7 +122,7 @@ The installation has not been tested.
    - :bash:`cd \path\to\where\you\want\the\code`
    - :bash:`git clone https://github.com/istb-mia/MIALab.git`
 
-#. Anaconda installation (`official website <https://docs.anaconda.com/anaconda/install/mac-os>`_)
+#. Anaconda installation (`official website <https://docs.anaconda.com/anaconda/install/mac-os>`__)
    
    - Launch the installer
    - On the Destination Select screen, select "Install for me only"
