@@ -7,6 +7,7 @@ import sys
 
 import numpy as np
 import matplotlib.pyplot as plt
+import pydensecrf.densecrf as crf
 import SimpleITK as sitk
 import tensorflow as tf
 from tensorflow.python.platform import app
@@ -47,7 +48,11 @@ def main(_):
 
     plt.show()
 
+    # --- pydensecrf
+    d = crf.DenseCRF(1000, 2)
+
     print('Everything seems to work fine!')
+
 
 if __name__ == "__main__":
     """The program's entry point."""
