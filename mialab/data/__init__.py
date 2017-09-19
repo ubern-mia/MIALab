@@ -5,6 +5,12 @@ Data (:mod:`data` package)
 
 This package provides data handling.
 
+The conversion module (:mod:`data.conversion`)
+---------------------------------------
+
+.. automodule:: data.conversion
+    :members:
+
 The loading module (:mod:`data.loading`)
 --------------------------------------------------
 
