@@ -228,7 +228,7 @@ def main(_):
     """Trains a decision forest classifier on a two-dimensional point cloud."""
 
     # generate model directory (use datetime to ensure that the directory is empty)
-    t = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    t = datetime.datetime.now().strftime('%Y-%m-%d%H%M%S')
     model_dir = os.path.join(FLAGS.model_dir, t)
     os.makedirs(model_dir, exist_ok=True)
 
