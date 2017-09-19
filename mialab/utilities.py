@@ -237,9 +237,10 @@ def process(id_: str, paths: dict, training: bool) -> structure.BrainImage:
     """Loads and processes an image.
 
     The processing includes:
-     - Registration
-     - Pre-processing
-     - Feature extraction
+
+    - Registration
+    - Pre-processing
+    - Feature extraction
 
     Args:
         id_ (str): An image identifier.
@@ -349,9 +350,10 @@ def process_batch(data_dir: str,
     """Loads and processes a batch of images in parallel.
 
     The processing includes:
-     - Registration
-     - Pre-processing
-     - Feature extraction
+
+    - Registration
+    - Pre-processing
+    - Feature extraction
 
     Args:
         data_dir (str): The path to the root directory, which contains subdirectories with the data.
