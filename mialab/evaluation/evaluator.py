@@ -139,8 +139,8 @@ class Evaluator:
     >>> evaluator.add_writer(CSVEvaluatorWriter('/some/path/to/results.csv'))
     >>> evaluator.add_label(0, 'Background')
     >>> evaluator.add_label(1, 'Structure')
-    >>> evaluator.add_metric(DiceCoefficient())
-    >>> evaluator.add_metric(VolumeSimilarity())
+    >>> evaluator.add_metric(mtrc.DiceCoefficient())
+    >>> evaluator.add_metric(mtrc.VolumeSimilarity())
     >>> evaluator.evaluate(prediction, ground_truth, 'Patient1')
     The console output would be:
               ID       LABEL        DICE     VOLSMTY
@@ -178,7 +178,7 @@ class Evaluator:
         """Adds a metric to the evaluation.
 
         Args:
-            metric (miapy_metric.IMetric): The metric.
+            metric (mtrc.IMetric): The metric.
         """
 
         self.metrics.append(metric)
