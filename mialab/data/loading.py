@@ -1,5 +1,6 @@
 """The loading module holds classes to load data."""
 from abc import ABCMeta, abstractmethod
+from enum import Enum
 from typing import List
 import os
 
@@ -51,12 +52,10 @@ class DirectoryFilter(metaclass=ABCMeta):
 class FileSystemDataCrawler:
     """Represents a file system data crawler.
 
-    TODO
+    todo(fabianbalsiger): finish doc
     Examples:
         Suppose we have the following directory structure:
-        root_dir/Patient1
-            /Image.mha
-            /GroundTruth.mha
+        path/to/root_dir/Patient1
             /Image.mha
             /GroundTruth.mha
         root_dir/Patient2
@@ -65,11 +64,35 @@ class FileSystemDataCrawler:
         root_dir/Information
             /Atlas.mha
 
-    >>> crawler = FileSystemDataCrawler('root_dir', dir_filter='Patient', file_extension='.mha')
+    >>> class MyImgType(Enum):
+    >>>     T1 = 1
+    >>>     GroundTruth = 2
+    >>>
+    >>> class MyFilePathGenerator(FilePathGenerator):
+    >>>     @staticmethod
+    >>>     def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
+    >>>         if file_key == MyImgType.T1:
+    >>>             file_name = 'Image'
+    >>>         elif file_key == MyImgType.GroundTruth:
+    >>>             file_name = 'GroundTruth'
+    >>>         else:
+    >>>             raise ValueError('Unknown key')
+    >>>
+    >>>         return os.path.join(root_dir, file_name + file_extension)
+    >>>
+    >>> class MyDirFilter(DirectoryFilter):
+    >>>     @staticmethod
+    >>>     def filter_directories(dirs: List[str]) -> List[str]:
+    >>>         return [dir for dir in dirs if dir.lower().__contains__('patient')]
+    >>>
+    >>> crawler = FileSystemDataCrawler('path/to/root_dir',
+    >>>                                 [MyImgType.T1, MyImgType.GroundTruth],
+    >>>                                 dir_filter=MyDirFilter(),
+    >>>                                 file_extension='.mha')
     >>> for id_, path in crawler.data.items():
     >>>     print(id_, path)
-    Patient1 ./Patient1
-    Patient2 ./Patient2
+    Patient1 path/to/root_dir/Patient1
+    Patient2 path/to/root_dir/Patient2
     """
     
     def __init__(self,
@@ -78,13 +101,15 @@ class FileSystemDataCrawler:
                  file_path_generator: FilePathGenerator,
                  dir_filter: DirectoryFilter=None,
                  file_extension: str='.nii.gz'):
-        """Initializes a new instance of the SITKImageLoader class.
+        """Initializes a new instance of the FileSystemDataCrawler class.
 
         Args:
             root_dir (str): The path to the root directory, which contains subdirectories with the data.
-            file_keys (list): A list of strings, which represent file suffixes. TODO
-            file_path_generator (FilePathGenerator): TODO
-            dir_filter (str): TODO
+            file_keys (list): A list of objects, which represent human readable data identifiers
+                (one identifier for each data file to crawl).
+            file_path_generator (FilePathGenerator): A file path generator, which converts a human readable
+                data identifier to an data file path.
+            dir_filter (DirectoryFilter): A directory filter, which filters a list of directories.
             file_extension (str): The data file extension (with or without dot).
         """
         super().__init__()
@@ -113,7 +138,11 @@ class FileSystemDataCrawler:
             self.data[id_] = data_dict
 
     def _crawl_directories(self):
-        """Crawls the directories, which contain data."""
+        """Crawls the directories, which contain data.
+
+        Returns:
+            dict: A dictionary where the keys are the directory names and the values the full path to the directory.
+        """
 
         if not os.path.isdir(self.root_dir):
             raise ValueError('root_dir should point to an existing directory')
