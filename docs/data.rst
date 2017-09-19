@@ -9,9 +9,9 @@ The medical images will be provided trough Ilias.
 
 The dataset consists of 3 T head MRIs of 100 unrelated subjects from the `Human Connectome Project (HCP) <https://www.humanconnectome.org/>`_ dataset of healthy volunteers [2]_. For each subject, the following data is available:
 
-- T1-weighted MR image volume, skull-stripped and non-skull-stripped (but defaced for anonymization [3]_)
+- T1-weighted MR image volume, not skull-stripped (but defaced for anonymization [3]_), and skull-stripped with a bias field correction
 - T2-weighted MR image volume, processed the same way as the T1 image
-- Both modalities in native subject-space and in MNI-atlas space [4]_
+- Both modalities in native T1 subject-space and in MNI-atlas space [4]_, see below
 
 The following labels are available:
 
@@ -25,17 +25,29 @@ As you will see when opening some example label maps, the automated labelling is
 
 In every subject-data directory you find the following files:
 
-- T1native.nii.gz: T1weighted MR image in native subject space, not skull-stripped and not bias field corrected.
-- T1native_biasfieldcorr.nii.gz: T1weighted MR image in native subject space, not skull-stripped, but bias field corrected.
-- T1native_biasfieldcorr_noskull.nii.gz: T1weighted MR image in native subject space, skull-stripped and bias field corrected.
+- ``T1native.nii.gz``: T1weighted MR image in native subject space, not skull-stripped and not bias field corrected.
+- ``T1native_biasfieldcorr_noskull.nii.gz``: T1weighted MR image in native subject space, skull-stripped and bias field corrected.
 - All of the above additionally...
 
-  - for the T2-weighted image (e.g. T2native.nii.gz)
-  - in MNI atlas space (e.g. T1mni_biasfieldcorr.nii.gz)
+  - for the T2-weighted image (e.g. ``T2native.nii.gz``)
+  - in MNI atlas space (e.g. ``T1mni.nii.gz``)
 
 - Brain masks in subject- and atlas-space
-- Bias field masks in subject- and atlas-space
 - Label maps in subject- and atlas-space
+
+The data is available through Ilias and consists of a training and testing subset. The training folder containts 70 subjects, the testing 30. You may use both combined to evaluate the model performance if you like (k-fold cross-validation, leafe-one-out, ...), but we ask you to do the final analysis with this data splitting to ensure comparability.
+
+The original HCP data is available in a higher resolution (0.7mm voxel size), but was resampled to 1mm Voxel size and casted to ``UInt16`` to reduce the memory requirements to a (hopefully) reasonable level. 
+
+Atlas
+====================
+The MR image and label files with 'MNI' are already registered to the `MNI152 atlas <http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009>_` using nonlinear FNIRT.
+The relevant atlas files are provided on Ilias in the "Data" folder:
+
+- T1-weighted atlas image: ``mni_icbm152_t1_tal_nlin_sym_09a.nii.gz``
+- T2-weighted atlas image: ``mni_icbm152_t2_tal_nlin_sym_09a.nii.gz``
+- Brain mask: ``mni_icbm152_t1_tal_nlin_sym_09a_mask.nii.gz``
+
 
 Toy Example
 --------------------
