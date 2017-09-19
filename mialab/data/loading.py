@@ -5,31 +5,46 @@ import os
 
 
 class FilePathGenerator(metaclass=ABCMeta):
-    """TODO"""
+    """Represents an abstract file path generator.
+
+    This class is used in FileSystemDataCrawler to convert a human readable data identifier to an data file path,
+    which allows to load the data.
+    """
 
     @staticmethod
     @abstractmethod
     def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
-        """
+        """Gets the full file path for a data file.
 
         Args:
-            id_ ():
-            root_dir ():
-            file_key ():
-            file_extension ():
+            id_ (str): The data's identification.
+            root_dir (str): The data file's root directory.
+            file_key (object): A human readable identifier used to identify the data file.
+            file_extension (str): The data's file extension.
 
         Returns:
-            str:
+            str: The data's full file path.
         """
         raise NotImplementedError()
 
 
 class DirectoryFilter(metaclass=ABCMeta):
-    """TODO"""
+    """Represents an abstract directory filter.
+
+    This class is used in FileSystemDataCrawler to filter a list of directories.
+    """
 
     @staticmethod
     @abstractmethod
     def filter_directories(dirs: List[str]) -> List[str]:
+        """Filters a list of directories.
+
+        Args:
+            dirs (List[str]): A list of directories.
+
+        Returns:
+            List[str]: The filtered list of directories.
+        """
         raise NotImplementedError()
 
 
@@ -51,7 +66,7 @@ class FileSystemDataCrawler:
             /Atlas.mha
 
     >>> crawler = FileSystemDataCrawler('root_dir', dir_filter='Patient', file_extension='.mha')
-    >>> for id_, path in crawler.data_dir.items():
+    >>> for id_, path in crawler.data.items():
     >>>     print(id_, path)
     Patient1 ./Patient1
     Patient2 ./Patient2
