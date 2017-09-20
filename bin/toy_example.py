@@ -287,21 +287,21 @@ if __name__ == "__main__":
     parser.add_argument(
         '--model_dir',
         type=str,
-        default=os.path.join(script_dir, 'toy-example-model'),
+        default=os.path.normpath(os.path.join(script_dir, 'toy-example-model')),
         help='Base directory for output models.'
     )
 
     parser.add_argument(
         '--result_dir',
         type=str,
-        default=os.path.join(script_dir, 'toy-example-result'),
+        default=os.path.normpath(os.path.join(script_dir, 'toy-example-result')),
         help='Directory for results.'
     )
 
     parser.add_argument(
         '--input_file',
         type=str,
-        default=os.path.join(script_dir, '../data/exp1_n2.txt'),
+        default=os.path.normpath(os.path.join(script_dir, '../data/exp1_n2.txt')),
         help='Input file with 2-dimensional coordinates and corresponding label.'
     )
 
