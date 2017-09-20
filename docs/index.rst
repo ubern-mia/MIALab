@@ -9,10 +9,11 @@
     :maxdepth: 1
     :caption: Getting started
 
-    installation
     syllabus
     experiments
     data
+    installation
+    ide
     tools
 
 .. toctree::
