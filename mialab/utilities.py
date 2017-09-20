@@ -1,6 +1,6 @@
 """This module contains utility classes and functions."""
-import concurrent.futures
 from enum import Enum
+import multiprocessing as mp
 import os
 from typing import List
 
@@ -233,7 +233,7 @@ class FeatureExtractor:
         return image.reshape((no_voxels, number_of_components))
 
 
-def process(id_: str, paths: dict, training: bool) -> structure.BrainImage:
+def process(id_: str, paths: dict, training: bool) -> structure.PicklableBrainImage:
     """Loads and processes an image.
 
     The processing includes:
@@ -296,7 +296,10 @@ def process(id_: str, paths: dict, training: bool) -> structure.BrainImage:
     feature_extractor = FeatureExtractor(img, training)
     img = feature_extractor.execute()
 
-    return img
+    img.feature_images = {}
+    # todo(alainjungo): verify if gc is required
+
+    return structure.BrainImageToPicklableBridge.convert(img)  # to be able to pickle
 
 
 def post_process(img: structure.BrainImage, segmentation: sitk.Image, probability: sitk.Image) -> sitk.Image:
@@ -370,9 +373,8 @@ def process_batch(data_dir: str,
                                          BrainImageFilePathGenerator(),
                                          DataDirectoryFilter())
 
-    # create a thread pool to parallelize the image processing
-    with concurrent.futures.ThreadPoolExecutor(10) as executor:
-        futures = [executor.submit(process, id_, paths, training) for id_, paths in crawler.data.items()]
-        images = [future.result() for future in concurrent.futures.as_completed(futures)]
+    with mp.Pool() as p:
+        params = ((id_, path, training) for id_, path in crawler.data.items())  # add training parameter
+        images = p.starmap(process, params)
 
-    return images
+    return [structure.PicklableToBrainImageBridge.convert(img) for img in images]  # convert images back to BrainImage
