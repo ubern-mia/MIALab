@@ -70,7 +70,7 @@ Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
 
 #. Clone MIALab repository
    
-   - :bash:`cd \path\to\where\you\want\the\code`
+   - :bash:`cd /path/to/where/you/want/the/code`
    - :bash:`git clone https://github.com/istb-mia/MIALab.git`
 
 #. Run Anaconda installation script (`official website <https://docs.anaconda.com/anaconda/install/linux>`__)
@@ -119,7 +119,7 @@ The installation has not been tested.
 
 #. Clone MIALab repository
    
-   - :bash:`cd \path\to\where\you\want\the\code`
+   - :bash:`cd /path/to/where/you/want/the/code`
    - :bash:`git clone https://github.com/istb-mia/MIALab.git`
 
 #. Anaconda installation (`official website <https://docs.anaconda.com/anaconda/install/mac-os>`__)
