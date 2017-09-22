@@ -141,19 +141,22 @@ class NumpySimpleITKImageBridge:
             sitk.Image: The SimpleITK image.
         """
 
+        is_vector = False
         if not array.shape == properties.size[::-1]:
             # we need to reshape the array
 
             if array.ndim == 1:
                 array = array.reshape(properties.size[::-1])
             elif array.ndim == 2:
+                is_vector = True
                 array = array.reshape((properties.size[::-1] + (array.shape[1],)))
             elif array.ndim == len(properties.size) + 1:
-                array = array.reshape((properties.size[::-1] + (array.shape[-1],)))
+                is_vector = True
+                # no need to reshape
             else:
                 raise ValueError('array shape {} not supported'.format(array.shape))
 
-        image = sitk.GetImageFromArray(array)
+        image = sitk.GetImageFromArray(array, is_vector)
         image.SetOrigin(properties.origin)
         image.SetSpacing(properties.spacing)
         image.SetDirection(properties.direction)
