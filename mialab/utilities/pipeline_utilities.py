@@ -16,7 +16,9 @@ import mialab.filtering.filter as fltr
 import mialab.filtering.postprocessing as fltr_postp
 import mialab.filtering.preprocessing as fltr_prep
 import mialab.filtering.registration as fltr_reg
-
+import mialab.data.conversion as conversion
+import mialab.utilities.file_access_utilites as futil
+import mialab.utilities.multi_processor as mproc
 
 atlas_t1 = sitk.Image()
 atlas_t2 = sitk.Image()
@@ -35,77 +37,6 @@ def load_atlas_images(directory: str):
     atlas_t2 = sitk.ReadImage(os.path.join(directory, 'mni_icbm152_t2_tal_nlin_sym_09a.nii.gz'))
 
 
-class BrainImageFilePathGenerator(load.FilePathGenerator):
-    """Represents a brain image file path generator.
-
-    The generator is used to convert a human readable image identifier to an image file path,
-    which allows to load the image.
-    """
-
-    def __init__(self):
-        """Initializes a new instance of the BrainImageFilePathGenerator class."""
-        pass
-
-    @staticmethod
-    def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
-        """Gets the full file path for an image.
-
-        Args:
-            id_ (str): The image identification.
-            root_dir (str): The image' root directory.
-            file_key (object): A human readable identifier used to identify the image.
-            file_extension (str): The image' file extension.
-
-        Returns:
-            str: The images' full file path.
-        """
-
-        # the commented file_names are for the registration group
-
-        if file_key == structure.BrainImageTypes.T1:
-            # file_name = 'T1native'
-            file_name = 'T1mni_biasfieldcorr_noskull'
-        elif file_key == structure.BrainImageTypes.T2:
-            # file_name = 'T2native'
-            file_name = 'T2mni_biasfieldcorr_noskull'
-        elif file_key == structure.BrainImageTypes.GroundTruth:
-            # file_name = 'labels_native'
-            file_name = 'labels_mniatlas'
-        elif file_key == structure.BrainImageTypes.BrainMask:
-            # file_name = 'Brainmasknative'
-            file_name = 'Brainmaskmni'
-        else:
-            raise ValueError('Unknown key')
-
-        return os.path.join(root_dir, file_name + file_extension)
-
-
-class DataDirectoryFilter(load.DirectoryFilter):
-    """Represents a data directory filter.
-
-    The filter is used to
-    """
-
-    def __init__(self):
-        """Initializes a new instance of the DataDirectoryFilter class."""
-        pass
-
-    @staticmethod
-    def filter_directories(dirs: List[str]) -> List[str]:
-        """Filters a list of directories.
-
-        Args:
-            dirs (List[str]): A list of directories.
-
-        Returns:
-            List[str]: The filtered list of directories.
-        """
-
-        # currently, we do not filter the directories. but you could filter the directory list like this:
-        # return [dir for dir in dirs if not dir.lower().__contains__('atlas')]
-        return dirs
-
-
 class FeatureImageTypes(Enum):
     """Represents the feature image types."""
 
@@ -118,8 +49,8 @@ class FeatureImageTypes(Enum):
 
 class FeatureExtractor:
     """Represents a feature extractor."""
-    
-    def __init__(self, img: structure.BrainImage, training: bool=True):
+
+    def __init__(self, img: structure.BrainImage, training: bool = True):
         """Initializes a new instance of the FeatureExtractor class.
 
         Args:
@@ -140,7 +71,7 @@ class FeatureExtractor:
             atlas_coordinates.execute(self.img.images[structure.BrainImageTypes.T1])
 
         # initialize first-order texture feature extractor
-        first_order_texture = fltr_feat.NeighborhoodFeatureExtractor(kernel=(3,3,3))
+        first_order_texture = fltr_feat.NeighborhoodFeatureExtractor(kernel=(3, 3, 3))
 
         # compute gradient magnitude images
         t1_gradient_magnitude = sitk.GradientMagnitude(self.img.images[structure.BrainImageTypes.T1])
@@ -183,17 +114,19 @@ class FeatureExtractor:
             # mask_background = self.img.images[structure.BrainImageTypes.BrainMask]
             # and use background_mask=mask_background in get_mask()
 
-            mask = fltr_feat.RandomizedTrainingMaskGenerator.get_mask(self.img.images[structure.BrainImageTypes.GroundTruth],
-                                                                      [0, 1, 2, 3],
-                                                                      [0.0003, 0.004, 0.003, 0.04])
+            mask = fltr_feat.RandomizedTrainingMaskGenerator.get_mask(
+                self.img.images[structure.BrainImageTypes.GroundTruth],
+                [0, 1, 2, 3],
+                [0.0003, 0.004, 0.003, 0.04])
 
             # convert the mask to a logical array where value 1 is False and value 0 is True
             mask = sitk.GetArrayFromImage(mask)
             mask = np.logical_not(mask)
 
         # generate features
-        data = np.concatenate([self._image_as_numpy_array(image, mask) for id_, image in self.img.feature_images.items()],
-                               axis=1)
+        data = np.concatenate(
+            [self._image_as_numpy_array(image, mask) for id_, image in self.img.feature_images.items()],
+            axis=1)
 
         # generate labels (note that we assume to have a ground truth even for testing)
         labels = self._image_as_numpy_array(self.img.images[structure.BrainImageTypes.GroundTruth], mask)
@@ -201,7 +134,7 @@ class FeatureExtractor:
         self.img.feature_matrix = (data.astype(np.float32), labels.astype(np.int16))
 
     @staticmethod
-    def _image_as_numpy_array(image: sitk.Image, mask: np.ndarray=None):
+    def _image_as_numpy_array(image: sitk.Image, mask: np.ndarray = None):
         """Gets an image as numpy array where each row is a voxel and each column is a feature.
 
         Args:
@@ -233,7 +166,7 @@ class FeatureExtractor:
         return image.reshape((no_voxels, number_of_components))
 
 
-def process(id_: str, paths: dict, training: bool) -> structure.PicklableBrainImage:
+def pre_process(id_: str, paths: dict, training: bool) -> structure.BrainImage:
     """Loads and processes an image.
 
     The processing includes:
@@ -296,10 +229,10 @@ def process(id_: str, paths: dict, training: bool) -> structure.PicklableBrainIm
     feature_extractor = FeatureExtractor(img, training)
     img = feature_extractor.execute()
 
+    # todo(fabian): verify if ok here
     img.feature_images = {}
-    # todo(alainjungo): verify if gc is required
 
-    return structure.BrainImageToPicklableBridge.convert(img)  # to be able to pickle
+    return img
 
 
 def post_process(img: structure.BrainImage, segmentation: sitk.Image, probability: sitk.Image) -> sitk.Image:
@@ -315,18 +248,18 @@ def post_process(img: structure.BrainImage, segmentation: sitk.Image, probabilit
     """
 
     print('-' * 10, 'Post-processing', img.id_)
-    
+
     # construct pipeline
     pipeline = fltr.FilterPipeline()
     pipeline.add_filter(fltr_postp.DenseCRF())
     pipeline.set_param(fltr_postp.DenseCRFParams(img.images[structure.BrainImageTypes.T1],
                                                  img.images[structure.BrainImageTypes.T2],
                                                  probability), 0)
-    
+
     return pipeline.execute(segmentation)
 
 
-def init_evaluator(directory: str, result_file_name: str='results.csv') -> eval.Evaluator:
+def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eval.Evaluator:
     """Initializes an evaluator.
 
     Args:
@@ -347,12 +280,11 @@ def init_evaluator(directory: str, result_file_name: str='results.csv') -> eval.
     return evaluator
 
 
-def process_batch(data_dir: str,
-                  image_keys: List[structure.BrainImageTypes],
-                  training: bool) -> List[structure.BrainImage]:
-    """Loads and processes a batch of images in parallel.
+def pre_process_batch(data_dir: str, image_keys: List[structure.BrainImageTypes], training: bool,
+                      multi_process=True) -> List[structure.BrainImage]:
+    """Loads and pre-processes a batch of images.
 
-    The processing includes:
+    The pre-processing includes:
 
     - Registration
     - Pre-processing
@@ -362,6 +294,7 @@ def process_batch(data_dir: str,
         data_dir (str): The path to the root directory, which contains subdirectories with the data.
         image_keys (List[structure.BrainImageTypes]): A list of image identifiers.
         training (bool): Determines whether to extract the features for training or testing.
+        multi_process (bool): Whether to use the parallel processing on multiple cores or to run sequentially.
 
     Returns:
         List[structure.BrainImage]: A list of images.
@@ -370,11 +303,39 @@ def process_batch(data_dir: str,
     # crawl the training image directories
     crawler = load.FileSystemDataCrawler(data_dir,
                                          image_keys,
-                                         BrainImageFilePathGenerator(),
-                                         DataDirectoryFilter())
+                                         futil.BrainImageFilePathGenerator(),
+                                         futil.DataDirectoryFilter())
 
-    with mp.Pool() as p:
-        params = ((id_, path, training) for id_, path in crawler.data.items())  # add training parameter
-        images = p.starmap(process, params)
+    params = ((id_, path, training) for id_, path in crawler.data.items())
+    if multi_process:
+        images = mproc.MultiProcessor.run(pre_process, params, mproc.PreProcessingPickleHelper)
+    else:
+        images = [pre_process(id_, path, t) for id_, path, t in params]
+        # todo(alain): verify if gc.collect() required
+    return images
 
-    return [structure.PicklableToBrainImageBridge.convert(img) for img in images]  # convert images back to BrainImage
+
+def post_process_batch(brain_images: List[structure.BrainImage], segmentations: List[sitk.Image],
+                       probabilities: List[sitk.Image], multi_process=True) -> List[sitk.Image]:
+    """ Post-processes a batch of images.
+
+    Args:
+        brain_images (List[structure.BrainImageTypes]): Original images that were used for the prediction.
+        segmentations (List[sitk.Image]): The predicted segmentation.
+        probabilities (List[sitk.Image]): The prediction probabilities.
+        multi_process (bool): Whether to use the parallel processing on multiple cores or to run sequentially.
+
+    Returns:
+        List[sitk.Image]: List of post-processed images
+    """
+
+    params = zip(brain_images, segmentations, probabilities)
+    if multi_process:
+        pp_images = mproc.MultiProcessor.run(post_process, params, mproc.PostProcessingPickleHelper)
+    else:
+        pp_images = [post_process(img, seg, prob) for img, seg, prob in params]
+    return pp_images
+
+
+
+

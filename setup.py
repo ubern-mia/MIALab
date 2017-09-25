@@ -20,6 +20,7 @@ REQUIRED_PACKAGES = [
     'sphinx >= 1.6',
     'sphinx_rtd_theme >= 0.2.4',
     'tensorflow == 1.2.1',
+    'pathos >= 0.2.1',
 ]
 
 TEST_PACKAGES = [

@@ -8,14 +8,14 @@ import os
 import sys
 import timeit
 
+import SimpleITK as sitk
 import numpy as np
 from tensorflow.python.platform import app
-import SimpleITK as sitk
 
 import mialab.classifier.decision_forest as df
 import mialab.data.conversion as conversion
 import mialab.data.structure as structure
-import mialab.utilities as util
+import mialab.utilities.pipeline_utilities as putil
 
 FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
@@ -36,11 +36,11 @@ def main(_):
     """
 
     # load atlas images
-    util.load_atlas_images(FLAGS.data_atlas_dir)
+    putil.load_atlas_images(FLAGS.data_atlas_dir)
 
     print('-' * 5, 'Training...')
     # load images for training
-    images = util.process_batch(FLAGS.data_train_dir, IMAGE_KEYS, True)
+    images = putil.pre_process_batch(FLAGS.data_train_dir, IMAGE_KEYS, True)
 
     # generate feature matrix and label vector
     data_train = np.concatenate([img.feature_matrix[0] for img in images])
@@ -71,10 +71,10 @@ def main(_):
     os.makedirs(result_dir, exist_ok=True)
 
     # initialize evaluator
-    evaluator = util.init_evaluator(result_dir)
+    evaluator = putil.init_evaluator(result_dir)
 
     # load images for testing
-    images_test = util.process_batch(FLAGS.data_test_dir, IMAGE_KEYS, False)
+    images_test = putil.pre_process_batch(FLAGS.data_test_dir, IMAGE_KEYS, False)
 
     for img in images_test:
         data_test = img.feature_matrix[0]
@@ -95,14 +95,14 @@ def main(_):
         image_prediction = conversion.NumpySimpleITKImageBridge.convert(predictions.astype(np.uint8),
                                                                         img.image_properties)
 
-        image_probabilities = conversion.NumpySimpleITKImageBridge.convert_to_vector_image(probabilities,
-                                                                                           img.image_properties)
+        image_probabilities = conversion.NumpySimpleITKImageBridge.convert(probabilities, img.image_properties)
 
         # evaluate segmentation without post-processing
         evaluator.evaluate(image_prediction, img.images[structure.BrainImageTypes.GroundTruth], img.id_)
 
         # post-process segmentation and evaluate with post-processing
-        image_post_processed = util.post_process(img, image_prediction, image_probabilities)
+        # image_post_processed = util.post_process(img, image_prediction, image_probabilities)
+        image_post_processed = putil.post_process_batch([img], [image_prediction], [image_probabilities])[0]
         evaluator.evaluate(image_post_processed, img.images[structure.BrainImageTypes.GroundTruth], img.id_ + '-DCRF')
 
         # save results
