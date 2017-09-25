@@ -134,11 +134,9 @@ def main(_):
         evaluator.evaluate(image_prediction, img.images[structure.BrainImageTypes.GroundTruth], img.id_)
 
         # post-process segmentation and evaluate with post-processing
-        do_crf = True
-        image_post_processed = putil.post_process(img, image_prediction, image_probabilities, crf_post=do_crf)
+        image_post_processed = putil.post_process(img, image_prediction, image_probabilities, crf_post=True)
         # image_post_processed = putil.post_process_batch([img], [image_prediction], [image_probabilities])[0]
-        post_str = '-None' if not do_crf else '-DCRF'
-        evaluator.evaluate(image_post_processed, img.images[structure.BrainImageTypes.GroundTruth], img.id_ + post_str)
+        evaluator.evaluate(image_post_processed, img.images[structure.BrainImageTypes.GroundTruth], img.id_ + '-PP')
 
         # save results
         sitk.WriteImage(image_prediction, os.path.join(result_dir, img.id_ + '_SEG.mha'), True)
