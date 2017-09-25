@@ -1,6 +1,5 @@
-"""This module contains utility classes and functions."""
+"""This module contains pipeline related utility classes and functions."""
 from enum import Enum
-import multiprocessing as mp
 import os
 from typing import List
 
@@ -16,7 +15,6 @@ import mialab.filtering.filter as fltr
 import mialab.filtering.postprocessing as fltr_postp
 import mialab.filtering.preprocessing as fltr_prep
 import mialab.filtering.registration as fltr_reg
-import mialab.data.conversion as conversion
 import mialab.utilities.file_access_utilities as futil
 import mialab.utilities.multi_processor as mproc
 

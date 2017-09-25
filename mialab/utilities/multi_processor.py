@@ -1,3 +1,4 @@
+"""Module for the management of multi-process function calls."""
 from typing import Tuple
 
 import numpy as np
