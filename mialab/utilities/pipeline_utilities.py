@@ -17,7 +17,7 @@ import mialab.filtering.postprocessing as fltr_postp
 import mialab.filtering.preprocessing as fltr_prep
 import mialab.filtering.registration as fltr_reg
 import mialab.data.conversion as conversion
-import mialab.utilities.file_access_utilites as futil
+import mialab.utilities.file_access_utilities as futil
 import mialab.utilities.multi_processor as mproc
 
 atlas_t1 = sitk.Image()
