@@ -30,6 +30,7 @@ def main(_):
     """Brain tissue segmentation using decision forests.
 
     The main routine executes the medical image analysis pipeline:
+
         - Image loading
         - Registration
         - Pre-processing
