@@ -371,6 +371,7 @@ class FalseNegativeRate(IConfusionMatrixMetric):
     """Represents a false negative rate metric."""
 
     def __init__(self):
+        """Initializes a new instance of the FalseNegativeRate class."""
         super().__init__()
         self.metric = 'FNR'
 

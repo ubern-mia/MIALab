@@ -1,15 +1,15 @@
 """The data structure module holds model classes."""
-from enum import Enum
+import enum
 
 import mialab.data.conversion as conversion
 
 
-class BrainImageTypes(Enum):
-    """Represents the image types."""
-    T1 = 1
-    T2 = 2
-    GroundTruth = 3
-    BrainMask = 4
+class BrainImageTypes(enum.Enum):
+    """Represents human readable image types."""
+    T1 = 1  #: The T1-weighted image.
+    T2 = 2  #: The T2-weighted image.
+    GroundTruth = 3  #: The ground truth image.
+    BrainMask = 4  #: The brain mask image.
 
 
 class BrainImage:
@@ -37,4 +37,3 @@ class BrainImage:
         self.feature_matrix = None  # a tuple (features, labels),
         # where the shape of features is (n, number_of_features) and the shape of labels is (n, 1)
         # with n being the amount of voxels
-

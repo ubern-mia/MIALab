@@ -17,13 +17,8 @@ distance between histograms.
 The evaluator module (:mod:`evaluation.evaluator`)
 --------------------------------------------------
 
-.. autoclass:: evaluation.evaluator.Evaluator
+.. automodule:: evaluation.evaluator
     :members:
-
-.. autoclass:: evaluation.evaluator.CSVEvaluatorWriter
-
-.. autoclass:: evaluation.evaluator.ConsoleEvaluatorWriter
-
 
 The metric module (:mod:`evaluation.metric`)
 ********************************************

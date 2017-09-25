@@ -101,7 +101,8 @@ class DecisionForest:
         """Predicts the labels of the data.
 
         Args:
-            data (np.ndarray): The data to predict.
+            data (np.ndarray): The data to predict. ``data.shape`` is ``(n, f)`` with ``n`` observation and
+                ``f`` features per observation.
 
         Returns:
             (probabilities, predictions): The probabilities and the labels of the prediction.
@@ -126,9 +127,10 @@ class DecisionForest:
             >>>     print('%s: %s' % (key, results[key]))
 
         Args:
-            data (np.ndarray): The data to predict.
-            labels (np.ndarray): A numpy array where labels[i] returns the label of observation i.
-                E.g. labels.shape = (100, 1), where number of observations=100 with one label.
+            data (np.ndarray): The data to predict. ``data.shape`` is ``(n, f)`` with ``n`` observation and
+                ``f`` features per observation.
+            labels (np.ndarray): The labels of the `data`. ``labels[i]`` returns the label of observation ``i``.
+                ``labels.shape`` is ``(n, 1)`` with ``n`` observation and the associated labels.
         Returns:
             dict: A dict of evaluation metrics.
         """
@@ -176,7 +178,7 @@ class DecisionForest:
     def load_estimator(self):
         """Loads a decision forest estimator from a pre-built model.
 
-        The model_dir in the DecisionForestParameters class needs to be set appropriately.
+        The ``model_dir`` in the :class:`DecisionForestParameters` needs to be set appropriately.
         """
         self.estimator = estimator.SKCompat(random_forest.TensorForestEstimator(self.parameters,
                                                                                 model_dir=self.model_dir))

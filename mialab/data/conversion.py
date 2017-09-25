@@ -120,20 +120,22 @@ class ImageProperties:
 
 
 class NumpySimpleITKImageBridge:
-    """A numpy to SimpleITK bridge, which provides static methods to convert between numpy array and SimpleITK image."""
+    """A numpy to SimpleITK bridge.
+
+    Converts numpy arrays to SimpleITK images. Use the :class:`SimpleITKNumpyImageBridge` to convert back.
+    """
 
     @staticmethod
     def convert(array: np.ndarray, properties: ImageProperties) -> sitk.Image:
         """Converts a numpy array to a SimpleITK image.
 
         Args:
-            array (np.ndarray): The image as numpy array. The shape can be either:
+            array (np.ndarray): The image as numpy array. The ``array.shape`` can be either:
 
-                - shape=(n,), where n = total number of voxels
-                - shape=(n,v), where n = total number of voxels and v = number of components per pixel (vector image)
-                - shape=(<reversed image size>), what you get from sitk.GetArrayFromImage()
-                - shape=(<reversed image size>,v), what you get from sitk.GetArrayFromImage()
-                    and v = number of components per pixel (vector image)
+                - ``(n,)``, where ``n`` = total number of voxels.
+                - ``(n,v)``, where ``n`` = total number of voxels and ``v`` = number of components per pixel (vector image).
+                - ``(<reversed image size>)``, what you get from ``sitk.Image.GetArrayFromImage()``.
+                - ``(<reversed image size>,v)``, what you get from ``sitk.Image.GetArrayFromImage()`` and ``v`` = number of components per pixel (vector image).
 
             properties (ImageProperties): The image properties.
 
@@ -167,7 +169,7 @@ class NumpySimpleITKImageBridge:
 class SimpleITKNumpyImageBridge:
     """A SimpleITK to numpy bridge.
 
-    Converts SimpleITK images to numpy arrays. Use the :py:class:`NumpySimpleITKImageBridge` to convert back.
+    Converts SimpleITK images to numpy arrays. Use the :class:`NumpySimpleITKImageBridge` to convert back.
     """
 
     @staticmethod

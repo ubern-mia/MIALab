@@ -21,7 +21,7 @@ class AtlasCoordinates(fltr.IFilter):
 
         Returns:
             sitk.Image: The atlas coordinates image
-                (a vector image with 3 components, which represent the physical x, y, z coordinates in mm).
+            (a vector image with 3 components, which represent the physical x, y, z coordinates in mm).
 
         Raises:
             ValueError: If image is not 3-D.
@@ -73,6 +73,7 @@ def first_order_texture_features_function(values):
 
     Returns:
         np.array: A vector containing the first-order texture features:
+
             - mean
             - variance
             - sigma
