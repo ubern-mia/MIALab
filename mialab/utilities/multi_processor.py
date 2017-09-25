@@ -90,7 +90,7 @@ class PicklableToBrainImageBridge:
 
 
 class DefaultPickleHelper:
-    """Test"""
+    """Default pickle helper class"""
 
     def make_params_picklable(self, params):
         """Default function called to ensure that all parameters can be pickled before transferred to the new process.
@@ -144,7 +144,7 @@ class DefaultPickleHelper:
 
 
 class PreProcessingPickleHelper(DefaultPickleHelper):
-    """TEst"""
+    """Pre-processing pickle helper class"""
 
     def make_return_value_picklable(self, ret_val: structure.BrainImage) -> PicklableBrainImage:
         """Ensures that all pre-processing return values ``ret_val`` can be pickled before transferring back to
@@ -172,7 +172,7 @@ class PreProcessingPickleHelper(DefaultPickleHelper):
 
 
 class PostProcessingPickleHelper(DefaultPickleHelper):
-    """Test"""
+    """Post-processing pickle helper class"""
 
     def make_params_picklable(self, params: Tuple[structure.BrainImage, sitk.Image, sitk.Image, dict]):
         """Ensures that all post-processing parameters can be pickled before transferred to the new process.
