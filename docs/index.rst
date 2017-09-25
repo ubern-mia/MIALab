@@ -20,7 +20,7 @@
     :maxdepth: 2
     :caption: Packages
 
-    package_mialab
+    package_utilities
     package_classifier
     package_data
     package_evaluation
