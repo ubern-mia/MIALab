@@ -44,7 +44,7 @@ def main(_):
                           'coordinates_feature': True,
                           'intensity_feature': True,
                           'gradient_intensity_feature': True}
-    images = putil.pre_process_batch(FLAGS.data_train_dir, IMAGE_KEYS, pre_process_params, multi_process=False)
+    images = putil.pre_process_batch(FLAGS.data_train_dir, IMAGE_KEYS, pre_process_params, multi_process=True)
 
     # generate feature matrix and label vector
     data_train = np.concatenate([img.feature_matrix[0] for img in images])
@@ -79,7 +79,7 @@ def main(_):
 
     # load images for testing
     pre_process_params['training'] = False
-    images_test = putil.pre_process_batch(FLAGS.data_test_dir, IMAGE_KEYS, pre_process_params, multi_process=False)
+    images_test = putil.pre_process_batch(FLAGS.data_test_dir, IMAGE_KEYS, pre_process_params, multi_process=True)
 
     for img in images_test:
         data_test = img.feature_matrix[0]
