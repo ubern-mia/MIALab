@@ -13,12 +13,13 @@ class PicklableBrainImage:
     """Represents a brain image that can be pickled."""
 
     def __init__(self, id_: str, path: str, np_images: dict, image_properties: conversion.ImageProperties):
-        """Initializes a new instance of the BrainImage class.
+        """Initializes a new instance of the :class:`BrainImage <data.structure.BrainImage>` class.
 
         Args:
             id_ (str): An identifier.
             path (str): Full path to the image directory.
-            np_images (dict): The images, where the key is a :py:class:`BrainImageTypes` and the value is a numpy image.
+            np_images (dict): The images, where the key is a
+                :class:`BrainImageTypes <data.structure.BrainImageTypes>` and the value is a numpy image.
         """
 
         self.id_ = id_
@@ -32,11 +33,11 @@ class PicklableBrainImage:
 
 
 class BrainImageToPicklableBridge:
-    """A :class:`BrainImage` to :class:`PicklableBrainImage` bridge."""
+    """A :class:`BrainImage <data.structure.BrainImage>` to :class:`PicklableBrainImage` bridge."""
 
     @staticmethod
     def convert(brain_image: structure.BrainImage)-> PicklableBrainImage:
-        """Converts a :class:`BrainImage` to :class:`PicklableBrainImage`.
+        """Converts a :class:`BrainImage <data.structure.BrainImage>` to :class:`PicklableBrainImage`.
 
         Args:
             brain_image (BrainImage): A brain image.
@@ -61,11 +62,11 @@ class BrainImageToPicklableBridge:
 
 
 class PicklableToBrainImageBridge:
-    """A :class:`PicklableBrainImage` to :class:`BrainImage` bridge."""
+    """A :class:`PicklableBrainImage` to :class:`BrainImage <data.structure.BrainImage>` bridge."""
 
     @staticmethod
     def convert(picklable_brain_image: PicklableBrainImage) -> structure.BrainImage:
-        """Converts a :class:`PicklableBrainImage` to :class:`BrainImage`.
+        """Converts a :class:`PicklableBrainImage` to :class:`BrainImage <data.structure.BrainImage>`.
 
         Args:
             picklable_brain_image (PicklableBrainImage): A pickable brain image.
@@ -89,10 +90,11 @@ class PicklableToBrainImageBridge:
 
 
 class DefaultPickleHelper:
+    """Test"""
 
     def make_params_picklable(self, params):
         """Default function called to ensure that all parameters can be pickled before transferred to the new process.
-        To be overwritten if non-picklable parameters are contained in `params`.
+        To be overwritten if non-picklable parameters are contained in ``params``.
 
         Args:
             params (tuple): Parameters to be rendered picklable.
@@ -104,7 +106,7 @@ class DefaultPickleHelper:
 
     def recover_params(self, params):
         """Default function called to recover (from the pickle state) the original parameters in another process.
-        To be overwritten if non-picklable parameters are contained in `params`.
+        To be overwritten if non-picklable parameters are contained in ``params``.
 
         Args:
             params (tuple): Parameters to be recovered.
@@ -115,9 +117,9 @@ class DefaultPickleHelper:
         return params
 
     def make_return_value_picklable(self, ret_val):
-        """ Default function called to ensure that all return values `ret_val` can be pickled before transferring
+        """ Default function called to ensure that all return values ``ret_val`` can be pickled before transferring
         back to the original process.
-        To be overwritten if non-picklable objects are contained in `ret_val`.
+        To be overwritten if non-picklable objects are contained in ``ret_val``.
 
         Args:
             ret_val: Return values of the function executed in another process.
@@ -128,9 +130,9 @@ class DefaultPickleHelper:
         return ret_val
 
     def recover_return_value(self, ret_val):
-        """ Default function called to ensure that all return values `ret_val` can be pickled before transferring
+        """ Default function called to ensure that all return values ``ret_val`` can be pickled before transferring
         back to the original process.
-        To be overwritten if non-picklable objects are contained in `ret_val`.
+        To be overwritten if non-picklable objects are contained in ``ret_val``.
 
         Args:
             ret_val: Return values of the function executed in another process.
@@ -142,16 +144,17 @@ class DefaultPickleHelper:
 
 
 class PreProcessingPickleHelper(DefaultPickleHelper):
+    """TEst"""
 
     def make_return_value_picklable(self, ret_val: structure.BrainImage) -> PicklableBrainImage:
-        """Ensures that all pre-processing return values `ret_val` can be pickled before transferring back to
+        """Ensures that all pre-processing return values ``ret_val`` can be pickled before transferring back to
         the original process.
 
         Args:
-            ret_val: Return values of the pre-processing function executed in another process.
+            ret_val(BrainImage): Return values of the pre-processing function executed in another process.
 
         Returns:
-            The modified pre-processing return values.
+            PicklableBrainImage: The modified pre-processing return values.
         """
 
         return BrainImageToPicklableBridge.convert(ret_val)
@@ -160,25 +163,26 @@ class PreProcessingPickleHelper(DefaultPickleHelper):
         """Recovers (from the pickle state) the original pre-processing return values.
 
         Args:
-            ret_val: Pre-processing return values to be recovered.
+            ret_val(PicklableBrainImage): Pre-processing return values to be recovered.
 
         Returns:
-            The recovered pre-processing return values.
+            BrainImage: The recovered pre-processing return values.
         """
         return PicklableToBrainImageBridge.convert(ret_val)
 
 
 class PostProcessingPickleHelper(DefaultPickleHelper):
+    """Test"""
 
     def make_params_picklable(self, params: Tuple[structure.BrainImage, sitk.Image, sitk.Image, dict]):
         """Ensures that all post-processing parameters can be pickled before transferred to the new process.
 
-                Args:
-                    params (tuple): Post-processing parameters to be rendered picklable.
+        Args:
+            params (tuple): Post-processing parameters to be rendered picklable.
 
-                Returns:
-                    tuple: The modified post-processing parameters.
-                """
+        Returns:
+            tuple: The modified post-processing parameters.
+        """
         brain_img, segmentation, probability, fn_kwargs = params
         picklable_brain_image = BrainImageToPicklableBridge.convert(brain_img)
         np_segmentation, _ = conversion.SimpleITKNumpyImageBridge.convert(segmentation)
@@ -188,13 +192,13 @@ class PostProcessingPickleHelper(DefaultPickleHelper):
     def recover_params(self, params: Tuple[PicklableBrainImage, np.ndarray, np.ndarray, dict]):
         """Recovers (from the pickle state) the original post-processing parameters in another process.
 
-                Args:
-                    params (tuple): Post-processing parameters to be recovered.
+        Args:
+            params (tuple): Post-processing parameters to be recovered.
 
-                Returns:
-                    tuple: The recovered post-processing parameters.
+        Returns:
+            tuple: The recovered post-processing parameters.
 
-                """
+        """
         picklable_img, np_segmentation, np_probability, fn_kwargs = params
         img = PicklableToBrainImageBridge.convert(picklable_img)
         segmentation = conversion.NumpySimpleITKImageBridge.convert(np_segmentation, picklable_img.image_properties)
@@ -202,27 +206,27 @@ class PostProcessingPickleHelper(DefaultPickleHelper):
         return img, segmentation, probability, fn_kwargs
 
     def make_return_value_picklable(self, ret_val: sitk.Image) -> Tuple[np.ndarray, conversion.ImageProperties]:
-        """Ensures that all post-processing return values `ret_val` can be pickled before transferring back to
-                the original process.
+        """Ensures that all post-processing return values ``ret_val`` can be pickled before transferring back to
+        the original process.
 
-                Args:
-                    ret_val: Return values of the post-processing function executed in another process.
+        Args:
+            ret_val(sitk.Image): Return values of the post-processing function executed in another process.
 
-                Returns:
-                    The modified post-processing return values.
-                """
+        Returns:
+            The modified post-processing return values.
+        """
         np_img, image_properties = conversion.SimpleITKNumpyImageBridge.convert(ret_val)
         return np_img, image_properties
 
     def recover_return_value(self, ret_val: Tuple[np.ndarray, conversion.ImageProperties]) -> sitk.Image:
         """Recovers (from the pickle state) the original post-processing return values.
 
-                Args:
-                    ret_val: Post-processing return values to be recovered.
+        Args:
+            ret_val: Post-processing return values to be recovered.
 
-                Returns:
-                    The recovered post-processing return values.
-                """
+        Returns:
+            sitk.Image: The recovered post-processing return values.
+        """
         np_img, image_properties = ret_val
         return conversion.NumpySimpleITKImageBridge.convert(np_img, image_properties)
 
@@ -232,16 +236,16 @@ class MultiProcessor:
 
     @staticmethod
     def run(fn: callable, param_list: iter, fn_kwargs: dict=None, pickle_helper_cls: type=DefaultPickleHelper):
-        """ Executes the function `fn` in parallel (different processes) for each parameter in the parameter list.
+        """ Executes the function ``fn`` in parallel (different processes) for each parameter in the parameter list.
 
         Args:
             fn (callable): Function to be executed in another process.
-            param_list (List[tuple]): List containing the parameters for each `fn` call.
-            fn_kwargs (dict): kwargs for the `fn` function call.
+            param_list (List[tuple]): List containing the parameters for each ``fn`` call.
+            fn_kwargs (dict): kwargs for the ``fn`` function call.
             pickle_helper_cls: Class responsible for the pickling of the parameters
 
         Returns:
-            list: A list of all return values of the `fn` calls
+            list: A list of all return values of the ``fn`` calls
         """
         if fn_kwargs is None:
             fn_kwargs = {}
