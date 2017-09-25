@@ -41,24 +41,26 @@ class FeatureImageTypes(Enum):
     """Represents the feature image types."""
 
     ATLAS_COORD = 1
-    T1_TEXTURE_1 = 2
-    T1_GRADIENT_1 = 3
-    T2_TEXTURE_1 = 4
-    T2_GRADIENT_1 = 5
+    T1_INTENSITY = 2
+    T1_GRADIENT_INTENSITY = 3
+    T2_INTENSITY = 4
+    T2_GRADIENT_INTENSITY = 5
 
 
 class FeatureExtractor:
     """Represents a feature extractor."""
 
-    def __init__(self, img: structure.BrainImage, training: bool = True):
+    def __init__(self, img: structure.BrainImage, **kwargs):
         """Initializes a new instance of the FeatureExtractor class.
 
         Args:
             img (structure.BrainImage): The image to extract features from.
-            training (bool): Determines whether to extract the features for training or testing.
         """
         self.img = img
-        self.training = training
+        self.training = kwargs.get('training', True)
+        self.coordinates_feature = kwargs.get('coordinates_feature', False)
+        self.intensity_feature = kwargs.get('intensity_feature', False)
+        self.gradient_intensity_feature = kwargs.get('gradient_intensity_feature', False)
 
     def execute(self) -> structure.BrainImage:
         """Extracts features from an image.
@@ -66,31 +68,21 @@ class FeatureExtractor:
         Returns:
             structure.BrainImage: The image with extracted features.
         """
-        atlas_coordinates = fltr_feat.AtlasCoordinates()
-        self.img.feature_images[FeatureImageTypes.ATLAS_COORD] = \
-            atlas_coordinates.execute(self.img.images[structure.BrainImageTypes.T1])
+        if self.coordinates_feature:
+            atlas_coordinates = fltr_feat.AtlasCoordinates()
+            self.img.feature_images[FeatureImageTypes.ATLAS_COORD] = \
+                atlas_coordinates.execute(self.img.images[structure.BrainImageTypes.T1])
 
-        # initialize first-order texture feature extractor
-        first_order_texture = fltr_feat.NeighborhoodFeatureExtractor(kernel=(3, 3, 3))
+        if self.intensity_feature:
+            self.img.feature_images[FeatureImageTypes.T1_INTENSITY] = self.img.images[structure.BrainImageTypes.T1]
+            self.img.feature_images[FeatureImageTypes.T2_INTENSITY] = self.img.images[structure.BrainImageTypes.T2]
 
-        # compute gradient magnitude images
-        t1_gradient_magnitude = sitk.GradientMagnitude(self.img.images[structure.BrainImageTypes.T1])
-        t2_gradient_magnitude = sitk.GradientMagnitude(self.img.images[structure.BrainImageTypes.T2])
-
-        # self.img.feature_images[FeatureImageTypes.T1_TEXTURE_1] = \
-        #     first_order_texture.execute(self.img.images[structure.BrainImageTypes.T1])
-        #
-        # self.img.feature_images[FeatureImageTypes.T1_GRADIENT_1] = \
-        #     first_order_texture.execute(t1_gradient_magnitude)
-        #
-        # self.img.feature_images[FeatureImageTypes.T2_TEXTURE_1] = \
-        #     first_order_texture.execute(self.img.images[structure.BrainImageTypes.T2])
-        #
-        # self.img.feature_images[FeatureImageTypes.T2_GRADIENT_1] = \
-        #     first_order_texture.execute(t2_gradient_magnitude)
-
-        self.img.feature_images[FeatureImageTypes.T1_TEXTURE_1] = self.img.images[structure.BrainImageTypes.T1]
-        self.img.feature_images[FeatureImageTypes.T2_TEXTURE_1] = self.img.images[structure.BrainImageTypes.T2]
+        if self.gradient_intensity_feature:
+            # compute gradient magnitude images
+            self.img.feature_images[FeatureImageTypes.T1_GRADIENT_INTENSITY] = \
+                sitk.GradientMagnitude(self.img.images[structure.BrainImageTypes.T1])
+            self.img.feature_images[FeatureImageTypes.T2_GRADIENT_INTENSITY] = \
+                sitk.GradientMagnitude(self.img.images[structure.BrainImageTypes.T2])
 
         self._generate_feature_matrix()
 
@@ -166,7 +158,7 @@ class FeatureExtractor:
         return image.reshape((no_voxels, number_of_components))
 
 
-def pre_process(id_: str, paths: dict, training: bool) -> structure.BrainImage:
+def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     """Loads and processes an image.
 
     The processing includes:
@@ -179,7 +171,6 @@ def pre_process(id_: str, paths: dict, training: bool) -> structure.BrainImage:
         id_ (str): An image identifier.
         paths (dict): A dict, where the keys are an image identifier of type structure.BrainImageTypes
             and the values are paths to the images.
-        training (bool): Determines whether to extract the features for training or testing.
 
     Returns:
         (structure.BrainImage):
@@ -196,37 +187,42 @@ def pre_process(id_: str, paths: dict, training: bool) -> structure.BrainImage:
 
     # construct T1 pipeline
     pipeline_t1 = fltr.FilterPipeline()
-    pipeline_t1.add_filter(fltr_prep.NormalizeZScore())
-    # pipeline_t1.add_filter(fltr_reg.MultiModalRegistration())
-    # pipeline_t1.set_param(fltr_reg.MultiModalRegistrationParams(atlas_t1), 1)
+    if kwargs.get('zscore_pre', False):
+        pipeline_t1.add_filter(fltr_prep.NormalizeZScore())
+    if kwargs.get('registration_pre', False):
+        pipeline_t1.add_filter(fltr_reg.MultiModalRegistration())
+        pipeline_t1.set_param(fltr_reg.MultiModalRegistrationParams(atlas_t1), 1)
 
     # execute pipeline on T1 image
     img.images[structure.BrainImageTypes.T1] = pipeline_t1.execute(img.images[structure.BrainImageTypes.T1])
 
-    # get transformation
-    # transform = pipeline_t1.filters[1].transform
+    if kwargs.get('registration_pre', False):
+        # get transformation
+        transform = pipeline_t1.filters[1].transform
 
     # construct T2 pipeline
     pipeline_t2 = fltr.FilterPipeline()
-    pipeline_t2.add_filter(fltr_prep.NormalizeZScore())
+    if kwargs.get('zscore_pre', False):
+        pipeline_t2.add_filter(fltr_prep.NormalizeZScore())
 
     # execute pipeline on T2 image
     img.images[structure.BrainImageTypes.T2] = pipeline_t2.execute(img.images[structure.BrainImageTypes.T2])
 
-    # apply transformation of T1 image registration to T2 image
-    # image_t2 = img.images[structure.BrainImageTypes.T2]
-    # image_t2 = sitk.Resample(image_t2, atlas_t1, transform, sitk.sitkLinear, 0.0,
-    #                          image_t2.GetPixelIDValue())
-    # img.images[structure.BrainImageTypes.T2] = image_t2
+    if kwargs.get('registration_pre', False):
+        # apply transformation of T1 image registration to T2 image
+        image_t2 = img.images[structure.BrainImageTypes.T2]
+        image_t2 = sitk.Resample(image_t2, atlas_t1, transform, sitk.sitkLinear, 0.0,
+                                 image_t2.GetPixelIDValue())
+        img.images[structure.BrainImageTypes.T2] = image_t2
 
-    # apply transformation of T1 image registration to ground truth
-    # image_ground_truth = img.images[structure.BrainImageTypes.GroundTruth]
-    # image_ground_truth = sitk.Resample(image_ground_truth, atlas_t1, transform, sitk.sitkNearestNeighbor, 0,
-    #                                    image_ground_truth.GetPixelIDValue())
-    # img.images[structure.BrainImageTypes.GroundTruth] = image_ground_truth
+        # apply transformation of T1 image registration to ground truth
+        image_ground_truth = img.images[structure.BrainImageTypes.GroundTruth]
+        image_ground_truth = sitk.Resample(image_ground_truth, atlas_t1, transform, sitk.sitkNearestNeighbor, 0,
+                                           image_ground_truth.GetPixelIDValue())
+        img.images[structure.BrainImageTypes.GroundTruth] = image_ground_truth
 
     # extract the features
-    feature_extractor = FeatureExtractor(img, training)
+    feature_extractor = FeatureExtractor(img, **kwargs)
     img = feature_extractor.execute()
 
     # todo(fabian): verify if ok here
@@ -235,7 +231,8 @@ def pre_process(id_: str, paths: dict, training: bool) -> structure.BrainImage:
     return img
 
 
-def post_process(img: structure.BrainImage, segmentation: sitk.Image, probability: sitk.Image) -> sitk.Image:
+def post_process(img: structure.BrainImage, segmentation: sitk.Image, probability: sitk.Image,
+                 **kwargs) -> sitk.Image:
     """Post-processes a segmentation.
 
     Args:
@@ -251,10 +248,11 @@ def post_process(img: structure.BrainImage, segmentation: sitk.Image, probabilit
 
     # construct pipeline
     pipeline = fltr.FilterPipeline()
-    pipeline.add_filter(fltr_postp.DenseCRF())
-    pipeline.set_param(fltr_postp.DenseCRFParams(img.images[structure.BrainImageTypes.T1],
-                                                 img.images[structure.BrainImageTypes.T2],
-                                                 probability), 0)
+    if kwargs.get('crf_post', False):
+        pipeline.add_filter(fltr_postp.DenseCRF())
+        pipeline.set_param(fltr_postp.DenseCRFParams(img.images[structure.BrainImageTypes.T1],
+                                                     img.images[structure.BrainImageTypes.T2],
+                                                     probability), 0)
 
     return pipeline.execute(segmentation)
 
@@ -280,7 +278,7 @@ def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eva
     return evaluator
 
 
-def pre_process_batch(data_dir: str, image_keys: List[structure.BrainImageTypes], training: bool,
+def pre_process_batch(data_dir: str, image_keys: List[structure.BrainImageTypes], pre_process_params: dict=None,
                       multi_process=True) -> List[structure.BrainImage]:
     """Loads and pre-processes a batch of images.
 
@@ -293,12 +291,14 @@ def pre_process_batch(data_dir: str, image_keys: List[structure.BrainImageTypes]
     Args:
         data_dir (str): The path to the root directory, which contains subdirectories with the data.
         image_keys (List[structure.BrainImageTypes]): A list of image identifiers.
-        training (bool): Determines whether to extract the features for training or testing.
+        pre_process_params (dict): Pre-processing parameters.
         multi_process (bool): Whether to use the parallel processing on multiple cores or to run sequentially.
 
     Returns:
         List[structure.BrainImage]: A list of images.
     """
+    if pre_process_params is None:
+        pre_process_params = {}
 
     # crawl the training image directories
     crawler = load.FileSystemDataCrawler(data_dir,
@@ -306,34 +306,39 @@ def pre_process_batch(data_dir: str, image_keys: List[structure.BrainImageTypes]
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
 
-    params = ((id_, path, training) for id_, path in crawler.data.items())
+    params_list = list(crawler.data.items())
     if multi_process:
-        images = mproc.MultiProcessor.run(pre_process, params, mproc.PreProcessingPickleHelper)
+        images = mproc.MultiProcessor.run(pre_process, params_list, pre_process_params, mproc.PreProcessingPickleHelper)
     else:
-        images = [pre_process(id_, path, t) for id_, path, t in params]
+        images = [pre_process(id_, path, **pre_process_params) for id_, path in params_list]
         # todo(alain): verify if gc.collect() required
     return images
 
 
 def post_process_batch(brain_images: List[structure.BrainImage], segmentations: List[sitk.Image],
-                       probabilities: List[sitk.Image], multi_process=True) -> List[sitk.Image]:
+                       probabilities: List[sitk.Image], post_process_params: dict=None,
+                       multi_process=True) -> List[sitk.Image]:
     """ Post-processes a batch of images.
 
     Args:
         brain_images (List[structure.BrainImageTypes]): Original images that were used for the prediction.
         segmentations (List[sitk.Image]): The predicted segmentation.
         probabilities (List[sitk.Image]): The prediction probabilities.
+        post_process_params (dict): Post-processing parameters.
         multi_process (bool): Whether to use the parallel processing on multiple cores or to run sequentially.
 
     Returns:
         List[sitk.Image]: List of post-processed images
     """
+    if post_process_params is None:
+        post_process_params = {}
 
-    params = zip(brain_images, segmentations, probabilities)
+    param_list = zip(brain_images, segmentations, probabilities)
     if multi_process:
-        pp_images = mproc.MultiProcessor.run(post_process, params, mproc.PostProcessingPickleHelper)
+        pp_images = mproc.MultiProcessor.run(post_process, param_list, post_process_params,
+                                             mproc.PostProcessingPickleHelper)
     else:
-        pp_images = [post_process(img, seg, prob) for img, seg, prob in params]
+        pp_images = [post_process(img, seg, prob, **post_process_params) for img, seg, prob in param_list]
     return pp_images
 
 

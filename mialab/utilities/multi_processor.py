@@ -169,7 +169,7 @@ class PreProcessingPickleHelper(DefaultPickleHelper):
 
 class PostProcessingPickleHelper(DefaultPickleHelper):
 
-    def make_params_picklable(self, params: Tuple[structure.BrainImage, sitk.Image, sitk.Image]):
+    def make_params_picklable(self, params: Tuple[structure.BrainImage, sitk.Image, sitk.Image, dict]):
         """Ensures that all post-processing parameters can be pickled before transferred to the new process.
 
                 Args:
@@ -178,13 +178,13 @@ class PostProcessingPickleHelper(DefaultPickleHelper):
                 Returns:
                     tuple: The modified post-processing parameters.
                 """
-        brain_img, segmentation, probability = params
+        brain_img, segmentation, probability, fn_kwargs = params
         picklable_brain_image = BrainImageToPicklableBridge.convert(brain_img)
         np_segmentation, _ = conversion.SimpleITKNumpyImageBridge.convert(segmentation)
         np_probability, _ = conversion.SimpleITKNumpyImageBridge.convert(probability)
-        return picklable_brain_image, np_segmentation, np_probability
+        return picklable_brain_image, np_segmentation, np_probability, fn_kwargs
 
-    def recover_params(self, params: Tuple[PicklableBrainImage, np.ndarray, np.ndarray]):
+    def recover_params(self, params: Tuple[PicklableBrainImage, np.ndarray, np.ndarray, dict]):
         """Recovers (from the pickle state) the original post-processing parameters in another process.
 
                 Args:
@@ -194,11 +194,11 @@ class PostProcessingPickleHelper(DefaultPickleHelper):
                     tuple: The recovered post-processing parameters.
 
                 """
-        picklable_img, np_segmentation, np_probability = params
+        picklable_img, np_segmentation, np_probability, fn_kwargs = params
         img = PicklableToBrainImageBridge.convert(picklable_img)
         segmentation = conversion.NumpySimpleITKImageBridge.convert(np_segmentation, picklable_img.image_properties)
         probability = conversion.NumpySimpleITKImageBridge.convert(np_probability, picklable_img.image_properties)
-        return img, segmentation, probability
+        return img, segmentation, probability, fn_kwargs
 
     def make_return_value_picklable(self, ret_val: sitk.Image) -> Tuple[np.ndarray, conversion.ImageProperties]:
         """Ensures that all post-processing return values `ret_val` can be pickled before transferring back to
@@ -230,18 +230,24 @@ class MultiProcessor:
     """Class managing multiprocessing"""
 
     @staticmethod
-    def run(fn: callable, param_list: iter, pickle_helper_cls: type=DefaultPickleHelper):
+    def run(fn: callable, param_list: iter, fn_kwargs: dict=None, pickle_helper_cls: type=DefaultPickleHelper):
         """ Executes the function `fn` in parallel (different processes) for each parameter in the parameter list.
 
         Args:
             fn (callable): Function to be executed in another process.
             param_list (List[tuple]): List containing the parameters for each `fn` call.
-            pickle_helper_cls (class:
+            fn_kwargs (dict): kwargs for the `fn` function call.
+            pickle_helper_cls: Class responsible for the pickling of the parameters
 
         Returns:
             list: A list of all return values of the `fn` calls
         """
+        if fn_kwargs is None:
+            fn_kwargs = {}
+
         helper = pickle_helper_cls()
+        # add additional_params
+        param_list = ((*p, fn_kwargs) for p in param_list)
         param_list = (helper.make_params_picklable(params) for params in param_list)
 
         with pmp.Pool() as p:
@@ -252,10 +258,11 @@ class MultiProcessor:
     @staticmethod
     def _wrap_fn(fn, pickle_helper_cls):
         def wrapped_fn(*params):
-            # create instance due to possible race condition
+            # create instance due to possible race condition (not sure if really possible)
             helper = pickle_helper_cls()
             params = helper.recover_params(params)
-            ret_val = fn(*params)
+            params, shared_params = params[:-1], params[-1]
+            ret_val = fn(*params, **shared_params)
             ret_val = helper.make_return_value_picklable(ret_val)
             return ret_val
 

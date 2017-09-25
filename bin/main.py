@@ -40,28 +40,32 @@ def main(_):
 
     print('-' * 5, 'Training...')
     # load images for training
-    images = putil.pre_process_batch(FLAGS.data_train_dir, IMAGE_KEYS, True)
+    pre_process_params = {'zscore_pre': True,
+                          'coordinates_feature': True,
+                          'intensity_feature': True,
+                          'gradient_intensity_feature': True}
+    images = putil.pre_process_batch(FLAGS.data_train_dir, IMAGE_KEYS, pre_process_params, multi_process=False)
 
     # generate feature matrix and label vector
     data_train = np.concatenate([img.feature_matrix[0] for img in images])
     labels_train = np.concatenate([img.feature_matrix[1] for img in images])
 
     # initialize decision forest parameters
-    params = df.DecisionForestParameters()
-    params.num_classes = 4
-    params.num_features = images[0].feature_matrix[0].shape[1]
-    params.num_trees = 20
-    params.max_nodes = 1000
+    df_params = df.DecisionForestParameters()
+    df_params.num_classes = 4
+    df_params.num_features = images[0].feature_matrix[0].shape[1]
+    df_params.num_trees = 20
+    df_params.max_nodes = 1000
 
     # generate a model directory (use datetime to ensure that the directory is empty)
     # we need an empty directory because TensorFlow will continue training an existing model if it is not empty
     t = datetime.datetime.now().strftime('%Y-%m-%d%H%M%S')
     model_dir = os.path.join(FLAGS.model_dir, t)
     os.makedirs(model_dir, exist_ok=True)
-    params.model_dir = model_dir
-    print(params)
+    df_params.model_dir = model_dir
+    print(df_params)
 
-    forest = df.DecisionForest(params)
+    forest = df.DecisionForest(df_params)
     start_time = timeit.default_timer()
     forest.train(data_train, labels_train)
     print(' Time elapsed:', timeit.default_timer() - start_time, 's')
@@ -74,7 +78,8 @@ def main(_):
     evaluator = putil.init_evaluator(result_dir)
 
     # load images for testing
-    images_test = putil.pre_process_batch(FLAGS.data_test_dir, IMAGE_KEYS, False)
+    pre_process_params['training'] = False
+    images_test = putil.pre_process_batch(FLAGS.data_test_dir, IMAGE_KEYS, pre_process_params, multi_process=False)
 
     for img in images_test:
         data_test = img.feature_matrix[0]
@@ -86,7 +91,7 @@ def main(_):
         print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
         # print feature importances if calculated
-        if params.report_feature_importances:
+        if df_params.report_feature_importances:
             results = forest.evaluate(data_test, labels_test)
             for key in sorted(results):
                 print('%s: %s' % (key, results[key]))
@@ -101,9 +106,11 @@ def main(_):
         evaluator.evaluate(image_prediction, img.images[structure.BrainImageTypes.GroundTruth], img.id_)
 
         # post-process segmentation and evaluate with post-processing
-        # image_post_processed = util.post_process(img, image_prediction, image_probabilities)
-        image_post_processed = putil.post_process_batch([img], [image_prediction], [image_probabilities])[0]
-        evaluator.evaluate(image_post_processed, img.images[structure.BrainImageTypes.GroundTruth], img.id_ + '-DCRF')
+        do_crf = True
+        image_post_processed = putil.post_process(img, image_prediction, image_probabilities, crf_post=do_crf)
+        # image_post_processed = putil.post_process_batch([img], [image_prediction], [image_probabilities])[0]
+        post_str = '-None' if not do_crf else '-DCRF'
+        evaluator.evaluate(image_post_processed, img.images[structure.BrainImageTypes.GroundTruth], img.id_ + post_str)
 
         # save results
         sitk.WriteImage(image_prediction, os.path.join(result_dir, img.id_ + '_SEG.mha'), True)
