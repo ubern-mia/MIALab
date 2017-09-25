@@ -1,13 +1,11 @@
-"""This module contains utility classes and functions."""
+"""This module contains pipeline related utility classes and functions."""
 from enum import Enum
-import multiprocessing as mp
 import os
-from typing import List
+from typing import List, Dict
 
 import numpy as np
 import SimpleITK as sitk
 
-import mialab.data.loading as load
 import mialab.data.structure as structure
 import mialab.evaluation.evaluator as eval
 import mialab.evaluation.metric as metric
@@ -16,8 +14,6 @@ import mialab.filtering.filter as fltr
 import mialab.filtering.postprocessing as fltr_postp
 import mialab.filtering.preprocessing as fltr_prep
 import mialab.filtering.registration as fltr_reg
-import mialab.data.conversion as conversion
-import mialab.utilities.file_access_utilities as futil
 import mialab.utilities.multi_processor as mproc
 
 atlas_t1 = sitk.Image()
@@ -278,8 +274,8 @@ def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eva
     return evaluator
 
 
-def pre_process_batch(data_dir: str, image_keys: List[structure.BrainImageTypes], pre_process_params: dict=None,
-                      multi_process=True) -> List[structure.BrainImage]:
+def pre_process_batch(data_batch: Dict[structure.BrainImageTypes, structure.BrainImage],
+                      pre_process_params: dict=None, multi_process=True) -> List[structure.BrainImage]:
     """Loads and pre-processes a batch of images.
 
     The pre-processing includes:
@@ -289,8 +285,7 @@ def pre_process_batch(data_dir: str, image_keys: List[structure.BrainImageTypes]
     - Feature extraction
 
     Args:
-        data_dir (str): The path to the root directory, which contains subdirectories with the data.
-        image_keys (List[structure.BrainImageTypes]): A list of image identifiers.
+        data_batch (Dict[structure.BrainImageTypes, structure.BrainImage]): Batch of images to be processed.
         pre_process_params (dict): Pre-processing parameters.
         multi_process (bool): Whether to use the parallel processing on multiple cores or to run sequentially.
 
@@ -300,13 +295,7 @@ def pre_process_batch(data_dir: str, image_keys: List[structure.BrainImageTypes]
     if pre_process_params is None:
         pre_process_params = {}
 
-    # crawl the training image directories
-    crawler = load.FileSystemDataCrawler(data_dir,
-                                         image_keys,
-                                         futil.BrainImageFilePathGenerator(),
-                                         futil.DataDirectoryFilter())
-
-    params_list = list(crawler.data.items())
+    params_list = list(data_batch.items())
     if multi_process:
         images = mproc.MultiProcessor.run(pre_process, params_list, pre_process_params, mproc.PreProcessingPickleHelper)
     else:

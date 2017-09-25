@@ -1,3 +1,4 @@
+"""This modules contains utility functions and classes for the access of the file system."""
 import os
 from typing import List
 
