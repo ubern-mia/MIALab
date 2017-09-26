@@ -1,5 +1,6 @@
 """Enables the enhancement of images before their use with other algorithms."""
 import SimpleITK as sitk
+import numpy as np
 
 import mialab.filtering.filter as fltr
 
@@ -161,7 +162,7 @@ class NormalizeZScore(fltr.IFilter):
         std = img_arr.std()
         img_arr = (img_arr - mean) / std
 
-        img_out = sitk.GetImageFromArray(img_arr)
+        img_out = sitk.GetImageFromArray(img_arr.astype(np.float32))
         img_out.CopyInformation(image)
 
         return img_out

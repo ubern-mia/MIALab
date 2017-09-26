@@ -300,7 +300,6 @@ def pre_process_batch(data_batch: Dict[structure.BrainImageTypes, structure.Brai
         images = mproc.MultiProcessor.run(pre_process, params_list, pre_process_params, mproc.PreProcessingPickleHelper)
     else:
         images = [pre_process(id_, path, **pre_process_params) for id_, path in params_list]
-        # todo(alain): verify if gc.collect() required
     return images
 
 
