@@ -22,8 +22,8 @@ import mialab.utilities.pipeline_utilities as putil
 
 FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
-TRAIN_BATCH_SIZE = 5
-TEST_BATCH_SIZE = 2
+TRAIN_BATCH_SIZE = 70  # 1..70, the higher the faster but more memory usage
+TEST_BATCH_SIZE = 2  # 1..30, the higher the faster but more memory usage
 
 
 def main(_):
@@ -91,10 +91,6 @@ def main(_):
         forest.train(data_train, labels_train)
         print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
-        # todo(alain): verify
-        del images, labels_train, data_train
-        gc.collect()
-
     print('-' * 5, 'Testing...')
     result_dir = os.path.join(FLAGS.result_dir, t)
     os.makedirs(result_dir, exist_ok=True)
@@ -117,36 +113,20 @@ def main(_):
         pre_process_params['training'] = False
         images_test = putil.pre_process_batch(batch_data, pre_process_params, multi_process=True)
 
-        # generate feature matrix and label vector
-        data_test = np.concatenate([img.feature_matrix[0] for img in images_test])
-        labels_test = np.concatenate([img.feature_matrix[1] for img in images_test])
-
-        print('-' * 10, 'Testing', ' | '.join(img.id_ for img in images_test))
-        start_time = timeit.default_timer()
-        probabilities, predictions = forest.predict(data_test)
-
-        print(' Time elapsed:', timeit.default_timer() - start_time, 's')
-
-        # todo(alain): where to put
-        # print feature importances if calculated
-        if df_params.report_feature_importances:
-            results = forest.evaluate(data_test, labels_test)
-            for key in sorted(results):
-                print('%s: %s' % (key, results[key]))
-
         images_prediction = []
         images_probabilities = []
-        offset = 0
+
         for img in images_test:
-            take = np.prod(img.image_properties.size)
-            np_prediction = predictions[offset: offset + take]
-            np_probabilities = probabilities[offset: offset + take]
-            offset += take
+            print('-' * 10, 'Testing', ' | '.join(img.id_ for img in images_test))
+
+            start_time = timeit.default_timer()
+            probabilities, predictions = forest.predict(img.feature_matrix[0])
+            print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
             # convert prediction and probabilities back to SimpleITK images
-            image_prediction = conversion.NumpySimpleITKImageBridge.convert(np_prediction.astype(np.uint8),
+            image_prediction = conversion.NumpySimpleITKImageBridge.convert(predictions.astype(np.uint8),
                                                                             img.image_properties)
-            image_probabilities = conversion.NumpySimpleITKImageBridge.convert(np_probabilities, img.image_properties)
+            image_probabilities = conversion.NumpySimpleITKImageBridge.convert(probabilities, img.image_properties)
 
             # evaluate segmentation without post-processing
             evaluator.evaluate(image_prediction, img.images[structure.BrainImageTypes.GroundTruth], img.id_)
