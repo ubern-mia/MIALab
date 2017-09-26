@@ -22,6 +22,46 @@ import sphinx_rtd_theme
 import sys
 
 
+def skip(app, what, name, obj, skip, options):
+    """Decides whether a member should be included in the documentation.
+
+    Enables to output the __init__ method in the documentation.
+
+    See Also:
+
+        - http://www.sphinx-doc.org/en/stable/ext/autodoc.html#skipping-members
+        - https://stackoverflow.com/questions/5599254/how-to-use-sphinxs-autodoc-to-document-a-classs-init-self-method
+
+    Args:
+        app: The Sphinx application object.
+        what: The type of the object which the docstring belongs to
+            (one of "module", "class", "exception", "function", "method", "attribute").
+        name: The fully qualified name of the object.
+        obj: The object itself.
+        skip (bool): The default skip behaviour for the object.
+        options: The options given to the directive: an object with attributes inherited_members, undoc_members,
+            show_inheritance and noindex that are true if the flag option of same name was given to the auto directive.
+
+    Returns:
+        bool: True when to skip; otherwise, False.
+    """
+    if name == '__init__':
+        return False
+    return skip
+
+
+def setup(app):
+    """
+
+    See Also:
+        https://stackoverflow.com/questions/5599254/how-to-use-sphinxs-autodoc-to-document-a-classs-init-self-method
+
+    Args:
+        app: The Sphinx application object.
+    """
+    app.connect('autodoc-skip-member', skip)
+
+
 sys.path.insert(0, os.path.abspath('.'))  # docs directory
 sys.path.insert(0, os.path.abspath('..'))  # root directory of project
 sys.path.insert(0, os.path.abspath('../mialab'))  # root directory of mialab package
@@ -88,8 +128,8 @@ todo_include_todos = True
 # The output image format for rendered math images.
 imgmath_image_format = 'svg'
 
-# Enable to output the class and the __init__ method docstring
-autoclass_content = 'both'
+# napoleon_include_special_with_doc = True
+# napoleon_include_private_with_doc = True
 
 # -- Options for HTML output ----------------------------------------------
 

@@ -103,7 +103,7 @@ class ConsoleEvaluatorWriter(IEvaluatorWriter):
 
         Args:
             data (list of list): The evaluation data,
-                e.g. [['PATIENT1', 'BACKGROUND', 0.90], ['PATIENT1', 'TUMOR', '0.62']]
+                e.g. ``[['PATIENT1', 'BACKGROUND', 0.90], ['PATIENT1', 'TUMOR', '0.62']]``.
         """
 
         # format all floats with given precision to str

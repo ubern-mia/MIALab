@@ -5,8 +5,8 @@ miapy currently supports multi-modal rigid registration, i.e. align two images o
 using a rigid transformation (rotation, translation, reflection, or their combination).
 
 See Also:
-    `ITK Registration <https://itk.org/Doxygen/html/RegistrationPage.html>`_
-    `ITK Software Guide Registration <https://itk.org/ITKSoftwareGuide/html/Book2/ITKSoftwareGuide-Book2ch3.html>`_
+    - `ITK Registration <https://itk.org/Doxygen/html/RegistrationPage.html>`_
+    - `ITK Software Guide Registration <https://itk.org/ITKSoftwareGuide/html/Book2/ITKSoftwareGuide-Book2ch3.html>`_
 """
 from enum import Enum
 
@@ -46,7 +46,8 @@ class MultiModalRegistrationParams(fltr.IFilterParams):
 class MultiModalRegistration(fltr.IFilter):
     """Represents a multi-modal image registration filter.
 
-    The filter estimates a 3-dimensional rigid or affine transformation between images of different modalities using
+    The filter estimates a 3-dimensional rigid or affine transformation between images of different modalities using:
+
     - Mutual information similarity metric
     - Linear interpolation
     - Gradient descent optimization
