@@ -117,7 +117,7 @@ def main(_):
         images_probabilities = []
 
         for img in images_test:
-            print('-' * 10, 'Testing', ' | '.join(img.id_ for img in images_test))
+            print('-' * 10, 'Testing', img.id_)
 
             start_time = timeit.default_timer()
             probabilities, predictions = forest.predict(img.feature_matrix[0])
