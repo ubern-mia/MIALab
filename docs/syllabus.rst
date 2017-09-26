@@ -18,11 +18,12 @@ Week 1: Introduction
 Week 2: Medical Image Analysis Pipeline
 ------------------------------------------------------------
 
-27.09.2017 / Reyes, Balsiger, Jungo
+27.09.2017 / Reyes, Balsiger
 
 - \(T\) Introduction to the medical image analysis pipeline
 - \(T\) Brief machine learning introduction
 - \(T\) Overview of available experiments
+- \(P\) Code introduction
 - \(H\) Formation of groups and experiment selection
 
 Week 3: Software Development Tools
