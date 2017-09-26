@@ -22,7 +22,7 @@ import mialab.utilities.pipeline_utilities as putil
 
 FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
-TRAIN_BATCH_SIZE = 2
+TRAIN_BATCH_SIZE = 5
 TEST_BATCH_SIZE = 2
 
 
@@ -72,8 +72,9 @@ def main(_):
     df_params.model_dir = model_dir
     forest = None
 
-    for i in range(0, len(crawler.data), TRAIN_BATCH_SIZE):
-        batch_data = dict(data_items[i: i+TRAIN_BATCH_SIZE])  # slicing manages out of range; no need to worry
+    for batch_index in range(0, len(data_items), TRAIN_BATCH_SIZE):
+        # slicing manages out of range; no need to worry
+        batch_data = dict(data_items[batch_index: batch_index+TRAIN_BATCH_SIZE])
         # load images for training and pre-process
         images = putil.pre_process_batch(batch_data, pre_process_params, multi_process=True)
 
@@ -106,42 +107,65 @@ def main(_):
                                          IMAGE_KEYS,
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
-    # load images for testing and pre-process
-    pre_process_params['training'] = False
-    images_test = putil.pre_process_batch(crawler.data, pre_process_params, multi_process=True)
+    data_items = list(crawler.data.items())
 
-    for img in images_test:
-        data_test = img.feature_matrix[0]
-        labels_test = img.feature_matrix[1]
+    for batch_index in range(0, len(data_items), TEST_BATCH_SIZE):
+        # slicing manages out of range; no need to worry
+        batch_data = dict(data_items[batch_index: batch_index + TEST_BATCH_SIZE])
 
-        print('-' * 10, 'Testing', img.id_)
+        # load images for testing and pre-process
+        pre_process_params['training'] = False
+        images_test = putil.pre_process_batch(batch_data, pre_process_params, multi_process=True)
+
+        # generate feature matrix and label vector
+        data_test = np.concatenate([img.feature_matrix[0] for img in images_test])
+        labels_test = np.concatenate([img.feature_matrix[1] for img in images_test])
+
+        print('-' * 10, 'Testing', ' | '.join(img.id_ for img in images_test))
         start_time = timeit.default_timer()
         probabilities, predictions = forest.predict(data_test)
+
         print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
+        # todo(alain): where to put
         # print feature importances if calculated
         if df_params.report_feature_importances:
             results = forest.evaluate(data_test, labels_test)
             for key in sorted(results):
                 print('%s: %s' % (key, results[key]))
 
-        # convert prediction and probabilities back to SimpleITK images
-        image_prediction = conversion.NumpySimpleITKImageBridge.convert(predictions.astype(np.uint8),
-                                                                        img.image_properties)
+        images_prediction = []
+        images_probabilities = []
+        offset = 0
+        for img in images_test:
+            take = np.prod(img.image_properties.size)
+            np_prediction = predictions[offset: offset + take]
+            np_probabilities = probabilities[offset: offset + take]
+            offset += take
 
-        image_probabilities = conversion.NumpySimpleITKImageBridge.convert(probabilities, img.image_properties)
+            # convert prediction and probabilities back to SimpleITK images
+            image_prediction = conversion.NumpySimpleITKImageBridge.convert(np_prediction.astype(np.uint8),
+                                                                            img.image_properties)
+            image_probabilities = conversion.NumpySimpleITKImageBridge.convert(np_probabilities, img.image_properties)
 
-        # evaluate segmentation without post-processing
-        evaluator.evaluate(image_prediction, img.images[structure.BrainImageTypes.GroundTruth], img.id_)
+            # evaluate segmentation without post-processing
+            evaluator.evaluate(image_prediction, img.images[structure.BrainImageTypes.GroundTruth], img.id_)
+
+            images_prediction.append(image_prediction)
+            images_probabilities.append(image_probabilities)
 
         # post-process segmentation and evaluate with post-processing
-        image_post_processed = putil.post_process(img, image_prediction, image_probabilities, crf_post=True)
-        # image_post_processed = putil.post_process_batch([img], [image_prediction], [image_probabilities])[0]
-        evaluator.evaluate(image_post_processed, img.images[structure.BrainImageTypes.GroundTruth], img.id_ + '-PP')
+        post_process_params = {'crf_post': True}
+        images_post_processed = putil.post_process_batch(images_test, images_prediction, images_probabilities,
+                                                         post_process_params, multi_process=True)
 
-        # save results
-        sitk.WriteImage(image_prediction, os.path.join(result_dir, img.id_ + '_SEG.mha'), True)
-        sitk.WriteImage(image_post_processed, os.path.join(result_dir, img.id_ + '_SEG-PP.mha'), True)
+        for i, img in enumerate(images_test):
+            evaluator.evaluate(images_post_processed[i], img.images[structure.BrainImageTypes.GroundTruth],
+                               img.id_ + '-PP')
+
+            # save results
+            sitk.WriteImage(images_prediction[i], os.path.join(result_dir, images_test[i].id_ + '_SEG.mha'), True)
+            sitk.WriteImage(images_post_processed[i], os.path.join(result_dir, images_test[i].id_ + '_SEG-PP.mha'), True)
 
 
 if __name__ == "__main__":
