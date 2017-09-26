@@ -10,6 +10,7 @@ Pre-processing
 
 Investigate the influence of pre-processing on the segmentation performance.
 
+- Image smoothing / noise reduction
 - Image normalization
 - Histogram matching
 - Skull stripping (separate the brain from the skull and other surrounding structures)
