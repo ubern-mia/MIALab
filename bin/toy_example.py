@@ -13,7 +13,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 from tensorflow.python.platform import app
 
-sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
+sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
 # fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
 # somehow pip install does not keep track of packages
 
