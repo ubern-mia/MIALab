@@ -179,8 +179,6 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     img = {img_key: sitk.ReadImage(path) for img_key, path in paths.items()}
     img = structure.BrainImage(id_, path, img)
 
-    # NOTE: uncomment the code lines to enable the registration
-
     # construct T1 pipeline
     pipeline_t1 = fltr.FilterPipeline()
     if kwargs.get('zscore_pre', False):
@@ -192,10 +190,6 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     # execute pipeline on T1 image
     img.images[structure.BrainImageTypes.T1] = pipeline_t1.execute(img.images[structure.BrainImageTypes.T1])
 
-    if kwargs.get('registration_pre', False):
-        # get transformation
-        transform = pipeline_t1.filters[1].transform
-
     # construct T2 pipeline
     pipeline_t2 = fltr.FilterPipeline()
     if kwargs.get('zscore_pre', False):
@@ -205,6 +199,9 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     img.images[structure.BrainImageTypes.T2] = pipeline_t2.execute(img.images[structure.BrainImageTypes.T2])
 
     if kwargs.get('registration_pre', False):
+        # get transformation
+        transform = pipeline_t1.filters[1].transform
+
         # apply transformation of T1 image registration to T2 image
         image_t2 = img.images[structure.BrainImageTypes.T2]
         image_t2 = sitk.Resample(image_t2, atlas_t1, transform, sitk.sitkLinear, 0.0,
@@ -221,7 +218,6 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     feature_extractor = FeatureExtractor(img, **kwargs)
     img = feature_extractor.execute()
 
-    # todo(fabian): verify if ok here
     img.feature_images = {}
 
     return img
@@ -328,7 +324,3 @@ def post_process_batch(brain_images: List[structure.BrainImage], segmentations: 
     else:
         pp_images = [post_process(img, seg, prob, **post_process_params) for img, seg, prob in param_list]
     return pp_images
-
-
-
-
