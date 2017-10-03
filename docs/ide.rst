@@ -35,21 +35,21 @@ You can watch the `getting started <https://www.jetbrains.com/pycharm/documentat
 Additional Configuration
 -------------------------
 
-To change the docstring format to Google do the following:
+To change the **docstring** format to Google do the following:
 
 #. Click File > Settings... to open the settings dialog
 #. Navigate to Tools > Python Integrated Tools
 #. Select Google in the Docstring format dropbox
 #. Click OK
 
-To add a configuration for the Sphinx documentation do the following:
+To add a configuration for the **Sphinx documentation** do the following:
 
 #. Click Run > Edit Configurations...
 #. Click Add New Configuration (plus icon) > Python docs > Sphinx task
 #. Edit the following
 
     #. Name (e.g. ``docs``)
-    #. Input to ``</path/to/where/you/have/the/code>/MIALab/docs`` (on Linux and macOS) or ``</path/to/your/anaconda/installation>/MIALab/docs`` (on Windows)
-    #. Output to ``</path/to/where/you/have/the/code>/MIALab/docs/_build/html`` (on Linux and macOS) or ``</path/to/your/anaconda/installation>/MIALab/docs/_build/html`` (on Windows)
+    #. Input to ``</path/to/where/you/have/the/code>/MIALab/docs`` (on Linux and macOS) or ``<\path\to\where\you\have\the\code>\MIALab\docs`` (on Windows)
+    #. Output to ``</path/to/where/you/have/the/code>/MIALab/docs/_build/html`` (on Linux and macOS) or ``<\path\to\where\you\have\the\code>\MIALab\docs\_build\html`` (on Windows)
 
 #. Click OK
