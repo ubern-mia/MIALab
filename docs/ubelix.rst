@@ -32,14 +32,13 @@ Please note that the 'hello world' example will fail because matplotlib cannot o
 Now you're ready to go! To submit a job to the cluster, you need to create a small script, e.g. :bash:`jobsript.sh`
 
 	
-.. code-block::
+.. code-block:: bash
 
 		#!/bin/bash
 
 		#SBATCH --mail-user=youremail@students.unibe.ch
 		#SBATCH --mail-type=begin,end,fail
-		#SBATCH --time=03:30:00
-		#SBATCH --ntasks=8
+		#SBATCH --time=01:15:00
 		#SBATCH --mem-per-cpu=10G
 		#SBATCH --cpus-per-task=8
 		#SBATCH --mem-per-cpu=10G
@@ -55,9 +54,6 @@ Now you're ready to go! To submit a job to the cluster, you need to create a sma
 		# activate environment
 		source activate mialab
 		python -V
-
-		python /home/ubelix/istb/ys06v076/MIALab2017/MIALab/bin/main.py
-
 
 		python <PATH TO YOUR MIALAB INSTALLATION>/bin/main.py
 

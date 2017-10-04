@@ -14,6 +14,7 @@
     data
     installation
     ide
+    ubelix
     tools
 
 .. toctree::
