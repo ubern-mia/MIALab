@@ -20,12 +20,34 @@ UBELIX is the HPC cluster of the university of Bern, which you can use after act
 	- Unzip: :bash:`unzip train_data.zip` :bash:`unzip trest_data.zip` :bash:`unzip atlas.zip`
 	- Remove zip files to save space :bash:`rm *.zip`
 	
-Now, we're almost ready to go. As in our local installation, we have to get miniconda / anaconda and create a python environment
-#. Install miniconda and create a mialab environment (see the installation page)
-#. Activate the mialab environment: :bash:`activate mialab`
-#. Install tensorflow with :bash:`conda install tensorflow==1.2.1`
-#. If you're still in the data folder, move to the localtion where the file :bash:`setup.py` is: :bash:`cd ..`
-#. Run the installation with :bash:`pip install .`
+Now, we're almost ready to go. As in our local installation, we have to get miniconda and create a python environment
+
+#. Run **Miniconda** (Anaconda is not working for now) installation script (`official website <https://conda.io/miniconda.html>`__)
+   
+   - :bash:`cd ~` (change to home directory)
+   - :bash:`wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh` (download the script)
+   - :bash:`bash Miniconda3-latest-Linux-x86_64.sh` (run the installation script)
+     
+     - Scroll to the bottom of the license and enter :bash:`yes` to agree the license
+     - Accept suggested installation path (or change it if you know what you do)
+     - :bash:`yes` to add Miniconda to the PATH
+     - :bash:`exit` and reconnect to UBELIX
+       
+   - :bash:`rm Miniconda3-latest-Linux-x86_64.sh`
+
+#. Create a new Python 3.6 environment with the name mialab
+   
+   - :bash:`conda create -n mialab python=3.6`
+
+#. Activate the environment by
+   
+   - :bash:`source activate mialab`
+
+#. Install all required packages for the MIALab
+   
+   - :bash:`cd /path/to/MIALab/repository` (where :bash:`setup.py` is)
+   - :bash:`pip install .` will install all required packages
+   - :bash:`conda install tensorflow=1.2.1` **will install tensorflow with the conda environment** (prevents from tensorflow runtime error)
 
 Please note that the 'hello world' example will fail because matplotlib cannot open a window to display the plot (no gui...).
 
