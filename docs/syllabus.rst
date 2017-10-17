@@ -81,7 +81,7 @@ Week 9: MEDICA
 Week 10: Data Visualization
 ------------------------------
 
-22.11.2017 / Reyes
+22.11.2017 / Balsiger, Suter
 
 - \(T\) Introduction on scientific data visualization (plotting), design guidelines
 - \(P\) Coding / working on the project
