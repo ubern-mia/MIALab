@@ -96,13 +96,15 @@ def first_order_texture_features_function(values):
     snr = mean / std if std != 0 else 0
     min = np.min(values)
     max = np.max(values)
+    numvalues = len(values)
+    p = values / np.sum(values)
     return np.array([mean,
                      np.var(values),
                      std,
-                     0.0,  # todo(fabianbalsiger): finish implementation
-                     1.0,
-                     2.0,
-                     3.0,
+                     np.sqrt(numvalues * (numvalues - 1)) / (numvalues - 2) * np.sum((values - mean) ** 3) / (numvalues*std**3),    # adjusted Fisher-Pearson coefficient of skewness
+                     np.sum((values - mean) ** 4) / (numvalues * std ** 4), # Kurtosis
+                     np.sum(-p * np.log2(p)),   # Entropy
+                     np.sum(p**2),      # Energy (Intensity histogram uniformity
                      snr,
                      min,
                      max,
