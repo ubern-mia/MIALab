@@ -100,6 +100,7 @@ Week 12: Coding
 
 06.12.2017 / Balsiger, Jungo, Suter
 
+- \(P\) Lecture evaluation
 - \(P\) Coding / Writing
 
 Week 13: Coding
@@ -108,7 +109,6 @@ Week 13: Coding
 13.12.2017 / Balsiger, Jungo, Suter
 
 - \(P\) Coding / Writing
-- \(H\) Feedback on lecture
 
 Week 14: Presentation
 ----------------------
@@ -116,7 +116,8 @@ Week 14: Presentation
 20.12.2017 / Reyes, Balsiger, Jungo, Suter
 
 - \(H\) Presentations (max. 12 minutes + 3 minutes questions)
-- \(H\) Discussion of overall results
+- \(T\) Discussion of overall results
+- \(T\) Feedback on lecture evaluation
 
 7th January 2018
 -----------------
