@@ -1,4 +1,6 @@
 """The feature extraction module contains classes for feature extraction."""
+import sys
+
 import numpy as np
 import SimpleITK as sitk
 
@@ -91,24 +93,27 @@ def first_order_texture_features_function(values):
             - percentile75th
             - percentile90th
     """
+    eps = sys.float_info.epsilon  # to avoid division by zero
+
     mean = np.mean(values)
     std = np.std(values)
     snr = mean / std if std != 0 else 0
-    min = np.min(values)
-    max = np.max(values)
+    min_ = np.min(values)
+    max_ = np.max(values)
     numvalues = len(values)
-    p = values / np.sum(values)
+    p = values / (np.sum(values) + eps)
     return np.array([mean,
-                     np.var(values),
+                     np.var(values),  # variance
                      std,
-                     np.sqrt(numvalues * (numvalues - 1)) / (numvalues - 2) * np.sum((values - mean) ** 3) / (numvalues*std**3),    # adjusted Fisher-Pearson coefficient of skewness
-                     np.sum((values - mean) ** 4) / (numvalues * std ** 4), # Kurtosis
-                     np.sum(-p * np.log2(p)),   # Entropy
-                     np.sum(p**2),      # Energy (Intensity histogram uniformity
+                     np.sqrt(numvalues * (numvalues - 1)) / (numvalues - 2) * np.sum((values - mean) ** 3) /
+                     (numvalues*std**3 + eps),  # adjusted Fisher-Pearson coefficient of skewness
+                     np.sum((values - mean) ** 4) / (numvalues * std ** 4 + eps),  # kurtosis
+                     np.sum(-p * np.log2(p)),  # entropy
+                     np.sum(p**2),  # energy (intensity histogram uniformity)
                      snr,
-                     min,
-                     max,
-                     max - min,
+                     min_,
+                     max_,
+                     max_ - min_,
                      np.percentile(values, 10),
                      np.percentile(values, 25),
                      np.percentile(values, 50),
@@ -120,7 +125,7 @@ def first_order_texture_features_function(values):
 class NeighborhoodFeatureExtractor(fltr.IFilter):
     """Represents a feature extractor filter, which works on a neighborhood."""
 
-    def __init__(self, kernel=(3,3,3), function_=first_order_texture_features_function):
+    def __init__(self, kernel=(3, 3, 3), function_=first_order_texture_features_function):
         """Initializes a new instance of the NeighborhoodFeatureExtractor class."""
         super().__init__()
         self.neighborhood_radius = 3
