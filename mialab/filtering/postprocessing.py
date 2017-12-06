@@ -104,6 +104,9 @@ class DenseCRF(fltr.IFilter):
         # The Q is now the approximate posterior, we can get a MAP estimate using argmax.
         map_soln_unary = np.argmax(Q_unary, axis=0)
         map_soln_unary = map_soln_unary.reshape((z, y, x))
+        map_soln_unary = map_soln_unary.astype(np.uint8)  # convert to uint8 from int64
+        # Saving int64 with SimpleITK corrupts the file for Windows, i.e. opening it raises an ITK error:
+        # Unknown component type error: 0
 
         img_out = sitk.GetImageFromArray(map_soln_unary)
         img_out.CopyInformation(params.img_t1)
