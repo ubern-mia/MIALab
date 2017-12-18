@@ -44,6 +44,15 @@ Materials
 - `SimpleITK Notebooks <http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/>`_: See chapters 60-67
 - `ITK Software Guide, Book 2 <https://itk.org/ITKSoftwareGuide/html/Book2/ITKSoftwareGuide-Book2ch3.html>`_: In C++ but with a thorough description
 
+Tools
+^^^^^
+There exist various tools for registration besides the implemented code:
+
+- `3D Slicer <https://www.slicer.org/>`_: Open source software which also includes registration.
+- `ANTs <http://stnava.github.io/ANTs/>`_: Advanced Normalization Tools, which come with registration algorithms.
+- `NiftyReg <http://cmictig.cs.ucl.ac.uk/research/software/software-nifty/niftyreg>`_: Rigid, affine and non-linear registration of medical images.
+- `SimpleElastix <https://simpleelastix.github.io/>`_: An extension of SimpleITK.
+
 Post-processing
 ----------------
 
