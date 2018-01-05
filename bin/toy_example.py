@@ -271,8 +271,7 @@ def main(_):
     # this can be used to see the feature importance
     # eval_data, eval_labels = Generator.get_test_data_with_label(50)
     # results = forest.evaluate(eval_data, eval_labels)
-    # for key in sorted(results):
-    #     print('%s: %s' % (key, results[key]))
+    # print(results['feature_importance'])
 
     # plot the result
     print('Plotting...')
