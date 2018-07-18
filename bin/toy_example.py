@@ -11,13 +11,11 @@ import sys
 
 import numpy as np
 from PIL import Image, ImageDraw
-from tensorflow.python.platform import app
+import sklearn.ensemble as sk_ensemble
 
 sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
 # fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
 # somehow pip install does not keep track of packages
-
-import mialab.classifier.decision_forest as df
 
 
 class DataCollection:
@@ -225,61 +223,46 @@ class Plotter:
         return int(color[0]), int(color[1]), int(color[2])
 
 
-FLAGS = None  # the program flags
-
-
-def main(_):
+def main(model_dir: str, result_dir: str, input_file: str):
     """Trains a decision forest classifier on a two-dimensional point cloud."""
 
     # generate model directory (use datetime to ensure that the directory is empty)
-    t = datetime.datetime.now().strftime('%Y-%m-%d%H%M%S')
-    model_dir = os.path.join(FLAGS.model_dir, t)
+    t = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+    model_dir = os.path.join(model_dir, t)
     os.makedirs(model_dir, exist_ok=True)
 
     # generate result directory
-    os.makedirs(FLAGS.result_dir, exist_ok=True)
+    os.makedirs(result_dir, exist_ok=True)
 
     # read file with training data
-    data = Reader.load(FLAGS.input_file)
+    data = Reader.load(input_file)
 
     # generate testing data
     test_data = Generator.get_test_data(1000)
 
-    # generate decision forest parameters
-    params = df.DecisionForestParameters()
-    params.num_classes = data.label_count()
-    params.num_features = data.dimension
-    params.num_trees = 10
-    params.max_nodes = 100  # or params.set_max_nodes(...)
-    params.use_training_loss = False
-    params.report_feature_importances = True
-    params.model_dir = model_dir
-    print(params)
+    # initialize the forest
+    forest = sk_ensemble.RandomForestClassifier(max_features=data.dimension,
+                                                n_estimators=10,
+                                                max_depth=10)
 
     # train the forest
-    forest = df.DecisionForest(params)
     print('Decision forest training...')
-    forest.train(data.data, data.labels)
-    # or use load_estimator to load a model (create a DecisionForestParameters object and set the model_dir)
-    # forest.load_estimator()
+    forest.fit(data.data, data.labels)
 
     # apply the forest to test data
     print('Decision forest testing...')
-    probabilities, predictions = forest.predict(test_data)
+    predictions = forest.predict(test_data)
+    probabilities = forest.predict_proba(test_data)
 
-    # or directly evaluate when labels are known
-    # this can be used to see the feature importance
-    # eval_data, eval_labels = Generator.get_test_data_with_label(50)
-    # results = forest.evaluate(eval_data, eval_labels)
-    # for key in sorted(results):
-    #     print('%s: %s' % (key, results[key]))
+    # let's have a look at the feature importance
+    print(forest.feature_importances_)
 
     # plot the result
     print('Plotting...')
     plotter = Plotter()
     plotter.plot_pixels_proba(test_data, np.array(probabilities))
     plotter.plot_points(data.data, data.labels)
-    plotter.save(os.path.join(FLAGS.result_dir, 'result_{}.png'.format(t)))
+    plotter.save(os.path.join(result_dir, 'result_{}.png'.format(t)))
 
 
 if __name__ == "__main__":
@@ -305,9 +288,9 @@ if __name__ == "__main__":
     parser.add_argument(
         '--input_file',
         type=str,
-        default=os.path.normpath(os.path.join(script_dir, '../data/exp1_n2.txt')),
+        default=os.path.normpath(os.path.join(script_dir, '../data/exp1_n4.txt')),
         help='Input file with 2-dimensional coordinates and corresponding label.'
     )
 
-    FLAGS, unparsed = parser.parse_known_args()
-    app.run(main=main, argv=[sys.argv[0]] + unparsed)
+    args = parser.parse_args()
+    main(args.model_dir, args.result_dir, args.input_file)
