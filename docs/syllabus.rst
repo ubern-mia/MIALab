@@ -7,29 +7,32 @@ This is the syllabus of to the medical image analysis laboratory (MIALab). The l
 Week 1: Introduction
 --------------------
 
-20.09.2017 / Balsiger, Jungo, Suter
+19.09.2018 / Suter
 
 - \(T\) Overview and aim
 - \(T\) Medical problem / Image data
 - \(P\) Display medical image data with ITK-SNAP
 - \(P\) Install the Python environment
-- \(P\) 2-D decision forest toy example
+- \(H\)
+
+- **\(P\) 2-D decision forest toy example**
 
 Week 2: Medical Image Analysis Pipeline
 ------------------------------------------------------------
 
-27.09.2017 / Reyes, Balsiger
+26.09.2018 / Balsiger, Jungo, Suter
 
 - \(T\) Introduction to the medical image analysis pipeline
 - \(T\) Brief machine learning introduction
-- \(T\) Overview of available experiments
+- **\(T\) Overview of available experiments**
 - \(P\) Code introduction
-- \(H\) Formation of groups and experiment selection
+- \(H\)
+- **\(H\) Formation of groups and experiment selection**
 
 Week 3: Software Development Tools
 ----------------------------------------
 
-04.10.2017 / Jungo, Suter
+03.10.2018 / Jungo, Suter
 
 - \(T\) Introduction to PyCharm, GitHub, and Trello
 - \(P\) Coding / working on the project
@@ -37,7 +40,7 @@ Week 3: Software Development Tools
 Week 4: Coding
 --------------------
 
-11.10.2017 / Jungo, Suter
+10.10.2018 / Jungo, Suter
 
 - \(P\) Coding / working on the project
 - \(H\) GitHub repository links
@@ -45,21 +48,21 @@ Week 4: Coding
 Week 5: Coding
 --------------------
 
-18.10.2017 / Balsiger, Jungo, Suter
+17.10.2018 / Balsiger, Jungo, Suter
 
 - \(P\) Coding / working on the project
 
 Week 6: Coding
 --------------------
 
-25.10.2017 / Balsiger, Jungo, Suter
+24.10.2018 / Jungo, Suter
 
 - \(P\) Coding / working on the project
 
 Week 7: Presenting
 ------------------------------
 
-01.11.2017 / Reyes, Balsiger, Jungo, Suter
+31.10.2018 / Reyes, Jungo, Suter
 
 - \(T\) Introduction on presenting
 - \(P\) Coding / working on the project
@@ -67,7 +70,7 @@ Week 7: Presenting
 Week 8: Midterm Presentations
 ------------------------------
 
-08.11.2017 / Reyes, Balsiger, Jungo, Suter
+07.11.2018 / Reyes, Jungo, Suter
 
 - \(H\) Brief presentation about approach / progress / challenges / **insights** (max. 7 minutes)
 - \(P\) Discussion, feedback, and input
@@ -76,12 +79,12 @@ Week 8: Midterm Presentations
 Week 9: MEDICA
 --------------------
 
-15.11.2017 / -
+14.11.2018 / -
 
 Week 10: Data Visualization
 ------------------------------
 
-22.11.2017 / Balsiger, Suter
+21.11.2018 / Jungo, Suter
 
 - \(T\) Introduction on scientific data visualization (plotting), design guidelines
 - \(P\) Coding / working on the project
@@ -89,7 +92,7 @@ Week 10: Data Visualization
 Week 11: Writing
 -----------------
 
-29.11.2017 / Reyes
+28.11.2018 / Reyes
 
 - \(T\) Introduction on paper writing
 - \(T\) Brief introduction on LaTeX
@@ -98,7 +101,7 @@ Week 11: Writing
 Week 12: Coding
 --------------------
 
-06.12.2017 / Balsiger, Jungo, Suter
+05.12.2018 / Jungo, Suter
 
 - \(P\) Lecture evaluation
 - \(P\) Coding / Writing
@@ -106,20 +109,20 @@ Week 12: Coding
 Week 13: Coding
 ----------------
 
-13.12.2017 / Balsiger, Jungo, Suter
+12.12.2018 / Jungo, Suter
 
+- \(T\) Feedback on lecture evaluation
 - \(P\) Coding / Writing
 
 Week 14: Presentation
 ----------------------
 
-20.12.2017 / Reyes, Balsiger, Jungo, Suter
+19.12.2018 / Reyes, Balsiger, Jungo, Suter
 
 - \(H\) Presentations (max. 12 minutes + 3 minutes questions)
 - \(T\) Discussion of overall results
-- \(T\) Feedback on lecture evaluation
 
-7th January 2018
+6th January 2019
 -----------------
 
 - \(H\) Submission of written report and final code
