@@ -25,7 +25,7 @@ import mialab.utilities.pipeline_utilities as putil
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
 
 
-def main(model_dir: str, result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_dir: str):
+def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_dir: str):
     """Brain tissue segmentation using decision forests.
 
     The main routine executes the medical image analysis pipeline:
@@ -44,12 +44,6 @@ def main(model_dir: str, result_dir: str, data_atlas_dir: str, data_train_dir: s
     putil.load_atlas_images(data_atlas_dir)
 
     print('-' * 5, 'Training...')
-
-    # generate a model directory (use datetime to ensure that the directory is empty)
-    # we need an empty directory because TensorFlow will continue training an existing model if it is not empty
-    t = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-    model_dir = os.path.join(model_dir, t)
-    os.makedirs(model_dir, exist_ok=True)
 
     # crawl the training image directories
     crawler = load.FileSystemDataCrawler(data_train_dir,
@@ -78,9 +72,12 @@ def main(model_dir: str, result_dir: str, data_atlas_dir: str, data_train_dir: s
     forest.fit(data_train, labels_train)
     print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
-    print('-' * 5, 'Testing...')
+    # create a result directory with timestamp
+    t = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
     result_dir = os.path.join(result_dir, t)
     os.makedirs(result_dir, exist_ok=True)
+
+    print('-' * 5, 'Testing...')
 
     # initialize evaluator
     evaluator = putil.init_evaluator(result_dir)
@@ -137,12 +134,6 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(sys.argv[0])
 
     parser = argparse.ArgumentParser(description='Medical image analysis pipeline for brain tissue segmentation')
-    parser.add_argument(
-        '--model_dir',
-        type=str,
-        default=os.path.normpath(os.path.join(script_dir, './mia-model')),
-        help='Base directory for output models.'
-    )
 
     parser.add_argument(
         '--result_dir',
@@ -173,4 +164,4 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    main(args.model_dir, args.result_dir, args.data_atlas_dir, args.data_train_dir, args.data_test_dir)
+    main(args.result_dir, args.data_atlas_dir, args.data_train_dir, args.data_test_dir)

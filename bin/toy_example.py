@@ -223,13 +223,8 @@ class Plotter:
         return int(color[0]), int(color[1]), int(color[2])
 
 
-def main(model_dir: str, result_dir: str, input_file: str):
+def main(result_dir: str, input_file: str):
     """Trains a decision forest classifier on a two-dimensional point cloud."""
-
-    # generate model directory (use datetime to ensure that the directory is empty)
-    t = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-    model_dir = os.path.join(model_dir, t)
-    os.makedirs(model_dir, exist_ok=True)
 
     # generate result directory
     os.makedirs(result_dir, exist_ok=True)
@@ -259,6 +254,7 @@ def main(model_dir: str, result_dir: str, input_file: str):
 
     # plot the result
     print('Plotting...')
+    t = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
     plotter = Plotter()
     plotter.plot_pixels_proba(test_data, np.array(probabilities))
     plotter.plot_points(data.data, data.labels)
@@ -271,12 +267,6 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(sys.argv[0])
 
     parser = argparse.ArgumentParser(description='2-dimensional point classification with decision forests')
-    parser.add_argument(
-        '--model_dir',
-        type=str,
-        default=os.path.normpath(os.path.join(script_dir, 'toy-example-model')),
-        help='Base directory for output models.'
-    )
 
     parser.add_argument(
         '--result_dir',
@@ -293,4 +283,4 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    main(args.model_dir, args.result_dir, args.input_file)
+    main(args.result_dir, args.input_file)
