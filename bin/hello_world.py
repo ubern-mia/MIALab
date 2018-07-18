@@ -9,28 +9,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pydensecrf.densecrf as crf
 import SimpleITK as sitk
-import tensorflow as tf
-from tensorflow.python.platform import app
+import sklearn.ensemble as sk_ensemble
 
 
-def main(_):
+def main():
 
     print('Welcome to MIALab 2017!')
 
-    # --- TensorFlow
-
-    # Create a Constant op
-    # The op is added as a node to the default graph.
-    #
-    # The value returned by the constructor represents the output
-    # of the Constant op.
-    hello = tf.constant('Hello, TensorFlow!')
-
-    # Start tf session
-    sess = tf.Session()
-
-    # Run the op
-    print(sess.run(hello).decode(sys.getdefaultencoding()))
+    # --- scikit-learn
+    clf = sk_ensemble.RandomForestClassifier(max_depth=2, random_state=0)
 
     # --- SimpleITK
     image = sitk.Image(256, 128, 64, sitk.sitkInt16)
@@ -57,4 +44,4 @@ def main(_):
 if __name__ == "__main__":
     """The program's entry point."""
 
-    app.run(main=main, argv=[sys.argv[0]])
+    main()
