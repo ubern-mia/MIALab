@@ -16,10 +16,10 @@ REQUIRED_PACKAGES = [
     'numpy >= 1.13.1',
     'Pillow >= 4.2.1',
     'pydensecrf >= 1.0rc1',
+    'scikit-learn >= 0.19.2',
     'SimpleITK >= 1.0.1',
     'sphinx >= 1.6',
     'sphinx_rtd_theme >= 0.2.4',
-    'tensorflow == 1.2.1',
     'pathos >= 0.2.1',
 ]
 
@@ -55,6 +55,6 @@ setup(
     keywords=[
         'medical image analysis',
         'machine learning',
-        'SimpleITK'
+        'neuro'
     ]
 )
