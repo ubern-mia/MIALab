@@ -1,8 +1,8 @@
 # packages needed for building on rtfd.org
 
-matplotlib >= 2.0.2
-numpy >= 1.12.1
-SimpleITK >= 1.0.0
-pathos
-pydensecrf
-http://download.pytorch.org/whl/cpu/torch-0.4.0-cp35-cp35m-linux_x86_64.whl
+cython >= 0.28.4
+matplotlib >= 2.2.2
+numpy >= 1.15.0
+pathos >= 0.2.2
+pydensecrf >= 1.0rc3'
+SimpleITK >= 1.1.0
