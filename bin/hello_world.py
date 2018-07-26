@@ -5,8 +5,8 @@ Uses the main libraries to verify the environment installation.
 
 import sys
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import pydensecrf.densecrf as crf
 import SimpleITK as sitk
 import sklearn.ensemble as sk_ensemble
@@ -14,7 +14,7 @@ import sklearn.ensemble as sk_ensemble
 
 def main():
 
-    print('Welcome to MIALab 2017!')
+    print('Welcome to MIALab 2018!')
 
     # --- scikit-learn
     clf = sk_ensemble.RandomForestClassifier(max_depth=2, random_state=0)
