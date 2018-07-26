@@ -1,0 +1,8 @@
+# packages needed for building on rtfd.org
+
+cython >= 0.28.4
+matplotlib >= 2.2.2
+numpy >= 1.15.0
+pathos >= 0.2.2
+pydensecrf >= 1.0rc3'
+SimpleITK >= 1.1.0
