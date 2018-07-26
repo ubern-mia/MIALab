@@ -12,15 +12,17 @@ with open('LICENSE') as f:
     license_ = f.read()
 
 REQUIRED_PACKAGES = [
-    'matplotlib >= 2.0.2',
-    'numpy >= 1.13.1',
-    'Pillow >= 4.2.1',
-    'pydensecrf >= 1.0rc1',
+    'cython >= 0.28.4',
+    'matplotlib >= 2.2.2',
+    'numpy >= 1.15.0',
+    'pathos >= 0.2.2',
+    'Pillow >= 5.2.0',
+    'pydensecrf >= 1.0rc3',
     'scikit-learn >= 0.19.2',
-    'SimpleITK >= 1.0.1',
-    'sphinx >= 1.6',
-    'sphinx_rtd_theme >= 0.2.4',
-    'pathos >= 0.2.1',
+    'scipy >= 1.1.0'
+    'SimpleITK >= 1.1.0',
+    'sphinx >= 1.7.6',
+    'sphinx_rtd_theme >= 0.4.0',
 ]
 
 TEST_PACKAGES = [
