@@ -4,6 +4,7 @@ import os
 import typing as t
 
 import numpy as np
+import pymia.data.conversion as conversion
 import pymia.filtering.filter as fltr
 import pymia.filtering.preprocessing as fltr_prep
 import pymia.filtering.registration as fltr_reg
@@ -32,6 +33,8 @@ def load_atlas_images(directory: str):
     global atlas_t2
     atlas_t1 = sitk.ReadImage(os.path.join(directory, 'mni_icbm152_t1_tal_nlin_sym_09a_mask.nii.gz'))
     atlas_t2 = sitk.ReadImage(os.path.join(directory, 'mni_icbm152_t2_tal_nlin_sym_09a.nii.gz'))
+    if not conversion.ImageProperties(atlas_t1) == conversion.ImageProperties(atlas_t2):
+        raise ValueError('T1w and T2w atlas images have not the same image properties')
 
 
 class FeatureImageTypes(enum.Enum):
@@ -214,6 +217,9 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
         image_ground_truth = sitk.Resample(image_ground_truth, atlas_t1, transform, sitk.sitkNearestNeighbor, 0,
                                            image_ground_truth.GetPixelIDValue())
         img.images[structure.BrainImageTypes.GroundTruth] = image_ground_truth
+
+        # update image properties to atlas image properties after registration
+        img.image_properties = conversion.ImageProperties(atlas_t1)
 
     # extract the features
     feature_extractor = FeatureExtractor(img, **kwargs)
