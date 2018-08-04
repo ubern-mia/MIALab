@@ -18,7 +18,7 @@ REQUIRED_PACKAGES = [
     'pathos >= 0.2.2',
     'Pillow >= 5.2.0',
     'pydensecrf >= 1.0rc3',
-    'pymia == 0.1.0',
+    'pymia == 0.1.1',
     'scikit-learn >= 0.19.2',
     'scipy >= 1.1.0',
     'SimpleITK >= 1.1.0',
