@@ -1,8 +1,9 @@
 """This modules contains utility functions and classes for the access of the file system."""
 import os
-from typing import List
+import typing as t
 
-import mialab.data.loading as load
+import pymia.data.loading as load
+
 import mialab.data.structure as structure
 
 
@@ -62,7 +63,7 @@ class DataDirectoryFilter(load.DirectoryFilter):
         pass
 
     @staticmethod
-    def filter_directories(dirs: List[str]) -> List[str]:
+    def filter_directories(dirs: t.List[str]) -> t.List[str]:
         """Filters a list of directories.
 
         Args:

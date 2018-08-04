@@ -17,7 +17,6 @@
     :caption: Packages
 
     mialab.data
-    mialab.evaluation
     mialab.filtering
     mialab.utilities
 

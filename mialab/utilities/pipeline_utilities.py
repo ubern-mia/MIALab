@@ -1,19 +1,20 @@
 """This module contains utility classes and functions."""
-from enum import Enum
+import enum
 import os
-from typing import List, Dict
+import typing as t
 
 import numpy as np
+import pymia.filtering.filter as fltr
+import pymia.filtering.preprocessing as fltr_prep
+import pymia.filtering.registration as fltr_reg
+import pymia.evaluation.evaluator as eval_
+import pymia.evaluation.metric as metric
 import SimpleITK as sitk
 
 import mialab.data.structure as structure
-import mialab.evaluation.evaluator as eval
-import mialab.evaluation.metric as metric
 import mialab.filtering.feature_extraction as fltr_feat
-import mialab.filtering.filter as fltr
 import mialab.filtering.postprocessing as fltr_postp
-import mialab.filtering.preprocessing as fltr_prep
-import mialab.filtering.registration as fltr_reg
+
 import mialab.utilities.multi_processor as mproc
 
 atlas_t1 = sitk.Image()
@@ -33,7 +34,7 @@ def load_atlas_images(directory: str):
     atlas_t2 = sitk.ReadImage(os.path.join(directory, 'mni_icbm152_t2_tal_nlin_sym_09a.nii.gz'))
 
 
-class FeatureImageTypes(Enum):
+class FeatureImageTypes(enum.Enum):
     """Represents the feature image types."""
 
     ATLAS_COORD = 1
@@ -249,7 +250,7 @@ def post_process(img: structure.BrainImage, segmentation: sitk.Image, probabilit
     return pipeline.execute(segmentation)
 
 
-def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eval.Evaluator:
+def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eval_.Evaluator:
     """Initializes an evaluator.
 
     Args:
@@ -261,8 +262,8 @@ def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eva
     """
     os.makedirs(directory, exist_ok=True)  # generate result directory, if it does not exists
 
-    evaluator = eval.Evaluator(eval.ConsoleEvaluatorWriter(5))
-    evaluator.add_writer(eval.CSVEvaluatorWriter(os.path.join(directory, result_file_name)))
+    evaluator = eval_.Evaluator(eval_.ConsoleEvaluatorWriter(5))
+    evaluator.add_writer(eval_.CSVEvaluatorWriter(os.path.join(directory, result_file_name)))
     evaluator.add_label(1, "WhiteMatter")
     evaluator.add_label(2, "GreyMatter")
     evaluator.add_label(3, "Ventricles")
@@ -270,8 +271,8 @@ def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eva
     return evaluator
 
 
-def pre_process_batch(data_batch: Dict[structure.BrainImageTypes, structure.BrainImage],
-                      pre_process_params: dict=None, multi_process=True) -> List[structure.BrainImage]:
+def pre_process_batch(data_batch: t.Dict[structure.BrainImageTypes, structure.BrainImage],
+                      pre_process_params: dict=None, multi_process=True) -> t.List[structure.BrainImage]:
     """Loads and pre-processes a batch of images.
 
     The pre-processing includes:
@@ -299,9 +300,9 @@ def pre_process_batch(data_batch: Dict[structure.BrainImageTypes, structure.Brai
     return images
 
 
-def post_process_batch(brain_images: List[structure.BrainImage], segmentations: List[sitk.Image],
-                       probabilities: List[sitk.Image], post_process_params: dict=None,
-                       multi_process=True) -> List[sitk.Image]:
+def post_process_batch(brain_images: t.List[structure.BrainImage], segmentations: t.List[sitk.Image],
+                       probabilities: t.List[sitk.Image], post_process_params: dict=None,
+                       multi_process=True) -> t.List[sitk.Image]:
     """ Post-processes a batch of images.
 
     Args:

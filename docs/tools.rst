@@ -16,7 +16,7 @@ Libraries
 - `SimpleITK <www.simpleitk.org/>`_: Suite of software tools for image analysis (`examples <http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/>`_)
 - `matplotlib <https://matplotlib.org/>`_: Plotting library
 - `seaborn <https://seaborn.pydata.org/>`_: Statistical data visualization
-- `miapy <https://github.com/istb-mia/miapy>`_: Generic and often used code for medical image analysis (developed by your lecturers!)
+- `pymia <https://github.com/rundherum/pymia>`_: pymia - generic and modular code for medical image analysis (developed by your lecturers!)
 - `Sphinx <http://www.sphinx-doc.org/en/stable/index.html>`_: A Python documentation generator
 
 Integrated development environment (IDE)

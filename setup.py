@@ -2,8 +2,8 @@ import sys
 from setuptools import find_packages, setup
 
 
-if sys.version_info < (3,5):
-    sys.exit("Requires Python 3.5 or higher")
+if sys.version_info < (3,6):
+    sys.exit("Requires Python 3.6 or higher")
 
 with open('README.rst') as f:
     readme = f.read()
@@ -18,6 +18,7 @@ REQUIRED_PACKAGES = [
     'pathos >= 0.2.2',
     'Pillow >= 5.2.0',
     'pydensecrf >= 1.0rc3',
+    'pymia == 0.1.0',
     'scikit-learn >= 0.19.2',
     'scipy >= 1.1.0',
     'SimpleITK >= 1.1.0',

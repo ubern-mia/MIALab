@@ -1,12 +1,12 @@
 """Module for the management of multi-process function calls."""
-from typing import Tuple
+import typing as t
 
 import numpy as np
 import SimpleITK as sitk
 from pathos import multiprocessing as pmp
+import pymia.data.conversion as conversion
 
 import mialab.data.structure as structure
-import mialab.data.conversion as conversion
 
 
 class PicklableBrainImage:
@@ -174,7 +174,7 @@ class PreProcessingPickleHelper(DefaultPickleHelper):
 class PostProcessingPickleHelper(DefaultPickleHelper):
     """Post-processing pickle helper class"""
 
-    def make_params_picklable(self, params: Tuple[structure.BrainImage, sitk.Image, sitk.Image, dict]):
+    def make_params_picklable(self, params: t.Tuple[structure.BrainImage, sitk.Image, sitk.Image, dict]):
         """Ensures that all post-processing parameters can be pickled before transferred to the new process.
 
         Args:
@@ -189,7 +189,7 @@ class PostProcessingPickleHelper(DefaultPickleHelper):
         np_probability, _ = conversion.SimpleITKNumpyImageBridge.convert(probability)
         return picklable_brain_image, np_segmentation, np_probability, fn_kwargs
 
-    def recover_params(self, params: Tuple[PicklableBrainImage, np.ndarray, np.ndarray, dict]):
+    def recover_params(self, params: t.Tuple[PicklableBrainImage, np.ndarray, np.ndarray, dict]):
         """Recovers (from the pickle state) the original post-processing parameters in another process.
 
         Args:
@@ -205,7 +205,7 @@ class PostProcessingPickleHelper(DefaultPickleHelper):
         probability = conversion.NumpySimpleITKImageBridge.convert(np_probability, picklable_img.image_properties)
         return img, segmentation, probability, fn_kwargs
 
-    def make_return_value_picklable(self, ret_val: sitk.Image) -> Tuple[np.ndarray, conversion.ImageProperties]:
+    def make_return_value_picklable(self, ret_val: sitk.Image) -> t.Tuple[np.ndarray, conversion.ImageProperties]:
         """Ensures that all post-processing return values ``ret_val`` can be pickled before transferring back to
         the original process.
 
@@ -218,7 +218,7 @@ class PostProcessingPickleHelper(DefaultPickleHelper):
         np_img, image_properties = conversion.SimpleITKNumpyImageBridge.convert(ret_val)
         return np_img, image_properties
 
-    def recover_return_value(self, ret_val: Tuple[np.ndarray, conversion.ImageProperties]) -> sitk.Image:
+    def recover_return_value(self, ret_val: t.Tuple[np.ndarray, conversion.ImageProperties]) -> sitk.Image:
         """Recovers (from the pickle state) the original post-processing return values.
 
         Args:

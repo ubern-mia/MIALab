@@ -11,18 +11,20 @@ import timeit
 import SimpleITK as sitk
 import sklearn.ensemble as sk_ensemble
 import numpy as np
+import pymia.data.conversion as conversion
+import pymia.data.loading as load
 
 sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
 # fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
 # somehow pip install does not keep track of packages
 
-import mialab.data.conversion as conversion
 import mialab.data.structure as structure
-import mialab.data.loading as load
 import mialab.utilities.file_access_utilities as futil
 import mialab.utilities.pipeline_utilities as putil
 
-IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
+IMAGE_KEYS = [structure.BrainImageTypes.T1,
+              structure.BrainImageTypes.T2,
+              structure.BrainImageTypes.GroundTruth]  # the list of images we will load
 
 
 def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_dir: str):
@@ -51,12 +53,13 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
     pre_process_params = {'zscore_pre': True,
+                          'registration_pre': False,
                           'coordinates_feature': True,
                           'intensity_feature': True,
                           'gradient_intensity_feature': True}
 
     # load images for training and pre-process
-    images = putil.pre_process_batch(crawler.data, pre_process_params, multi_process=True)
+    images = putil.pre_process_batch(crawler.data, pre_process_params, multi_process=False)
 
     # generate feature matrix and label vector
     data_train = np.concatenate([img.feature_matrix[0] for img in images])
