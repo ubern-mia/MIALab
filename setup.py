@@ -2,8 +2,8 @@ import sys
 from setuptools import find_packages, setup
 
 
-if sys.version_info < (3,5):
-    sys.exit("Requires Python 3.5 or higher")
+if sys.version_info < (3,6):
+    sys.exit("Requires Python 3.6 or higher")
 
 with open('README.rst') as f:
     readme = f.read()
@@ -12,15 +12,18 @@ with open('LICENSE') as f:
     license_ = f.read()
 
 REQUIRED_PACKAGES = [
-    'matplotlib >= 2.0.2',
-    'numpy >= 1.13.1',
-    'Pillow >= 4.2.1',
-    'pydensecrf >= 1.0rc1',
-    'SimpleITK >= 1.0.1',
-    'sphinx >= 1.6',
-    'sphinx_rtd_theme >= 0.2.4',
-    'tensorflow == 1.2.1',
-    'pathos >= 0.2.1',
+    'cython >= 0.28.4',
+    'matplotlib >= 2.2.2',
+    'numpy >= 1.15.0',
+    'pathos >= 0.2.2',
+    'Pillow >= 5.2.0',
+    'pydensecrf >= 1.0rc3',
+    'pymia == 0.1.1',
+    'scikit-learn >= 0.19.2',
+    'scipy >= 1.1.0',
+    'SimpleITK >= 1.1.0',
+    'sphinx >= 1.7.6',
+    'sphinx_rtd_theme >= 0.4.0',
 ]
 
 TEST_PACKAGES = [
@@ -55,6 +58,6 @@ setup(
     keywords=[
         'medical image analysis',
         'machine learning',
-        'SimpleITK'
+        'neuro'
     ]
 )

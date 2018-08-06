@@ -1,4 +1,3 @@
-=============
 Installation
 =============
 
@@ -86,7 +85,7 @@ Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
    
    - :bash:`conda list`, which should list all installed Anaconda packages
 
-#. Create a new Python 3.6 environment with the name mialab
+#. Create a new Python 3.6 environment with the name mialab (confirm with y when promted during creation)
    
    - :bash:`conda create -n mialab python=3.6`
 

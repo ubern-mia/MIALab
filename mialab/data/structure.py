@@ -1,7 +1,7 @@
 """The data structure module holds model classes."""
 import enum
 
-import mialab.data.conversion as conversion
+import pymia.data.conversion as conversion
 
 
 class BrainImageTypes(enum.Enum):

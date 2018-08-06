@@ -2,8 +2,8 @@
 Medical Image Analysis Laboratory
 =================================
 
-Welcome to the medical image analysis laboratory (MIALab) 2017.
-This repository contains all code you will need to get started with medical image analysis.
+Welcome to the medical image analysis laboratory (MIALab).
+This repository contains all code you will need to get started with classical medical image analysis.
 
 During the MIALab you will work on the task of brain tissue segmentation from magnetic resonance (MR) images (see `data <docs/data.rst>`_).
 We have set up an entire pipeline to solve this task, specifically:

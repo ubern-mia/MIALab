@@ -2,9 +2,8 @@
 import sys
 
 import numpy as np
+import pymia.filtering.filter as fltr
 import SimpleITK as sitk
-
-import mialab.filtering.filter as fltr
 
 
 class AtlasCoordinates(fltr.IFilter):

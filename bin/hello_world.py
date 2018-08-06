@@ -5,39 +5,27 @@ Uses the main libraries to verify the environment installation.
 
 import sys
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import pydensecrf.densecrf as crf
+import pymia.evaluation.evaluator as pymia_eval
 import SimpleITK as sitk
-import tensorflow as tf
-from tensorflow.python.platform import app
+import sklearn.ensemble as sk_ensemble
 
 
-def main(_):
+def main():
 
-    print('Welcome to MIALab 2017!')
+    print('Welcome to MIALab 2018!')
 
-    # --- TensorFlow
-
-    # Create a Constant op
-    # The op is added as a node to the default graph.
-    #
-    # The value returned by the constructor represents the output
-    # of the Constant op.
-    hello = tf.constant('Hello, TensorFlow!')
-
-    # Start tf session
-    sess = tf.Session()
-
-    # Run the op
-    print(sess.run(hello).decode(sys.getdefaultencoding()))
+    # --- scikit-learn
+    clf = sk_ensemble.RandomForestClassifier(max_depth=2, random_state=0)
 
     # --- SimpleITK
     image = sitk.Image(256, 128, 64, sitk.sitkInt16)
     print('Image dimension:', image.GetDimension())
-    print('Voxel value before setting:', image.GetPixel(0, 0, 0))
+    print('Voxel intensity before setting:', image.GetPixel(0, 0, 0))
     image.SetPixel(0, 0, 0, 1)
-    print('Voxel value after setting:', image.GetPixel(0, 0, 0))
+    print('Voxel intensity after setting:', image.GetPixel(0, 0, 0))
 
     # --- numpy and matplotlib
     array = np.array([1, 23, 2, 4])
@@ -51,10 +39,13 @@ def main(_):
     # --- pydensecrf
     d = crf.DenseCRF(1000, 2)
 
+    # --- pymia
+    eval = pymia_eval.Evaluator()
+
     print('Everything seems to work fine!')
 
 
 if __name__ == "__main__":
     """The program's entry point."""
 
-    app.run(main=main, argv=[sys.argv[0]])
+    main()
