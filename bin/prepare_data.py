@@ -3,6 +3,7 @@ import argparse
 import glob
 import shutil
 import zipfile
+import random
 
 import SimpleITK as sitk
 import numpy as np
@@ -14,19 +15,22 @@ def main(data_dir):
     script_dir = os.path.dirname(os.path.realpath(__file__))
     os.chdir(script_dir)
 
-    out_dir = '../data/train/'
+    out_train_dir = '../data/train/'
+    if os.path.exists(out_train_dir):
+        shutil.rmtree(out_train_dir)
+    out_test_dir = '../data/test/'
+    if os.path.exists(out_test_dir):
+        shutil.rmtree(out_test_dir)
 
     if data_dir.endswith('/'):
         data_dir = data_dir[:-1]
-    if os.path.exists(out_dir):
-        shutil.rmtree(out_dir)
 
     print('unzip data')
     unzip_data_if_needed(data_dir)
 
-    print('preparing and copying data')
     image_names, label_names = get_required_filenames()
-    subject_files = get_files(data_dir, out_dir, image_names, label_names)
+    subject_files = get_files(data_dir, image_names, label_names)
+    train_subjects, test_subjects = split_dataset(0.7, subject_files)
 
     image_transform = ComposeTransform([RescaleIntensity(),
                                         Resample((1., 1., 1.))])
@@ -36,7 +40,11 @@ def main(data_dir):
                   4: [18, 54],  # Amygdala
                   5: [10, 49]}  # Thalamus
     label_transform = ComposeTransform([Resample((1., 1., 1.)), MergeLabel(to_combine)])
-    transform_and_write(subject_files, image_transform, label_transform)
+
+    print('preparing training data')
+    transform_and_write(train_subjects, image_transform, label_transform, out_train_dir)
+    print('preparing testing data')
+    transform_and_write(test_subjects, image_transform, label_transform, out_test_dir)
 
     os.chdir(previous_wd)
 
@@ -89,7 +97,7 @@ def get_required_filenames():
     return tuple(images), tuple(labels)
 
 
-def get_files(data_dir, out_dir, image_names, label_names):
+def get_files(data_dir, image_names, label_names):
 
     def join_and_check_path(id_, file_names):
         files = []
@@ -97,7 +105,7 @@ def get_files(data_dir, out_dir, image_names, label_names):
             in_file_path = os.path.join(data_dir, id_, in_filename)
             if not os.path.exists(in_file_path):
                 raise ValueError('file "{}" not exists'.format(in_file_path))
-            out_file_path = os.path.join(out_dir, id_, out_filename)
+            out_file_path = os.path.join(id_, out_filename)
             files.append((in_file_path, out_file_path))
         return files
 
@@ -115,7 +123,23 @@ def get_files(data_dir, out_dir, image_names, label_names):
     return subject_files
 
 
-def transform_and_write(subject_files, image_tranform, label_transform):
+def split_dataset(train_split, subject_files):
+    seed = 20
+
+    all_ids = list(subject_files.keys())
+    random.Random(seed).shuffle(all_ids)
+
+    n_train = int(len(all_ids)*train_split)
+    train_ids = all_ids[:n_train]
+    test_ids = all_ids[n_train:]
+
+    train_subject = {k: subject_files[k] for k in train_ids}
+    test_subject = {k: subject_files[k] for k in test_ids}
+
+    return train_subject, test_subject
+
+
+def transform_and_write(subject_files, image_tranform, label_transform, out_dir):
 
     for id_, subject_file in subject_files.items():
         print(' - {}'.format(id_))
@@ -123,16 +147,18 @@ def transform_and_write(subject_files, image_tranform, label_transform):
         for in_image_file, out_image_file in subject_file['images']:
             image = sitk.ReadImage(in_image_file, sitk.sitkUInt16)
             transformed_image = image_tranform(image)
-            if not os.path.exists(os.path.dirname(out_image_file)):
-                os.makedirs(os.path.dirname(out_image_file))
-            sitk.WriteImage(transformed_image, out_image_file)
+            out_image_path = os.path.join(out_dir, out_image_file)
+            if not os.path.exists(os.path.dirname(out_image_path)):
+                os.makedirs(os.path.dirname(out_image_path))
+            sitk.WriteImage(transformed_image, out_image_path)
 
         for in_label_file, out_label_file in subject_file['labels']:
             label = sitk.ReadImage(in_label_file)
             transformed_label = label_transform(label)
-            if not os.path.exists(os.path.dirname(out_label_file)):
-                os.makedirs(os.path.dirname(out_label_file))
-            sitk.WriteImage(transformed_label, out_label_file)
+            out_label_path = os.path.join(out_dir, out_label_file)
+            if not os.path.exists(os.path.dirname(out_label_path)):
+                os.makedirs(os.path.dirname(out_label_path))
+            sitk.WriteImage(transformed_label, out_label_path)
 
 
 class Transform:
