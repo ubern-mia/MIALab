@@ -4,7 +4,6 @@
     :maxdepth: 1
     :caption: Getting started
 
-    syllabus
     experiments
     data
     installation
