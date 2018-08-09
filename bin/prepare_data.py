@@ -223,14 +223,12 @@ class MergeLabel(Transform):
 
     def __call__(self, img: sitk.Image) -> sitk.Image:
         np_img = sitk.GetArrayFromImage(img)
-        for new_label, labels_to_merge  in self.to_combine.items():
-            np_img[np.in1d(np_img.ravel(), labels_to_merge, assume_unique=True).reshape(np_img.shape)] = new_label
+        merged_img = np.zeros_like(np_img)
 
-        # set all non-selected labels to background
-        all_labels = list(self.to_combine.keys())
-        np_img[np.in1d(np_img.ravel(), all_labels, assume_unique=True, invert=True).reshape(np_img.shape)] = 0
+        for new_label, labels_to_merge in self.to_combine.items():
+            merged_img[np.in1d(np_img.ravel(), labels_to_merge, assume_unique=True).reshape(np_img.shape)] = new_label
 
-        out_img = sitk.GetImageFromArray(np_img)
+        out_img = sitk.GetImageFromArray(merged_img)
         out_img.CopyInformation(img)
         return out_img
 
