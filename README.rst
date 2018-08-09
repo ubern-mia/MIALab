@@ -11,7 +11,7 @@ We have set up an entire pipeline to solve this task, specifically:
 - Pre-processing
 - Registration
 - Feature extraction
-- Voxel-wise tissue classification using a decision forest
+- Voxel-wise tissue classification
 - Post-processing
 - Evaluation
 

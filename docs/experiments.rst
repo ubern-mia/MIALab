@@ -1,3 +1,5 @@
+.. _experiments_label:
+
 Experiments
 ===========
 

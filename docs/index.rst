@@ -4,6 +4,8 @@
     :maxdepth: 1
     :caption: Getting started
 
+    background
+    pipeline
     experiments
     data
     installation
