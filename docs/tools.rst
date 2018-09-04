@@ -1,7 +1,7 @@
 Tools
 =====
 
-This list summarizes the software tools and libraries we are going to use or we can recommend to use.
+This list summarizes software tools and libraries we are going to use or we can recommend to use.
 
 Python
 ------
@@ -34,7 +34,7 @@ Git
 GUI Clients
 ^^^^^^^^^^^
 
-- `SourceTree <https://www.sourcetreeapp.com/>`_:  [Win, Mac]
+- `SourceTree <https://www.sourcetreeapp.com/>`_: [Win, Mac]
 - `GitHub Desktop <https://desktop.github.com/>`_: [Win, Mac]
 - `GitKraken <https://www.gitkraken.com/>`_: [Win, Mac, Linux]
 - `Git Extensions <https://gitextensions.github.io/>`_: [Win]
@@ -46,7 +46,7 @@ Image Viewer
 
 - `ITK-SNAP <http://www.itksnap.org/pmwiki/pmwiki.php>`_: Simple tool to check results and do manual corrections [Win, Mac, Linux]
 - `3D Slicer <https://www.slicer.org/>`_: More advanced tool [Win, Mac, Linux]
-- `ParaView <https://www.paraview.org/>`_: Visualization software  [Win, Mac, Linux]
+- `ParaView <https://www.paraview.org/>`_: Visualization software [Win, Mac, Linux]
 
 LaTeX
 -----
@@ -79,6 +79,7 @@ Search
 
 - `Google Scholar <https://scholar.google.ch/>`_
 - `Scopus <https://www.scopus.com/>`_
+- `Web of Science <https://webofknowledge.com/>`_
 
 Management
 ^^^^^^^^^^

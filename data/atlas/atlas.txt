@@ -1,0 +1,7 @@
+This directory should contain the MNI152 atlas images:
+
+ - T1-weighted atlas image: mni_icbm152_t1_tal_nlin_sym_09a.nii.gz
+ - T2-weighted atlas image: mni_icbm152_t2_tal_nlin_sym_09a.nii.gz
+ - Brain mask: mni_icbm152_t1_tal_nlin_sym_09a_mask.nii.gz
+
+See to the documentation for further information about the data (https://mialab.readthedocs.io/en/latest/data.html).

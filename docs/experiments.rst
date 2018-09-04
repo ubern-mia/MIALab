@@ -3,11 +3,11 @@
 Experiments
 ===========
 
-You will form groups of 2-3 people and select one topic to investigate and experiment.
+The different pipeline steps (:ref:`pipeline_label`) can be investigated and improved. Additionally, various experiments can be performed.
 A list of materials (papers, lectures, links to Python libraries, and code reference) is given for each experiment as starting point.
 
 Pre-processing
----------------
+--------------
 
 Investigate the influence of pre-processing on the segmentation performance.
 
@@ -19,14 +19,14 @@ Investigate the influence of pre-processing on the segmentation performance.
 Materials
 ^^^^^^^^^
 
-- ``mialab.filtering.preprocessing``, e.g. ``SkullStrip``
+- ``pymia.filtering.preprocessing``
 - `medpy.filter.IntensityRangeStandardization.IntensityRangeStandardization <http://loli.github.io/medpy/generated/medpy.filter.IntensityRangeStandardization.IntensityRangeStandardization.html#medpy.filter.IntensityRangeStandardization.IntensityRangeStandardization>`_
 - \L. G. Nyúl, J. K. Udupa, and X. Zhang, New variants of a method of MRI scale standardization, IEEE Trans. Med. Imaging, vol. 19, no. 2, pp. 143–50, Feb. 2000.
 - J.-P. Bergeest and F. Jäger, A Comparison of Five Methods for Signal Intensity Standardization in MRI, in Bildverarbeitung für die Medizin 2008, Berlin Heidelberg: Springer, 2008, pp. 36–40.
 - `scikit-learn: Pre-processing data <http://scikit-learn.org/stable/modules/preprocessing.html#preprocessing>`_
 
 Registration
--------------
+------------
 
 What is the optimal setting to register the images to an atlas?
 
@@ -38,7 +38,7 @@ What is the optimal setting to register the images to an atlas?
 Materials
 ^^^^^^^^^
 
-- ``mialab.filtering.registration``, e.g. use the ``RegistrationPlotter``
+- ``pymia.filtering.registration``, e.g., use the ``RegistrationPlotter``
 - \P. Viola and W. M. I. Wells, Alignment by maximization of mutual information, Proc. IEEE Int. Conf. Comput. Vis., vol. 24, no. 2, pp. 16–23, 1995.
 - \P. Cattin and V. Roth, Biomedical Image Analysis, 2016. [Online]. Available: https://miac.unibas.ch/BIA/ [Accessed: 25-Aug-2017].
 - M.-M. Rohé, M. Datar, T. Heimann, M. Sermesant, and X. Pennec, “SVF-Net: Learning Deformable Image Registration Using Shape Matching,” in Medical Image Computing and Computer Assisted Intervention − MICCAI 2017: 20th International Conference, Quebec City, QC, Canada, September 11-13, 2017, Proceedings, Part I, Springer International Publishing, 2017, pp. 266–274.
@@ -47,7 +47,7 @@ Materials
 
 Tools
 ^^^^^
-There exist various tools for registration besides the implemented code:
+There exist various tools for registration besides the implemented code for registration:
 
 - `3D Slicer <https://www.slicer.org/>`_: Open source software which also includes registration.
 - `ANTs <http://stnava.github.io/ANTs/>`_: Advanced Normalization Tools, which come with registration algorithms.
@@ -55,7 +55,7 @@ There exist various tools for registration besides the implemented code:
 - `SimpleElastix <https://simpleelastix.github.io/>`_: An extension of SimpleITK.
 
 Post-processing
-----------------
+---------------
 
 Can we leverage the segmentation performance by post-processing?
 
@@ -72,7 +72,7 @@ Materials
 - \P. Cattin and V. Roth, Biomedical Image Analysis - Mathematical Morphology, 2013. [Online]. Available: http://informatik.unibas.ch/fileadmin/Lectures/FS2013/CS252/morphology13.pdf [Accessed: 25-Aug-2017]
 
 Evaluation
------------
+----------
 
 Which metrics are suitable for our task? What is the influence of the validation procedure on the results?
 
@@ -83,12 +83,12 @@ Which metrics are suitable for our task? What is the influence of the validation
 Materials
 ^^^^^^^^^
 
-- ``mialab.evaluation.metrics``
+- See ``pymia.evaluation`` package
 - \A. A. Taha and A. Hanbury, Metrics for evaluating 3D medical image segmentation: analysis, selection, and tool, BMC Med. Imaging, vol. 15, no. 1, pp. 1–28, 2015.
 - `Cross-validation in machine learning <https://medium.com/towards-data-science/cross-validation-in-machine-learning-72924a69872f>`_
 
 Machine Learning Algorithms
-----------------------------
+---------------------------
 
 Do other machine learning algorithms perform better on our task? Can we improve the segmentation performance by parameter tuning?
 
@@ -105,7 +105,7 @@ Materials
 - \R. S. Olson, W. La Cava, Z. Mustahsan, A. Varik, and J. H. Moore, Data-driven Advice for Applying Machine Learning to Bioinformatics Problems, Aug. 2017.
 
 Feature Engineering
---------------------
+-------------------
 
 What features could be used to improve our model?
 
@@ -123,7 +123,7 @@ Materials
 - `scikit-image feature module <http://scikit-image.org/docs/dev/api/skimage.feature.html>`_
 
 Feature Selection
-------------------
+-----------------
 
 Can we reduce the number of features to decrease the model complexity and the computational burden.
 
@@ -139,7 +139,7 @@ Materials
 - \H. Peng, F. Long, and C. Ding, Feature selection based on mutual information criteria of max-dependency, max-relevance, and min-redundancy, IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 27, no. 8, pp. 1226-38, 2005.
 
 Deep Learning
---------------
+-------------
 
 Deep learning has gained much attention in the last years outperforming methods such as decision forests. What is the performance of a deep learning method on our task?
 

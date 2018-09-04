@@ -57,7 +57,7 @@ master_doc = 'index'
 # General information about the project.
 project = 'mialab'
 copyright = '2017-2018, MIA group, ISTB, University of Bern'
-author = 'Mauricio Reyes'
+author = 'Fabian Balsiger, Alain Jungo, Yannick Suter'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

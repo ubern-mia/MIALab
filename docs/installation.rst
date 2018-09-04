@@ -32,9 +32,9 @@ The installation has been tested on Windows 10.
 
 #. Verify the installation
    
-   -  Open "Anaconda Prompt"
+   - Open "Anaconda Prompt"
    - :bash:`conda list`, which should list all installed Anaconda packages
-     
+
 #. Create a new Python 3.6 environment with the name mialab
    
    - :bash:`conda create -n mialab python=3.6`
@@ -54,12 +54,11 @@ The installation has been tested on Windows 10.
 #. Execute the hello world to verify the installation
    
    - :bash:`python .\bin\hello_world.py`
-         
+
 #. Run Sphinx to create the documentation
    
    - :bash:`sphinx-build -b html .\docs .\docs\_build`
    - The documentation is now available under ``.\docs\_build\index.html``
-   
 
 Linux
 ------
@@ -75,9 +74,9 @@ Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
    - :bash:`git clone https://github.com/istb-mia/MIALab.git`
 
 #. Run Anaconda installation script (`official website <https://docs.anaconda.com/anaconda/install/linux>`__)
-   
+
    - :bash:`bash <path_to_file>/Anaconda3-4.4.0-Linux-x86_64.sh` (run the installation script)
-     
+
      - Scroll to the bottom of the license and enter :bash:`yes` to agree the license
      - Accept suggested installation path (or change it if you know what you do)
      - :bash:`yes` to add Anaconda to the PATH

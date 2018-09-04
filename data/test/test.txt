@@ -1,0 +1,2 @@
+This directory should contain the testing images.
+See to the documentation for further information about the data (https://mialab.readthedocs.io/en/latest/data.html).
