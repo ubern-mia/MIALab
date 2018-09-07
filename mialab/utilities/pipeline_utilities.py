@@ -97,10 +97,12 @@ class FeatureExtractor:
             # generate a randomized mask where 1 represents voxels used for training
             # the mask needs to be binary, where the value 1 is considered as a voxel which is to be loaded
             # we have following labels:
-            # - 0 (background): circa 18000000 voxels
-            # - 1 (white matter): circa 1300000 voxels
-            # - 2 (grey matter): circa 1800000 voxels
-            # - 3 (ventricles): circa 130000 voxels
+            # - 0 (background)
+            # - 1 (white matter)
+            # - 2 (grey matter)
+            # - 3 (Hippocampus)
+            # - 3 (Amygdala)
+            # - 3 (Thalamus)
 
             # you can exclude background voxels from the training mask generation
             # mask_background = self.img.images[structure.BrainImageTypes.BrainMask]
@@ -108,8 +110,8 @@ class FeatureExtractor:
 
             mask = fltr_feat.RandomizedTrainingMaskGenerator.get_mask(
                 self.img.images[structure.BrainImageTypes.GroundTruth],
-                [0, 1, 2, 3],
-                [0.0003, 0.004, 0.003, 0.04])
+                [0, 1, 2, 3, 4, 5],
+                [0.0003, 0.004, 0.003, 0.04, 0.04, 0.02])
 
             # convert the mask to a logical array where value 1 is False and value 0 is True
             mask = sitk.GetArrayFromImage(mask)
@@ -272,7 +274,9 @@ def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eva
     evaluator.add_writer(eval_.CSVEvaluatorWriter(os.path.join(directory, result_file_name)))
     evaluator.add_label(1, "WhiteMatter")
     evaluator.add_label(2, "GreyMatter")
-    evaluator.add_label(3, "Ventricles")
+    evaluator.add_label(3, "Hippocampus")
+    evaluator.add_label(4, "Amygdala")
+    evaluator.add_label(5, "Thalamus")
     evaluator.metrics = [metric.DiceCoefficient()]
     return evaluator
 
