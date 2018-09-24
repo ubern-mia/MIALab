@@ -97,7 +97,7 @@ Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
 #. Install all required packages for the MIALab
    
    - :bash:`cd /path/to/MIALab/repository`
-   - :bash:`pip install .` will install all required packages (if ``pydensecrf`` installation fails, install g++ by executing `sudo apt-get install g++`)
+   - :bash:`pip install .` will install all required packages (if the ``pydensecrf`` installation fails, install g++ by executing ``sudo apt-get install g++`` and ``sudo apt-get install python3.6-dev``)
 
 #. Execute the hello world to verify the installation
    
