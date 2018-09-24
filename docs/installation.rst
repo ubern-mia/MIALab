@@ -79,7 +79,7 @@ Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
 
      - Scroll to the bottom of the license and enter :bash:`yes` to agree the license
      - Accept suggested installation path (or change it if you know what you do)
-     - :bash:`yes` to add Anaconda to the PATH (and `no` to VisualCode installation)
+     - :bash:`yes` to add Anaconda to the PATH (and :bash:`no` to VisualCode installation)
      - Reopen the terminal
 
 #. Verify the installation
