@@ -79,7 +79,7 @@ Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
 
      - Scroll to the bottom of the license and enter :bash:`yes` to agree the license
      - Accept suggested installation path (or change it if you know what you do)
-     - :bash:`yes` to add Anaconda to the PATH (and `no` to VisualCode installation)
+     - :bash:`yes` to add Anaconda to the PATH (and :bash:`no` to VisualCode installation)
      - Reopen the terminal
 
 #. Verify the installation
@@ -97,7 +97,7 @@ Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
 #. Install all required packages for the MIALab
    
    - :bash:`cd /path/to/MIALab/repository`
-   - :bash:`pip install .` will install all required packages (if ``pydensecrf`` installation fails, install g++ by executing `sudo apt-get install g++`)
+   - :bash:`pip install .` will install all required packages (if the ``pydensecrf`` installation fails, install g++ by executing ``sudo apt-get install g++`` and ``sudo apt-get install python3.6-dev``)
 
 #. Execute the hello world to verify the installation
    

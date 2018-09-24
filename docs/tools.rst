@@ -6,17 +6,17 @@ This list summarizes software tools and libraries we are going to use or we can 
 Python
 ------
 
-- We use `Python 3.6 <https://docs.python.org/3.6/>`_ inside an `Anaconda <https://www.continuum.io/downloads>`_ environment.
+- We use `Python 3.6 <https://docs.python.org/3.6/>`_ inside an `Anaconda <https://www.anaconda.com/>`_ environment.
 
 Libraries
 ^^^^^^^^^
 
 - `Numpy <http://www.numpy.org/>`_: Fundamental package for scientific computing with Python (`a good & short tutorial <http://cs231n.github.io/python-numpy-tutorial/>`_)
-- `TensorFlow <https://www.tensorflow.org/>`_: An open-source software library for Machine Intelligence
-- `SimpleITK <www.simpleitk.org/>`_: Suite of software tools for image analysis (`examples <http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/>`_)
+- `scikit-learn <http://scikit-learn.org>`_: An open-source software library for machine learning
+- `SimpleITK <https://simpleitk.readthedocs.io/>`_: Suite of software tools for image analysis (`examples <http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/>`_)
 - `matplotlib <https://matplotlib.org/>`_: Plotting library
 - `seaborn <https://seaborn.pydata.org/>`_: Statistical data visualization
-- `pymia <https://github.com/rundherum/pymia>`_: pymia - generic and modular code for medical image analysis (developed by your lecturers!)
+- `pymia <https://pymia.readthedocs.io/>`_: pymia - generic and modular code for medical image analysis (developed by your lecturers!)
 - `Sphinx <http://www.sphinx-doc.org/en/stable/index.html>`_: A Python documentation generator
 
 Integrated development environment (IDE)
@@ -51,7 +51,7 @@ Image Viewer
 LaTeX
 -----
 
-- `LaTeX Guide <https://en.wikibooks.org/wiki/LaTeX>`_: Installation, Basics, Elements, etc.
+- `LaTeX Guide <https://en.wikibooks.org/wiki/LaTeX>`_: Installation, basics, elements, etc.
 - `Cheat Sheet <https://wch.github.io/latexsheet/latexsheet.pdf>`_
 
 Editors
