@@ -2,6 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
 
+import numpy as np
 import SimpleITK as sitk
 
 import exercise.helper as helper
@@ -13,18 +14,20 @@ def load_image(img_path, is_label_img):
 
     pixel_type = None  # todo: modify here
     img = None  # todo: modify here
+
     return img
 
 
 def to_numpy_array(img):
     # todo: transform the SimpleITK image to a numpy ndarray (hint: 'GetArrayFromImage')
     np_img = None  # todo: modify here
+
     return np_img
 
 
-def to_sitk_image(np_image, orig_img):
+def to_sitk_image(np_image, reference_img):
     # todo: transform the numpy ndarray to a SimpleITK image (hint: 'GetImageFromArray')
-    # todo: do not forget to copy meta-information (e.g. spacing, origin, etc.) from the reference image (hint: 'CopyInformation')!!!
+    # todo: do not forget to copy meta-information (e.g., spacing, origin, etc.) from the reference image (hint: 'CopyInformation')!
     #       (otherwise defaults are set)
 
     img = None  # todo: modify here
@@ -34,16 +37,18 @@ def to_sitk_image(np_image, orig_img):
 
 
 def register_images(img, label_img, atlas_img):
-    registration_method = _get_registration_method(atlas_img, img)
-    # todo: apply the registration_method to the img (hint: fixed=atlas_img, moving=img)
+    registration_method = _get_registration_method(atlas_img, img)  # type: sitk.ImageRegistrationMethod
+    # todo: execute the registration_method to the img (hint: fixed=atlas_img, moving=img)
+    # the registration returns the transformation of the moving image (parameter img) to the space of the atlas image (atlas_img)
     transform = None  # todo: modify here
 
-    # todo: apply the obtained transform (img to atlas_img)
-    # hint: 'Resample' (with referenceImage=atlas_img, transform=transform, defaultPixelValue=0.0, interpolator=sitkLinear, outputPixelType=label_img.GetPixelIDValue())
+    # todo: apply the obtained transform to register the image (img) to the atlas image (atlas_img)
+    # hint: 'Resample' (with referenceImage=atlas_img, transform=transform, interpolator=sitkLinear, defaultPixelValue=0.0, outputPixelType=label_img.GetPixelIDValue())
     registered_img = None  # todo: modify here
 
-    # todo: apply the obtained transform to register the label image (label_img) to the atlas, too
-    # hint: 'Resample' (with defaultPixelValue=0.0, interpolator=sitkNearestNeighbor, outputPixelType=label_img.GetPixelIDValue())
+    # todo: apply the obtained transform to register the label image (label_img) to the atlas image (atlas_img), too
+    # be careful with the interpolator type for label images!
+    # hint: 'Resample' (with interpolator=sitkNearestNeighbor, defaultPixelValue=0.0, outputPixelType=label_img.GetPixelIDValue())
     registered_label = None  # todo: modify here
 
     return registered_img, registered_label
@@ -73,7 +78,7 @@ def extract_feature_median(img):
 
 
 def postprocess_largest_component(label_img):
-    # todo: get the connected components from the label_img
+    # todo: get the connected components from the label_img (hint: 'ConnectedComponent')
     connected_components = None  # todo: modify here
 
     # todo: order the component by ascending component size (hint: 'RelabelComponent')
@@ -122,19 +127,21 @@ if __name__ == '__main__':
 
     callback.start_test('load_image')
     img = load_image('../data/exercise/subjectX/T1native.nii.gz', False)
-    load_ok = img.GetPixelID() == 8 and img.GetSize() == (181, 217, 181) and img.GetPixel(100, 100, 100) == 12175 and \
-              img.GetPixel(100, 100, 101) == 11972
+    load_ok = isinstance(img, sitk.Image) and img.GetPixelID() == 8 and img.GetSize() == (181, 217, 181) and \
+              img.GetPixel(100, 100, 100) == 12175 and img.GetPixel(100, 100, 101) == 11972
+
     callback.end_test(load_ok)
 
     callback.start_test('to_numpy_array')
     np_img = to_numpy_array(img)
-    to_numpy_ok = np_img.dtype.name == 'float32' and np_img.shape == (181, 217, 181) and np_img[100, 100, 100] == 12175 \
-                  and np_img[101, 100, 100] == 11972
+    to_numpy_ok = isinstance(np_img, np.ndarray) and np_img.dtype.name == 'float32' and np_img.shape == (181, 217, 181) \
+                  and np_img[100, 100, 100] == 12175 and np_img[101, 100, 100] == 11972
     callback.end_test(to_numpy_ok)
 
     callback.start_test('to_sitk_image')
     rev_img = to_sitk_image(np_img, img)
-    to_sitk_ok = rev_img.GetOrigin() == img.GetOrigin() and rev_img.GetSpacing() == img.GetSpacing() and \
+    to_sitk_ok = isinstance(rev_img, sitk.Image) and rev_img.GetOrigin() == img.GetOrigin() and \
+                 rev_img.GetSpacing() == img.GetSpacing() and \
                  rev_img.GetDirection() == img.GetDirection() and rev_img.GetPixel(100, 100, 100) == 12175 and \
                  rev_img.GetPixel(100, 100, 101) == 11972
     callback.end_test(to_sitk_ok)
@@ -142,40 +149,67 @@ if __name__ == '__main__':
     callback.start_test('register_images')
     atlas_img = load_image('../data/exercise/mni_icbm152_t1_tal_nlin_sym_09a.nii.gz', False)
     label_img = load_image('../data/exercise/subjectX/labels_native.nii.gz', True)
-    registered_img, registered_label = register_images(img, label_img, atlas_img)
-    stats = sitk.LabelStatisticsImageFilter()
-    stats.Execute(registered_img, registered_label)
-    labels = stats.GetLabels()
-    register_ok = registered_img.GetSize() == registered_label.GetSize() == (197, 233, 189) and labels == tuple(
-        range(6))
+    if isinstance(atlas_img, sitk.Image) and isinstance(label_img, sitk.Image):
+        registered_img, registered_label = register_images(img, label_img, atlas_img)
+        if isinstance(registered_img, sitk.Image) and isinstance(registered_label, sitk.Image):
+            stats = sitk.LabelStatisticsImageFilter()
+            stats.Execute(registered_img, registered_label)
+            labels = stats.GetLabels()
+            register_ok = registered_img.GetSize() == registered_label.GetSize() == (197, 233, 189) and \
+                          labels == tuple(range(6))
+        else:
+            register_ok = False
+    else:
+        register_ok = False
     callback.end_test(register_ok)
 
     callback.start_test('preprocss_rescale_numpy')
-    pre_np = preprocess_rescale_numpy(np_img, -3, 101)
-    pre_np_ok = pre_np.min() == -3 and pre_np.max() == 101
+    if isinstance(np_img, np.ndarray):
+        pre_np = preprocess_rescale_numpy(np_img, -3, 101)
+        if isinstance(pre_np, np.ndarray):
+            pre_np_ok = pre_np.min() == -3 and pre_np.max() == 101
+        else:
+            pre_np_ok = False
+    else:
+        pre_np_ok = False
     callback.end_test(pre_np_ok)
 
     callback.start_test('preprocss_rescale_sitk')
     pre_sitk = preprocess_rescale_sitk(img, -3, 101)
-    min_max = sitk.MinimumMaximumImageFilter()
-    min_max.Execute(pre_sitk)
-    pre_sitk_ok = min_max.GetMinimum() == -3 and min_max.GetMaximum() == 101
+    if isinstance(pre_sitk, sitk.Image):
+        min_max = sitk.MinimumMaximumImageFilter()
+        min_max.Execute(pre_sitk)
+        pre_sitk_ok = min_max.GetMinimum() == -3 and min_max.GetMaximum() == 101
+    else:
+        pre_sitk_ok = False
     callback.end_test(pre_sitk_ok)
 
     callback.start_test('extract_feature_median')
     median_img = extract_feature_median(img)
-    median_ref = load_image('../data/exercise/subjectX/T1med.nii.gz', False)
-    min_max = sitk.MinimumMaximumImageFilter()
-    min_max.Execute(median_img - median_ref)
-    median_ok = min_max.GetMinimum() == 0 and min_max.GetMaximum() == 0
+    if isinstance(median_img, sitk.Image):
+        median_ref = load_image('../data/exercise/subjectX/T1med.nii.gz', False)
+        if isinstance(median_ref, sitk.Image):
+            min_max = sitk.MinimumMaximumImageFilter()
+            min_max.Execute(median_img - median_ref)
+            median_ok = min_max.GetMinimum() == 0 and min_max.GetMaximum() == 0
+        else:
+            median_ok = False
+    else:
+        median_ok = False
     callback.end_test(median_ok)
 
     callback.start_test('postprocess_largest_component')
     largest_hippocampus = postprocess_largest_component(label_img == 3)  # 3: hippocampus
-    largest_ref = load_image('../data/exercise/subjectX/hippocampus_largest.nii.gz', True)
-    min_max = sitk.MinimumMaximumImageFilter()
-    min_max.Execute(largest_hippocampus - largest_ref)
-    post_ok = min_max.GetMinimum() == 0 and min_max.GetMaximum() == 0
+    if isinstance(largest_hippocampus, sitk.Image):
+        largest_ref = load_image('../data/exercise/subjectX/hippocampus_largest.nii.gz', True)
+        if isinstance(largest_ref, sitk.Image):
+            min_max = sitk.MinimumMaximumImageFilter()
+            min_max.Execute(largest_hippocampus - largest_ref)
+            post_ok = min_max.GetMinimum() == 0 and min_max.GetMaximum() == 0
+        else:
+            post_ok = False
+    else:
+        post_ok = False
     callback.end_test(post_ok)
 
     callback.end()
