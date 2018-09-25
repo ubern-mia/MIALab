@@ -36,11 +36,12 @@ def collect_image_paths(data_dir):
 
 
 def load_images(image_paths):
-    # todo: read the images (t1 as sitk.sitkFloat32, GroundTruth as sitk.sitkUInt8)
+    # todo: read the images (T1 as sitk.sitkFloat32, GroundTruth as sitk.sitkUInt8)
     image_dict = {
         structure.BrainImageTypes.T1: None,  # todo: modify here
         structure.BrainImageTypes.GroundTruth: None  # todo: modify here
     }
+
     return image_dict
 
 
@@ -48,7 +49,7 @@ def register_images(image_dict, atlas_img):
 
     registration = fltr_reg.MultiModalRegistration()
     registration_params = fltr_reg.MultiModalRegistrationParams(atlas_img)
-    # todo execute the registration with the T1 image and the registration parameters
+    # todo execute the registration with the T1-weighted image and the registration parameters
     registered_t1 = None  # todo: modify here
 
     gt_img = image_dict[structure.BrainImageTypes.GroundTruth]
@@ -70,10 +71,11 @@ def preprocess_filter_rescale_t1(image_dict, new_min_val, new_max_val):
             resacaled_img = sitk.RescaleIntensity(img, params.min, params.max)
             return resacaled_img
 
-    # todo: use the above filter and parameters to get the rescaled image
+    # todo: use the above filter and parameters to get the rescaled T1-weighted image
     filter = None  # todo: modify here
     filter_params = None  # todo: modify here
     minmax_rescaled_img = None  # todo: modify here
+
     return minmax_rescaled_img
 
 
@@ -84,9 +86,10 @@ def extract_feature_median_t1(image_dict):
             med_img = sitk.Median(img)
             return med_img
 
-    # todo: use the above filter class to get the median image feature
+    # todo: use the above filter class to get the median image feature of the T1-weighted image
     filter = None  # todo: modify here
     median_img = None  # todo: modify here
+
     return median_img
 
 
