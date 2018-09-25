@@ -31,7 +31,8 @@ def collect_image_paths(data_dir):
 
     # todo: create an instance of load.FileSystemDataCrawler and pass the correpsonding arguments
     crawler = None  # todo: modify here
-    return crawler.data
+
+    return crawler
 
 
 def load_images(image_paths):
@@ -95,40 +96,67 @@ if __name__ == '__main__':
     callback.start('Pipeline')
 
     callback.start_test('collect_image_paths')
-    image_paths = collect_image_paths('../data/exercise/')
-    subjectx_paths = image_paths.get('subjectX')  # only consider subjectX
-    identifier = subjectx_paths.pop('subjectX', '')
-    collect_ok = identifier.endswith('subjectX') and structure.BrainImageTypes.GroundTruth in subjectx_paths \
-                 and structure.BrainImageTypes.T1 in subjectx_paths
+    crawler = collect_image_paths('../data/exercise/')
+    if isinstance(crawler, load.FileSystemDataCrawler):
+        image_paths = crawler.data
+        subjectx_paths = image_paths.get('subjectX')  # only consider subjectX
+        identifier = subjectx_paths.pop('subjectX', '')
+        collect_ok = identifier.endswith('subjectX') and structure.BrainImageTypes.GroundTruth in subjectx_paths \
+                     and structure.BrainImageTypes.T1 in subjectx_paths
+    else:
+        collect_ok = False
+        subjectx_paths = None  # for load_images
     callback.end_test(collect_ok)
 
     callback.start_test('load_images')
-    subjectx_images = load_images(subjectx_paths)
-    load_ok = all(isinstance(img, sitk.Image) for img in subjectx_images.values())
+    if isinstance(subjectx_paths, dict):
+        subjectx_images = load_images(subjectx_paths)
+        load_ok = isinstance(subjectx_images, dict) and all(isinstance(img, sitk.Image) for img in subjectx_images.values())
+    else:
+        load_ok = False
+        subjectx_images = None  # for preprocess_filter_rescale_t1
     callback.end_test(load_ok)
 
     callback.start_test('register_images')
     atlas_img = sitk.ReadImage('../data/exercise/mni_icbm152_t1_tal_nlin_sym_09a.nii.gz')
-    registered_img, registered_gt = register_images(subjectx_images, atlas_img)
-    stats = sitk.LabelStatisticsImageFilter()
-    stats.Execute(registered_img, registered_gt)
-    labels = stats.GetLabels()
-    register_ok = registered_img.GetSize() == registered_gt.GetSize() == (197, 233, 189) and labels == tuple(range(6))
+    if isinstance(subjectx_paths, dict):
+        registered_img, registered_gt = register_images(subjectx_images, atlas_img)
+        if isinstance(registered_img, sitk.Image) and isinstance(registered_gt, sitk.Image):
+            stats = sitk.LabelStatisticsImageFilter()
+            stats.Execute(registered_img, registered_gt)
+            labels = stats.GetLabels()
+            register_ok = registered_img.GetSize() == registered_gt.GetSize() == (197, 233, 189) and labels == tuple(range(6))
+        else:
+            register_ok = False
+    else:
+        register_ok = False
     callback.end_test(register_ok)
 
     callback.start_test('preprocess_filter_rescale_t1')
-    pre_rescale = preprocess_filter_rescale_t1(subjectx_images, -3, 101)
-    min_max = sitk.MinimumMaximumImageFilter()
-    min_max.Execute(pre_rescale)
-    pre_ok = min_max.GetMinimum() == -3 and min_max.GetMaximum() == 101
+    if isinstance(subjectx_images, dict):
+        pre_rescale = preprocess_filter_rescale_t1(subjectx_images, -3, 101)
+        if isinstance(pre_rescale, sitk.Image):
+            min_max = sitk.MinimumMaximumImageFilter()
+            min_max.Execute(pre_rescale)
+            pre_ok = min_max.GetMinimum() == -3 and min_max.GetMaximum() == 101
+        else:
+            pre_ok = False
+    else:
+        pre_ok = False
     callback.end_test(pre_ok)
 
     callback.start_test('extract_feature_median_t1')
-    median_img = extract_feature_median_t1(subjectx_images)
-    median_ref = sitk.ReadImage('../data/exercise/subjectX/T1med.nii.gz')
-    min_max = sitk.MinimumMaximumImageFilter()
-    min_max.Execute(median_img - median_ref)
-    median_ok = min_max.GetMinimum() == 0 and min_max.GetMaximum() == 0
+    if isinstance(subjectx_images, dict):
+        median_img = extract_feature_median_t1(subjectx_images)
+        if isinstance(median_img, sitk.Image):
+            median_ref = sitk.ReadImage('../data/exercise/subjectX/T1med.nii.gz')
+            min_max = sitk.MinimumMaximumImageFilter()
+            min_max.Execute(median_img - median_ref)
+            median_ok = min_max.GetMinimum() == 0 and min_max.GetMaximum() == 0
+        else:
+            median_ok = False
+    else:
+        median_ok = False
     callback.end_test(median_ok)
 
     callback.end()
