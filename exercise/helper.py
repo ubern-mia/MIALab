@@ -21,5 +21,7 @@ class TestCallback:
     def end(self):
         if self.fail_count == 0:
             print('\n------ All tests passed -------')
+        elif self.fail_count == 1:
+            print('\n------ {} test failed. Keep on trying! --------'.format(self.fail_count))
         else:
             print('\n------ {} tests failed. Keep on trying! --------'.format(self.fail_count))
