@@ -104,11 +104,10 @@ def _get_registration_method(atlas_img, img) -> sitk.ImageRegistrationMethod:
 
 def load_image(img_path, is_label_img):
     # todo: load the image from the image path with the SimpleITK interface (hint: 'ReadImage')
-    # todo: if 'is_label_img' is True use outputPixelType=sitk.sitkUInt8, else use outputPixelType=sitk.sitkFloat32
+    # todo: if 'is_label_img' is True use argument outputPixelType=sitk.sitkUInt8, else use outputPixelType=sitk.sitkFloat32
 
     pixel_type = None  # todo: modify here
     img = None  # todo: modify here
-
     return img
 
 
