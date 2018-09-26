@@ -20,6 +20,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append t
 # fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
 # somehow pip install does not keep track of packages
 
+
 def main(savefig: bool, result_dir: str, numtrees: int, treedepth: int):
     """Trains a decision forest classifier on a the iris dataset."""
 
@@ -115,7 +116,6 @@ def main(savefig: bool, result_dir: str, numtrees: int, treedepth: int):
         t = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
         figure.savefig(os.path.join(result_dir, 'rfplot_{}.png'.format(t)))
         print('Plot saved as ' + os.path.join(result_dir, 'rfplot_{}.png'.format(t)))
-
 
 
 if __name__ == "__main__":

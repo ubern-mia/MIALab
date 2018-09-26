@@ -240,3 +240,4 @@ bin/mia-model/
 bin/mia-result/
 *.nii.gz
 *.mha
+exercise/randomforest_plots/
