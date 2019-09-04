@@ -67,12 +67,7 @@ def unzip_data_if_needed(data_dir):
         os.remove(md5_file)
 
 
-def get_required_filenames():
-    # todo add as argument
-    native = True
-    brain_mask = False
-    bias_corr = False
-
+def get_required_filenames(native: bool = True, brain_mask: bool = False, bias_corr: bool = False):
     images = []
     labels = []
     if native:
@@ -99,13 +94,13 @@ def get_required_filenames():
 
 def get_files(data_dir, image_names, label_names):
 
-    def join_and_check_path(id_, file_names):
+    def join_and_check_path(file_id, file_names):
         files = []
         for in_filename, out_filename in file_names:
-            in_file_path = os.path.join(data_dir, id_, in_filename)
+            in_file_path = os.path.join(data_dir, file_id, in_filename)
             if not os.path.exists(in_file_path):
                 raise ValueError('file "{}" not exists'.format(in_file_path))
-            out_file_path = os.path.join(id_, out_filename)
+            out_file_path = os.path.join(file_id, out_filename)
             files.append((in_file_path, out_file_path))
         return files
 
@@ -119,7 +114,7 @@ def get_files(data_dir, image_names, label_names):
 
         image_files = join_and_check_path(id_, image_names)
         label_files = join_and_check_path(id_, label_names)
-        subject_files[id_] = {'images':image_files, 'labels': label_files}
+        subject_files[id_] = {'images': image_files, 'labels': label_files}
     return subject_files
 
 
@@ -180,10 +175,10 @@ class ComposeTransform(Transform):
 
 class RescaleIntensity(Transform):
 
-    def __init__(self, min=0, max=65535) -> None:
+    def __init__(self, min_=0, max_=65535) -> None:
         super().__init__()
-        self.min = min
-        self.max = max
+        self.min = min_
+        self.max = max_
 
     def __call__(self, img: sitk.Image) -> sitk.Image:
         return sitk.RescaleIntensity(img, self.min, self.max)
