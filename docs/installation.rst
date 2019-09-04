@@ -62,7 +62,7 @@ The installation has been tested on Windows 10.
 
 Linux
 ------
-Run the following commands in the terminal (tested on ubuntu 16.04 LTS).
+Run the following commands in the terminal (tested on Ubuntu 16.04 LTS and 18.04 LTS).
 
 #. git installation
    
@@ -154,4 +154,3 @@ The installation has not been tested.
    
    - :bash:`sphinx-build -b html ./docs ./docs/_build`
    - The documentation is now available under ``./docs/_build/index.html``
-
