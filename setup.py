@@ -2,8 +2,8 @@ import sys
 from setuptools import find_packages, setup
 
 
-if sys.version_info < (3,5):
-    sys.exit("Requires Python 3.5 or higher")
+if sys.version_info < (3, 6):
+    sys.exit("Requires Python 3.6 or higher")
 
 with open('README.rst') as f:
     readme = f.read()
@@ -12,18 +12,18 @@ with open('LICENSE') as f:
     license_ = f.read()
 
 REQUIRED_PACKAGES = [
-    'cython >= 0.28.4',
-    'matplotlib >= 2.2.2',
-    'numpy >= 1.15.0',
-    'pathos >= 0.2.2',
-    'Pillow >= 5.2.0',
+    'cython >= 0.29.13',
+    'matplotlib >= 3.1.1',
+    'numpy >= 1.17.1',
+    'pathos >= 0.2.4',
+    'pillow >= 6.1.0',
     'pydensecrf >= 1.0rc3',
     'pymia == 0.2.1',
-    'scikit-learn >= 0.19.2',
-    'scipy >= 1.1.0',
-    'SimpleITK >= 1.1.0',
-    'sphinx >= 1.7.6',
-    'sphinx_rtd_theme >= 0.4.0',
+    'scikit-learn >= 0.21.3',
+    'scipy >= 1.3.1',
+    'SimpleITK >= 1.2.2',
+    'sphinx >= 2.2.0',
+    'sphinx_rtd_theme >= 0.4.3',
 ]
 
 TEST_PACKAGES = [
@@ -48,7 +48,7 @@ setup(
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Topic :: Scientific/Engineering :: Image Recognition',
         'Topic :: Scientific/Engineering :: Mathematics',
         'Topic :: Scientific/Engineering :: Medical Science Apps.',
