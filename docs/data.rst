@@ -4,7 +4,7 @@ Data
 Medical Images
 --------------
 
-The dataset consists of 3 Tesla head MR images of 100 unrelated subjects from the `Human Connectome Project (HCP) <https://www.humanconnectome.org/>`_ dataset of healthy volunteers [2]_.For each subject, the following data is available:
+The dataset consists of 3 tesla head MR images of 100 unrelated subjects from the `Human Connectome Project (HCP) <https://www.humanconnectome.org/>`_ dataset of healthy volunteers [2]_.For each subject, the following data is available:
 
 - T1-weighted (T1w) MR image volume, not skull-stripped (but defaced for anonymization [3]_), and skull-stripped with a bias field correction
 - T2-weighted (T2w) MR image volume, processed the same way as the T1w image
