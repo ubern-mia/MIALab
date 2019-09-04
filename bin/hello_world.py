@@ -15,7 +15,7 @@ import sklearn.ensemble as sk_ensemble
 
 def main():
 
-    print('Welcome to MIALab 2018!')
+    print('Welcome to MIALab 2019!')
 
     # --- scikit-learn
     clf = sk_ensemble.RandomForestClassifier(max_depth=2, random_state=0)
