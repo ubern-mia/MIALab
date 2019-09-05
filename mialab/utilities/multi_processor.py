@@ -36,7 +36,7 @@ class BrainImageToPicklableBridge:
     """A :class:`BrainImage <data.structure.BrainImage>` to :class:`PicklableBrainImage` bridge."""
 
     @staticmethod
-    def convert(brain_image: structure.BrainImage)-> PicklableBrainImage:
+    def convert(brain_image: structure.BrainImage) -> PicklableBrainImage:
         """Converts a :class:`BrainImage <data.structure.BrainImage>` to :class:`PicklableBrainImage`.
 
         Args:
@@ -235,7 +235,7 @@ class MultiProcessor:
     """Class managing multiprocessing"""
 
     @staticmethod
-    def run(fn: callable, param_list: iter, fn_kwargs: dict=None, pickle_helper_cls: type=DefaultPickleHelper):
+    def run(fn: callable, param_list: iter, fn_kwargs: dict = None, pickle_helper_cls: type = DefaultPickleHelper):
         """ Executes the function ``fn`` in parallel (different processes) for each parameter in the parameter list.
 
         Args:
