@@ -2,12 +2,11 @@
 import enum
 import os
 import typing as t
+import warnings
 
 import numpy as np
 import pymia.data.conversion as conversion
 import pymia.filtering.filter as fltr
-import pymia.filtering.preprocessing as fltr_prep
-import pymia.filtering.registration as fltr_reg
 import pymia.evaluation.evaluator as eval_
 import pymia.evaluation.metric as metric
 import SimpleITK as sitk
@@ -15,7 +14,7 @@ import SimpleITK as sitk
 import mialab.data.structure as structure
 import mialab.filtering.feature_extraction as fltr_feat
 import mialab.filtering.postprocessing as fltr_postp
-
+import mialab.filtering.preprocessing as fltr_prep
 import mialab.utilities.multi_processor as mproc
 
 atlas_t1 = sitk.Image()
@@ -41,10 +40,10 @@ class FeatureImageTypes(enum.Enum):
     """Represents the feature image types."""
 
     ATLAS_COORD = 1
-    T1_INTENSITY = 2
-    T1_GRADIENT_INTENSITY = 3
-    T2_INTENSITY = 4
-    T2_GRADIENT_INTENSITY = 5
+    T1w_INTENSITY = 2
+    T1w_GRADIENT_INTENSITY = 3
+    T2w_INTENSITY = 4
+    T2w_GRADIENT_INTENSITY = 5
 
 
 class FeatureExtractor:
@@ -68,21 +67,20 @@ class FeatureExtractor:
         Returns:
             structure.BrainImage: The image with extracted features.
         """
+        warnings.warn('No features from T2-weighted image extracted.')
+
         if self.coordinates_feature:
             atlas_coordinates = fltr_feat.AtlasCoordinates()
             self.img.feature_images[FeatureImageTypes.ATLAS_COORD] = \
-                atlas_coordinates.execute(self.img.images[structure.BrainImageTypes.T1])
+                atlas_coordinates.execute(self.img.images[structure.BrainImageTypes.T1w])
 
         if self.intensity_feature:
-            self.img.feature_images[FeatureImageTypes.T1_INTENSITY] = self.img.images[structure.BrainImageTypes.T1]
-            self.img.feature_images[FeatureImageTypes.T2_INTENSITY] = self.img.images[structure.BrainImageTypes.T2]
+            self.img.feature_images[FeatureImageTypes.T1w_INTENSITY] = self.img.images[structure.BrainImageTypes.T1w]
 
         if self.gradient_intensity_feature:
             # compute gradient magnitude images
-            self.img.feature_images[FeatureImageTypes.T1_GRADIENT_INTENSITY] = \
-                sitk.GradientMagnitude(self.img.images[structure.BrainImageTypes.T1])
-            self.img.feature_images[FeatureImageTypes.T2_GRADIENT_INTENSITY] = \
-                sitk.GradientMagnitude(self.img.images[structure.BrainImageTypes.T2])
+            self.img.feature_images[FeatureImageTypes.T1w_GRADIENT_INTENSITY] = \
+                sitk.GradientMagnitude(self.img.images[structure.BrainImageTypes.T1w])
 
         self._generate_feature_matrix()
 
@@ -92,7 +90,7 @@ class FeatureExtractor:
         """Generates a feature matrix."""
 
         mask = None
-
+        # todo: check label values
         if self.training:
             # generate a randomized mask where 1 represents voxels used for training
             # the mask needs to be binary, where the value 1 is considered as a voxel which is to be loaded
@@ -101,8 +99,8 @@ class FeatureExtractor:
             # - 1 (white matter)
             # - 2 (grey matter)
             # - 3 (Hippocampus)
-            # - 3 (Amygdala)
-            # - 3 (Thalamus)
+            # - 4 (Amygdala)
+            # - 5 (Thalamus)
 
             # you can exclude background voxels from the training mask generation
             # mask_background = self.img.images[structure.BrainImageTypes.BrainMask]
@@ -184,44 +182,29 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     path = paths.pop(id_, '')  # the value with key id_ is the root directory of the image
     img = {img_key: sitk.ReadImage(path) for img_key, path in paths.items()}
     img = structure.BrainImage(id_, path, img)
+    # todo: enusure img.properties are from the T1w image...
 
-    # construct T1 pipeline
+    # construct pipeline for T1w image pre-processing
     pipeline_t1 = fltr.FilterPipeline()
-    if kwargs.get('zscore_pre', False):
-        pipeline_t1.add_filter(fltr_prep.NormalizeZScore())
+    if kwargs.get('normalization_pre', False):
+        pipeline_t1.add_filter(fltr_prep.ImageNormalization())
     if kwargs.get('registration_pre', False):
-        pipeline_t1.add_filter(fltr_reg.MultiModalRegistration())
-        pipeline_t1.set_param(fltr_reg.MultiModalRegistrationParams(atlas_t1), 1)
+        # the T1w image is already registered to the MNI atlas image
+        # we only need to register the T2w image (see pipeline_t2 below)
+        pass
 
-    # execute pipeline on T1 image
-    img.images[structure.BrainImageTypes.T1] = pipeline_t1.execute(img.images[structure.BrainImageTypes.T1])
+    # execute pipeline on T1w image
+    img.images[structure.BrainImageTypes.T1w] = pipeline_t1.execute(img.images[structure.BrainImageTypes.T1w])
 
-    # construct T2 pipeline
+    # construct pipeline for T2w image pre-processing
     pipeline_t2 = fltr.FilterPipeline()
-    if kwargs.get('zscore_pre', False):
-        pipeline_t2.add_filter(fltr_prep.NormalizeZScore())
-
-    # execute pipeline on T2 image
-    img.images[structure.BrainImageTypes.T2] = pipeline_t2.execute(img.images[structure.BrainImageTypes.T2])
-
+    if kwargs.get('normalization_pre', False):
+        pipeline_t2.add_filter(fltr_prep.ImageNormalization())
     if kwargs.get('registration_pre', False):
-        # get transformation
-        transform = pipeline_t1.filters[1].transform
+        pipeline_t2.add_filter(fltr_prep.ImageRegistration())
 
-        # apply transformation of T1 image registration to T2 image
-        image_t2 = img.images[structure.BrainImageTypes.T2]
-        image_t2 = sitk.Resample(image_t2, atlas_t1, transform, sitk.sitkLinear, 0.0,
-                                 image_t2.GetPixelIDValue())
-        img.images[structure.BrainImageTypes.T2] = image_t2
-
-        # apply transformation of T1 image registration to ground truth
-        image_ground_truth = img.images[structure.BrainImageTypes.GroundTruth]
-        image_ground_truth = sitk.Resample(image_ground_truth, atlas_t1, transform, sitk.sitkNearestNeighbor, 0,
-                                           image_ground_truth.GetPixelIDValue())
-        img.images[structure.BrainImageTypes.GroundTruth] = image_ground_truth
-
-        # update image properties to atlas image properties after registration
-        img.image_properties = conversion.ImageProperties(atlas_t1)
+    # execute pipeline on T2w image
+    img.images[structure.BrainImageTypes.T2w] = pipeline_t2.execute(img.images[structure.BrainImageTypes.T2w])
 
     # extract the features
     feature_extractor = FeatureExtractor(img, **kwargs)
@@ -250,10 +233,7 @@ def post_process(img: structure.BrainImage, segmentation: sitk.Image, probabilit
     # construct pipeline
     pipeline = fltr.FilterPipeline()
     if kwargs.get('crf_post', False):
-        pipeline.add_filter(fltr_postp.DenseCRF())
-        pipeline.set_param(fltr_postp.DenseCRFParams(img.images[structure.BrainImageTypes.T1],
-                                                     img.images[structure.BrainImageTypes.T2],
-                                                     probability), 0)
+        pipeline.add_filter(fltr_postp.ImagePostProcessing())
 
     return pipeline.execute(segmentation)
 
@@ -278,6 +258,7 @@ def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eva
     evaluator.add_label(4, "Amygdala")
     evaluator.add_label(5, "Thalamus")
     evaluator.metrics = [metric.DiceCoefficient()]
+    warnings.warn('Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?')
     return evaluator
 
 

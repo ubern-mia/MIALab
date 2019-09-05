@@ -6,8 +6,8 @@ import pymia.data.conversion as conversion
 
 class BrainImageTypes(enum.Enum):
     """Represents human readable image types."""
-    T1 = 1  #: The T1-weighted image.
-    T2 = 2  #: The T2-weighted image.
+    T1w = 1  #: The T1-weighted image.
+    T2w = 2  #: The T2-weighted image.
     GroundTruth = 3  #: The ground truth image.
     BrainMask = 4  #: The brain mask image.
 

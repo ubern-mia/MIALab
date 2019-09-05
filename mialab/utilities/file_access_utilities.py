@@ -34,17 +34,13 @@ class BrainImageFilePathGenerator(load.FilePathGenerator):
 
         # the commented file_names are for the registration group
 
-        if file_key == structure.BrainImageTypes.T1:
-            # file_name = 'T1native'
+        if file_key == structure.BrainImageTypes.T1w:
             file_name = 'T1mni_biasfieldcorr_noskull'
-        elif file_key == structure.BrainImageTypes.T2:
-            # file_name = 'T2native'
-            file_name = 'T2mni_biasfieldcorr_noskull'
+        elif file_key == structure.BrainImageTypes.T2w:
+            file_name = 'T2native_biasfieldcorr_noskull'
         elif file_key == structure.BrainImageTypes.GroundTruth:
-            # file_name = 'labels_native'
             file_name = 'labels_mniatlas'
         elif file_key == structure.BrainImageTypes.BrainMask:
-            # file_name = 'Brainmasknative'
             file_name = 'Brainmaskmni'
         else:
             raise ValueError('Unknown key')
@@ -76,4 +72,3 @@ class DataDirectoryFilter(load.DirectoryFilter):
         # currently, we do not filter the directories. but you could filter the directory list like this:
         # return [dir for dir in dirs if not dir.lower().__contains__('atlas')]
         return dirs
-

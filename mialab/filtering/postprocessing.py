@@ -2,21 +2,23 @@
 
 Image post-processing aims to alter images such that they depict a desired representation.
 """
+import warnings
+
 import numpy as np
 import pydensecrf.densecrf as crf
 import pydensecrf.utils as crf_util
-import pymia.filtering.filter as fltr
+import pymia.filtering.filter as pymia_fltr
 import SimpleITK as sitk
 
 
-class DenseCRFParams(fltr.IFilterParams):
+class DenseCRFParams(pymia_fltr.IFilterParams):
     """Dense CRF parameters."""
     def __init__(self, img_t1: sitk.Image, img_t2: sitk.Image, img_proba: sitk.Image):
         """Initializes a new instance of the DenseCRFParams
         
         Args:
-            img_t1 (sitk.Image): The T1 image.
-            img_t2 (sitk.Image): The T2 image.
+            img_t1 (sitk.Image): The T1-weighted image.
+            img_t2 (sitk.Image): The T2-weigthed image.
             img_proba (sitk.Image): The posterior probability image.
         """
         self.img_t1 = img_t1
@@ -24,7 +26,7 @@ class DenseCRFParams(fltr.IFilterParams):
         self.img_proba = img_proba
 
 
-class DenseCRF(fltr.IFilter):
+class DenseCRF(pymia_fltr.IFilter):
     """A dense conditional random field (dCRF).
 
     Implements the work of Krähenbühl and Koltun, Efficient Inference in Fully Connected CRFs
@@ -35,7 +37,7 @@ class DenseCRF(fltr.IFilter):
         """Initializes a new instance of the DenseCRF class."""
         super().__init__()
 
-    def execute(self, image: sitk.Image, params: DenseCRFParams=None) -> sitk.Image:
+    def execute(self, image: sitk.Image, params: DenseCRFParams = None) -> sitk.Image:
         """Executes the dCRF regularization.
 
         Args:
@@ -110,3 +112,36 @@ class DenseCRF(fltr.IFilter):
         img_out = sitk.GetImageFromArray(map_soln_unary)
         img_out.CopyInformation(params.img_t1)
         return img_out
+
+
+class ImagePostProcessing(pymia_fltr.IFilter):
+    """Represents a post-processing filter."""
+
+    def __init__(self):
+        """Initializes a new instance of the ImagePostProcessing class."""
+        super().__init__()
+
+    def execute(self, image: sitk.Image, params: pymia_fltr.IFilterParams = None) -> sitk.Image:
+        """Registers an image.
+
+        Args:
+            image (sitk.Image): The image.
+            params (IFilterParams): The parameters.
+
+        Returns:
+            sitk.Image: The post-processed image.
+        """
+
+        # todo: replace this filter by a post-processing. Check out the DenseCRF class above!
+        warnings.warn('No post-processing implemented. See mialab.filtering.postprocessing.DenseCRF.')
+
+        return image
+
+    def __str__(self):
+        """Gets a printable string representation.
+
+        Returns:
+            str: String representation.
+        """
+        return 'ImagePostProcessing:\n' \
+            .format(self=self)

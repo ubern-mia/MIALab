@@ -13,13 +13,13 @@ import exercise.helper as helper
 
 
 def collect_image_paths(data_dir):
-    image_keys = [structure.BrainImageTypes.T1,
+    image_keys = [structure.BrainImageTypes.T1w,
                   structure.BrainImageTypes.GroundTruth]
 
     class MyFilePathGenerator(load.FilePathGenerator):
         @staticmethod
         def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
-            if file_key == structure.BrainImageTypes.T1:
+            if file_key == structure.BrainImageTypes.T1w:
                 file_name = 'T1native'
             elif file_key == structure.BrainImageTypes.GroundTruth:
                 file_name = 'labels_native'
@@ -38,7 +38,7 @@ def collect_image_paths(data_dir):
 def load_images(image_paths):
     # todo: read the images (T1 as sitk.sitkFloat32, GroundTruth as sitk.sitkUInt8)
     image_dict = {
-        structure.BrainImageTypes.T1: None,  # todo: modify here
+        structure.BrainImageTypes.T1w: None,  # todo: modify here
         structure.BrainImageTypes.GroundTruth: None  # todo: modify here
     }
 
@@ -105,7 +105,7 @@ if __name__ == '__main__':
         subjectx_paths = image_paths.get('subjectX')  # only consider subjectX
         identifier = subjectx_paths.pop('subjectX', '')
         collect_ok = identifier.endswith('subjectX') and structure.BrainImageTypes.GroundTruth in subjectx_paths \
-                     and structure.BrainImageTypes.T1 in subjectx_paths
+                     and structure.BrainImageTypes.T1w in subjectx_paths
     else:
         collect_ok = False
         subjectx_paths = None  # for load_images
