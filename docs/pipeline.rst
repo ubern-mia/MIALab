@@ -3,7 +3,7 @@
 Pipeline
 ========
 
-The figure below shows our medical image analysis (MIA) pipeline with its single steps. Our pipeline has as input two magnetic resonance imaging (MRI) image slices (i.e., a T1-weighted (T1w) image slice and a T2-weighted (T2w) image slice) and a segmentation of the brain into the structures described previously (see :ref:`background_label`).
+The figure below shows our medical image analysis (MIA) pipeline with its single steps. Our pipeline has as input two magnetic resonance (MR) image slices (i.e., a T1-weighted (T1w) image slice and a T2-weighted (T2w) image slice) and a segmentation of the brain into the structures described previously (see :ref:`background_label`).
 The pipeline itself consists of the following steps:
 
 - Registration, which aims at aligning the two MR images

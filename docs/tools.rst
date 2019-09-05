@@ -24,7 +24,6 @@ Integrated development environment (IDE)
 
 - `PyCharm <https://www.jetbrains.com/pycharm/>`_: Strongly recommended (Community and Professional version are free for students) [Win, Mac, Linux]
 
-
 Git
 ---
 

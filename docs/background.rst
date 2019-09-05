@@ -3,11 +3,11 @@
 Clinical Background
 ===================
 
-In the MIALab, we are segmenting structures of the brain. We are thus focusing on the most prominent medical imaging analysis (MIA) task, segmentation, and do it in the most prominent area in MIA, the brain, on magnetic resonance imaging (MRI) images.
-Segmenting brain structures from MRI images is important, e.g., for the tracking of progression in neurodegenerative diseases by the atrophy of brain tissue [1]_. Performing the segmentation task manually is very time-consuming, user-dependent, and costly [2]_.
+In the MIALab, we are segmenting structures of the human brain. We are thus focusing on the most prominent medical imaging analysis (MIA) task, segmentation, and do it in the most prominent area in MIA, the human brain, on magnetic resonance (MR) images.
+Segmenting brain structures from MR images is important, e.g., for the tracking of progression in neurodegenerative diseases by the atrophy of brain tissue [1]_. Performing the segmentation task manually is very time-consuming, user-dependent, and costly [2]_. Think about being a neuroradiologist who needs to segment the brain of every scanned patient.
 This is why we aim for an automated approach based on machine learning (ML).
 
-The aim of the pipeline is to classify each voxel of a brain MRI in one of the following classes:
+The aim of the pipeline is to classify each voxel of a brain MR image in one of the following classes:
 
 - 0: Background (or any other structures than the one listed below)
 - 1: Cortical and cerebellar white matter
@@ -16,7 +16,7 @@ The aim of the pipeline is to classify each voxel of a brain MRI in one of the f
 - 4: Amygdala
 - 5: Thalamus
 
-An example sagittal image slice is shown in the figure below, where the label image (reference segmentation referred to as ground truth or simply labels) is shown next to the two available MRI sequences (T1-weighted and T2-weigthed).
+An example sagittal image slice is shown in the figure below, where the label image (reference segmentation referred to as ground truth or simply labels) is shown next to the two available MR images (T1-weighted and T2-weigthed).
 
 .. image:: pics/background.png
    :width: 600
