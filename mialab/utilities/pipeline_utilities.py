@@ -180,13 +180,17 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
 
     # load image
     path = paths.pop(id_, '')  # the value with key id_ is the root directory of the image
+    path_to_transform = paths.pop(structure.BrainImageTypes.RegistrationTransform, '')
     img = {img_key: sitk.ReadImage(path) for img_key, path in paths.items()}
-    img = structure.BrainImage(id_, path, img)
+    transform = sitk.ReadTransform(path_to_transform)
+    img = structure.BrainImage(id_, path, img, transform)
     # todo: enusure img.properties are from the T1w image...
 
     # construct pipeline for T1w image pre-processing
     pipeline_t1 = fltr.FilterPipeline()
     if kwargs.get('normalization_pre', False):
+        pipeline_t1.add_filter(fltr_prep.SkullStripping())
+        pipeline_t1.set_param(fltr_prep.SkullStrippingParameters(img.images[structure.BrainImageTypes.BrainMask]), 0)
         pipeline_t1.add_filter(fltr_prep.ImageNormalization())
     if kwargs.get('registration_pre', False):
         # the T1w image is already registered to the MNI atlas image
@@ -199,9 +203,12 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     # construct pipeline for T2w image pre-processing
     pipeline_t2 = fltr.FilterPipeline()
     if kwargs.get('normalization_pre', False):
+        pipeline_t2.add_filter(fltr_prep.SkullStripping())
+        pipeline_t2.set_param(fltr_prep.SkullStrippingParameters(img.images[structure.BrainImageTypes.BrainMask]), 0)
         pipeline_t2.add_filter(fltr_prep.ImageNormalization())
     if kwargs.get('registration_pre', False):
         pipeline_t2.add_filter(fltr_prep.ImageRegistration())
+        pipeline_t2.set_param(fltr_prep.ImageRegistrationParameters(img.transformation), 2)
 
     # execute pipeline on T2w image
     img.images[structure.BrainImageTypes.T2w] = pipeline_t2.execute(img.images[structure.BrainImageTypes.T2w])

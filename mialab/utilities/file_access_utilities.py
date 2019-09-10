@@ -42,6 +42,8 @@ class BrainImageFilePathGenerator(load.FilePathGenerator):
             file_name = 'labels_mniatlas'
         elif file_key == structure.BrainImageTypes.BrainMask:
             file_name = 'Brainmaskmni'
+        elif file_key == structure.BrainImageTypes.RegistrationTransform:
+            return os.path.join(root_dir, 'transform.txt')
         else:
             raise ValueError('Unknown key')
 

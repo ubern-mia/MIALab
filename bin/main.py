@@ -22,9 +22,11 @@ import mialab.data.structure as structure
 import mialab.utilities.file_access_utilities as futil
 import mialab.utilities.pipeline_utilities as putil
 
-IMAGE_KEYS = [structure.BrainImageTypes.T1w,
-              structure.BrainImageTypes.T2w,
-              structure.BrainImageTypes.GroundTruth]  # the list of images we will load
+LOADING_KEYS = [structure.BrainImageTypes.T1w,
+                structure.BrainImageTypes.T2w,
+                structure.BrainImageTypes.GroundTruth,
+                structure.BrainImageTypes.BrainMask,
+                structure.BrainImageTypes.RegistrationTransform]  # the list of data we will load
 
 
 def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_dir: str):
@@ -49,7 +51,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
     # crawl the training image directories
     crawler = load.FileSystemDataCrawler(data_train_dir,
-                                         IMAGE_KEYS,
+                                         LOADING_KEYS,
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
     pre_process_params = {'normalization_pre': True,
@@ -85,7 +87,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
     # crawl the training image directories
     crawler = load.FileSystemDataCrawler(data_test_dir,
-                                         IMAGE_KEYS,
+                                         LOADING_KEYS,
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
 
