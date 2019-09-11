@@ -35,15 +35,15 @@ class BrainImageFilePathGenerator(load.FilePathGenerator):
         # the commented file_names are for the registration group
 
         if file_key == structure.BrainImageTypes.T1w:
-            file_name = 'T1mni_biasfieldcorr_noskull'
+            file_name = 'T1native'
         elif file_key == structure.BrainImageTypes.T2w:
-            file_name = 'T2native_biasfieldcorr_noskull'
+            file_name = 'T2native'
         elif file_key == structure.BrainImageTypes.GroundTruth:
-            file_name = 'labels_mniatlas'
+            file_name = 'labels_native'
         elif file_key == structure.BrainImageTypes.BrainMask:
-            file_name = 'Brainmaskmni'
+            file_name = 'Brainmasknative'
         elif file_key == structure.BrainImageTypes.RegistrationTransform:
-            return os.path.join(root_dir, 'transform.txt')
+            return os.path.join(root_dir, 'affine.txt')
         else:
             raise ValueError('Unknown key')
 
