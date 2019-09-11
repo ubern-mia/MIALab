@@ -17,7 +17,7 @@ REQUIRED_PACKAGES = [
     'numpy >= 1.17.1',
     'pathos >= 0.2.4',
     'pillow >= 6.1.0',
-    'pydensecrf >= 1.0rc3',
+    # 'pydensecrf >= 1.0rc3',
     'pymia == 0.2.1',
     'scikit-learn >= 0.21.3',
     'scipy >= 1.3.1',
