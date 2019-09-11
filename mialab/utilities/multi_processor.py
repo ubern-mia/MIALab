@@ -84,7 +84,7 @@ class PicklableToBrainImageBridge:
             feature_images[key] = conversion.NumpySimpleITKImageBridge.convert(np_feat_img,
                                                                                picklable_brain_image.image_properties)
 
-        brain_image = structure.BrainImage(picklable_brain_image.id_, picklable_brain_image.path, images)
+        brain_image = structure.BrainImage(picklable_brain_image.id_, picklable_brain_image.path, images, None)
         brain_image.feature_matrix = picklable_brain_image.feature_matrix
         return brain_image
 
