@@ -7,6 +7,7 @@ import datetime
 import os
 import sys
 import timeit
+import warnings
 
 import SimpleITK as sitk
 import sklearn.ensemble as sk_ensemble
@@ -54,7 +55,8 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
                                          LOADING_KEYS,
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
-    pre_process_params = {'normalization_pre': True,
+    pre_process_params = {'skullstrip_pre': True,
+                          'normalization_pre': True,
                           'registration_pre': True,
                           'coordinates_feature': True,
                           'intensity_feature': True,
@@ -67,9 +69,10 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
     data_train = np.concatenate([img.feature_matrix[0] for img in images])
     labels_train = np.concatenate([img.feature_matrix[1] for img in images]).squeeze()
 
+    warnings.warn('Random forest parameters not properly set.')
     forest = sk_ensemble.RandomForestClassifier(max_features=images[0].feature_matrix[0].shape[1],
                                                 n_estimators=1,
-                                                max_depth=25)
+                                                max_depth=5)
 
     start_time = timeit.default_timer()
     forest.fit(data_train, labels_train)
@@ -93,7 +96,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
     # load images for testing and pre-process
     pre_process_params['training'] = False
-    images_test = putil.pre_process_batch(crawler.data, pre_process_params, multi_process=True)
+    images_test = putil.pre_process_batch(crawler.data, pre_process_params, multi_process=False)
 
     images_prediction = []
     images_probabilities = []
@@ -118,7 +121,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
         images_probabilities.append(image_probabilities)
 
     # post-process segmentation and evaluate with post-processing
-    post_process_params = {'crf_post': True}
+    post_process_params = {'simple_post': True}
     images_post_processed = putil.post_process_batch(images_test, images_prediction, images_probabilities,
                                                      post_process_params, multi_process=True)
 

@@ -90,7 +90,6 @@ class FeatureExtractor:
         """Generates a feature matrix."""
 
         mask = None
-        # todo: check label values
         if self.training:
             # generate a randomized mask where 1 represents voxels used for training
             # the mask needs to be binary, where the value 1 is considered as a voxel which is to be loaded
@@ -184,40 +183,57 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     img = {img_key: sitk.ReadImage(path) for img_key, path in paths.items()}
     transform = sitk.ReadTransform(path_to_transform)
     img = structure.BrainImage(id_, path, img, transform)
-    # todo: enusure img.properties are from the T1w image...
 
     # construct pipeline for T1w image pre-processing
     pipeline_t1 = fltr.FilterPipeline()
-    if kwargs.get('normalization_pre', False):
+    if kwargs.get('skullstrip_pre', False):
         pipeline_t1.add_filter(fltr_prep.SkullStripping())
-        pipeline_t1.set_param(fltr_prep.SkullStrippingParameters(img.images[structure.BrainImageTypes.BrainMask]), 0)
+        pipeline_t1.set_param(fltr_prep.SkullStrippingParameters(img.images[structure.BrainImageTypes.BrainMask]),
+                              len(pipeline_t1.filters) - 1)
+    if kwargs.get('normalization_pre', False):
         pipeline_t1.add_filter(fltr_prep.ImageNormalization())
     if kwargs.get('registration_pre', False):
-        # the T1w image is already registered to the MNI atlas image
-        # we only need to register the T2w image (see pipeline_t2 below)
-        pass
+        pipeline_t1.add_filter(fltr_prep.ImageRegistration())
+        pipeline_t1.set_param(fltr_prep.ImageRegistrationParameters(img.transformation), len(pipeline_t1.filters) - 1)
 
     # execute pipeline on T1w image
     img.images[structure.BrainImageTypes.T1w] = pipeline_t1.execute(img.images[structure.BrainImageTypes.T1w])
 
     # construct pipeline for T2w image pre-processing
     pipeline_t2 = fltr.FilterPipeline()
-    if kwargs.get('normalization_pre', False):
+    if kwargs.get('skullstrip_pre', False):
         pipeline_t2.add_filter(fltr_prep.SkullStripping())
-        pipeline_t2.set_param(fltr_prep.SkullStrippingParameters(img.images[structure.BrainImageTypes.BrainMask]), 0)
+        pipeline_t2.set_param(fltr_prep.SkullStrippingParameters(img.images[structure.BrainImageTypes.BrainMask]),
+                              len(pipeline_t2.filters) - 1)
+    if kwargs.get('normalization_pre', False):
         pipeline_t2.add_filter(fltr_prep.ImageNormalization())
     if kwargs.get('registration_pre', False):
         pipeline_t2.add_filter(fltr_prep.ImageRegistration())
-        pipeline_t2.set_param(fltr_prep.ImageRegistrationParameters(img.transformation), 2)
+        pipeline_t2.set_param(fltr_prep.ImageRegistrationParameters(img.transformation), len(pipeline_t2.filters) - 1)
 
     # execute pipeline on T2w image
     img.images[structure.BrainImageTypes.T2w] = pipeline_t2.execute(img.images[structure.BrainImageTypes.T2w])
+
+    # construct pipeline for ground truth image pre-processing
+    pipeline_gt = fltr.FilterPipeline()
+    if kwargs.get('registration_pre', False):
+        pipeline_gt.add_filter(fltr_prep.ImageRegistration())
+        pipeline_gt.set_param(fltr_prep.ImageRegistrationParameters(img.transformation, True),
+                              len(pipeline_gt.filters) - 1)
+
+    # execute pipeline on ground truth image
+    img.images[structure.BrainImageTypes.GroundTruth] = pipeline_gt.execute(
+        img.images[structure.BrainImageTypes.GroundTruth])
+
+    # update image properties to atlas image properties after registration
+    img.image_properties = conversion.ImageProperties(img.images[structure.BrainImageTypes.T1w])
 
     # extract the features
     feature_extractor = FeatureExtractor(img, **kwargs)
     img = feature_extractor.execute()
 
-    img.feature_images = {}
+    # img.feature_images = {}  # in case you have memory issues, you can uncomment this line because we only need
+    # the img.feature_matrix for training of the classifier
 
     return img
 
@@ -239,8 +255,13 @@ def post_process(img: structure.BrainImage, segmentation: sitk.Image, probabilit
 
     # construct pipeline
     pipeline = fltr.FilterPipeline()
-    if kwargs.get('crf_post', False):
+    if kwargs.get('simple_post', False):
         pipeline.add_filter(fltr_postp.ImagePostProcessing())
+    if kwargs.get('crf_post', False):
+        pipeline.add_filter(fltr_postp.DenseCRF())
+        pipeline.set_param(fltr_postp.DenseCRFParams(img.images[structure.BrainImageTypes.T1w],
+                                                     img.images[structure.BrainImageTypes.T2w],
+                                                     probability), len(pipeline.filters) - 1)
 
     return pipeline.execute(segmentation)
 
@@ -259,11 +280,11 @@ def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eva
 
     evaluator = eval_.Evaluator(eval_.ConsoleEvaluatorWriter(5))
     evaluator.add_writer(eval_.CSVEvaluatorWriter(os.path.join(directory, result_file_name)))
-    evaluator.add_label(1, "WhiteMatter")
-    evaluator.add_label(2, "GreyMatter")
-    evaluator.add_label(3, "Hippocampus")
-    evaluator.add_label(4, "Amygdala")
-    evaluator.add_label(5, "Thalamus")
+    evaluator.add_label(1, 'WhiteMatter')
+    evaluator.add_label(2, 'GreyMatter')
+    evaluator.add_label(3, 'Hippocampus')
+    evaluator.add_label(4, 'Amygdala')
+    evaluator.add_label(5, 'Thalamus')
     evaluator.metrics = [metric.DiceCoefficient()]
     warnings.warn('Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?')
     return evaluator

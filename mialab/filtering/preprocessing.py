@@ -28,7 +28,7 @@ class ImageNormalization(pymia_fltr.IFilter):
 
         img_arr = sitk.GetArrayFromImage(image)
 
-        # todo: normalize the image in some way using numpy
+        # todo: normalize the image using numpy
         warnings.warn('No normalization implemented. Returning unprocessed image.')
 
         img_out = sitk.GetImageFromArray(img_arr)
@@ -77,7 +77,7 @@ class SkullStripping(pymia_fltr.IFilter):
         """
         mask = params.img_mask  # the brain mask
 
-        # todo: remove the skull from the image by using the mask
+        # todo: remove the skull from the image by using the brain mask
         warnings.warn('No skull-stripping implemented. Returning unprocessed image.')
 
         return image
@@ -95,13 +95,15 @@ class SkullStripping(pymia_fltr.IFilter):
 class ImageRegistrationParameters(pymia_fltr.IFilterParams):
     """Image registration parameters."""
 
-    def __init__(self, transformation: sitk.Transform):
+    def __init__(self, transformation: sitk.Transform, is_ground_truth: bool = False):
         """Initializes a new instance of the ImageRegistrationParameters
 
         Args:
             transformation (sitk.Transform): The transformation for registration.
+            is_ground_truth (bool): Indicates weather the registration is performed on the ground truth or not.
         """
         self.transformation = transformation
+        self.is_ground_truth = is_ground_truth
 
 
 class ImageRegistration(pymia_fltr.IFilter):
@@ -116,7 +118,7 @@ class ImageRegistration(pymia_fltr.IFilter):
 
         Args:
             image (sitk.Image): The image.
-            params (ImageRegistrationParameters): The registration parameters (transformation).
+            params (ImageRegistrationParameters): The registration parameters.
 
         Returns:
             sitk.Image: The registered image.
@@ -124,9 +126,10 @@ class ImageRegistration(pymia_fltr.IFilter):
 
         # todo: replace this filter by a registration. Registration can be costly, therefore, we provide you the
         # transformation, which you only need to apply to the image!
-        warnings.warn('No registration implemented.')
+        warnings.warn('No registration implemented. Returning unregistered image')
 
         transform = params.transformation
+        is_ground_truth = params.is_ground_truth  # the ground truth will be handled slightly different
 
         # note: if you are interested in registration, and want to test it, have a look at
         # pymia.filtering.registration.MultiModalRegistration. Think about the type of registration, i.e.
