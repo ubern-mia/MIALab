@@ -7,7 +7,7 @@ import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pydensecrf.densecrf as crf
+# import pydensecrf.densecrf as crf
 import pymia.evaluation.evaluator as pymia_eval
 import SimpleITK as sitk
 import sklearn.ensemble as sk_ensemble
@@ -37,7 +37,7 @@ def main():
     plt.show()
 
     # --- pydensecrf
-    d = crf.DenseCRF(1000, 2)
+    # d = crf.DenseCRF(1000, 2)
 
     # --- pymia
     eval = pymia_eval.Evaluator()
