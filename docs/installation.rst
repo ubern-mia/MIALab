@@ -6,7 +6,7 @@ Installation
 .. role:: bash(code)
    :language: bash
 
-To start with the installation, download the `Anaconda installer <https://www.anaconda.com/download/>`_ for your operating system and Python 3.6.
+To start with the installation, download the `Anaconda installer <https://www.anaconda.com/distribution/>`_ for your operating system and Python 3.7.
 
 
 Windows
@@ -23,12 +23,9 @@ The installation has been tested on Windows 10.
    - :bash:`cd \path\to\where\you\want\the\code`
    - :bash:`git clone https://github.com/ubern-mia/MIALab.git`
 
-#. Anaconda installation (`official website <https://docs.anaconda.com/anaconda/install/windows.html>`__)
-   
-   - Launch the installer
-   - Select an install for "Just Me" unless you’re installing for all users (which requires Windows administrator privileges)
-   - Choose whether to add Anaconda to your PATH environment variable. We recommend not adding Anaconda to the PATH environment variable, since this can interfere with other software.
-   - Choose whether to register Anaconda as your default Python 3.6. Unless you plan on installing and running multiple versions of Anaconda, or multiple versions of Python, you should accept the default and leave this box checked.
+#. Anaconda installation
+
+   - Follow the instructions on the `official website <https://docs.anaconda.com/anaconda/install/windows/>`__
 
 #. Verify the installation
    
@@ -37,7 +34,7 @@ The installation has been tested on Windows 10.
 
 #. Create a new Python 3.6 environment with the name mialab
    
-   - :bash:`conda create -n mialab python=3.6`
+   - :bash:`conda create -n mialab python=3.7`
 
 #. Activate the environment by
    
@@ -70,14 +67,10 @@ Run the following commands in the terminal (tested on Ubuntu 16.04 LTS and 18.04
    - :bash:`cd /path/to/where/you/want/the/code`
    - :bash:`git clone https://github.com/ubern-mia/MIALab.git`
 
-#. Run Anaconda installation script (`official website <https://docs.anaconda.com/anaconda/install/linux>`__)
+#. Run Anaconda installation script
 
-   - :bash:`bash <path_to_file>/Anaconda3-4.4.0-Linux-x86_64.sh` (run the installation script)
-
-     - Scroll to the bottom of the license and enter :bash:`yes` to agree the license
-     - Accept suggested installation path (or change it if you know what you do)
-     - :bash:`yes` to add Anaconda to the PATH (and :bash:`no` to VisualCode installation)
-     - Reopen the terminal
+   - Follow the instructions on the `official website <https://docs.anaconda.com/anaconda/install/linux>`__
+   - No need to install the GUI packages
 
 #. Verify the installation
    
@@ -85,11 +78,11 @@ Run the following commands in the terminal (tested on Ubuntu 16.04 LTS and 18.04
 
 #. Create a new Python 3.6 environment with the name mialab (confirm with y when promted during creation)
    
-   - :bash:`conda create -n mialab python=3.6`
+   - :bash:`conda create -n mialab python=3.7`
 
 #. Activate the environment by
    
-   - :bash:`source activate mialab`
+   - :bash:`conda activate mialab`
 
 #. Install all required packages for the MIALab
    
@@ -119,12 +112,9 @@ The installation has not been tested.
    - :bash:`cd /path/to/where/you/want/the/code`
    - :bash:`git clone https://github.com/ubern-mia/MIALab.git`
 
-#. Anaconda installation (`official website <https://docs.anaconda.com/anaconda/install/mac-os>`__)
-   
-   - Launch the installer
-   - On the Destination Select screen, select "Install for me only"
-   - (Don't install VisualStudio Code)
-   - etc.
+#. Anaconda installation
+
+   - Follow the instructions on the `official website <https://docs.anaconda.com/anaconda/install/mac-os/>`__
 
 #. Verify the installation
    
@@ -132,7 +122,7 @@ The installation has not been tested.
 
 #. Create a new Python 3.6 environment with the name mialab
    
-   - :bash:`conda create -n mialab python=3.6`
+   - :bash:`conda create -n mialab python=3.7`
 
 #. Activate the environment by
    
