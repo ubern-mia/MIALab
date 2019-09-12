@@ -194,7 +194,8 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
         pipeline_t1.add_filter(fltr_prep.ImageNormalization())
     if kwargs.get('registration_pre', False):
         pipeline_t1.add_filter(fltr_prep.ImageRegistration())
-        pipeline_t1.set_param(fltr_prep.ImageRegistrationParameters(img.transformation), len(pipeline_t1.filters) - 1)
+        pipeline_t1.set_param(fltr_prep.ImageRegistrationParameters(atlas_t1, img.transformation),
+                              len(pipeline_t1.filters) - 1)
 
     # execute pipeline on T1w image
     img.images[structure.BrainImageTypes.T1w] = pipeline_t1.execute(img.images[structure.BrainImageTypes.T1w])
@@ -209,7 +210,8 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
         pipeline_t2.add_filter(fltr_prep.ImageNormalization())
     if kwargs.get('registration_pre', False):
         pipeline_t2.add_filter(fltr_prep.ImageRegistration())
-        pipeline_t2.set_param(fltr_prep.ImageRegistrationParameters(img.transformation), len(pipeline_t2.filters) - 1)
+        pipeline_t2.set_param(fltr_prep.ImageRegistrationParameters(atlas_t2, img.transformation),
+                              len(pipeline_t2.filters) - 1)
 
     # execute pipeline on T2w image
     img.images[structure.BrainImageTypes.T2w] = pipeline_t2.execute(img.images[structure.BrainImageTypes.T2w])
@@ -218,7 +220,7 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     pipeline_gt = fltr.FilterPipeline()
     if kwargs.get('registration_pre', False):
         pipeline_gt.add_filter(fltr_prep.ImageRegistration())
-        pipeline_gt.set_param(fltr_prep.ImageRegistrationParameters(img.transformation, True),
+        pipeline_gt.set_param(fltr_prep.ImageRegistrationParameters(atlas_t1, img.transformation, True),
                               len(pipeline_gt.filters) - 1)
 
     # execute pipeline on ground truth image

@@ -95,13 +95,15 @@ class SkullStripping(pymia_fltr.IFilter):
 class ImageRegistrationParameters(pymia_fltr.IFilterParams):
     """Image registration parameters."""
 
-    def __init__(self, transformation: sitk.Transform, is_ground_truth: bool = False):
+    def __init__(self, atlas: sitk.Image, transformation: sitk.Transform, is_ground_truth: bool = False):
         """Initializes a new instance of the ImageRegistrationParameters
 
         Args:
+            atlas (sitk.Image): The atlas image.
             transformation (sitk.Transform): The transformation for registration.
             is_ground_truth (bool): Indicates weather the registration is performed on the ground truth or not.
         """
+        self.atlas = atlas
         self.transformation = transformation
         self.is_ground_truth = is_ground_truth
 
@@ -128,6 +130,7 @@ class ImageRegistration(pymia_fltr.IFilter):
         # transformation, which you only need to apply to the image!
         warnings.warn('No registration implemented. Returning unregistered image')
 
+        atlas = params.atlas
         transform = params.transformation
         is_ground_truth = params.is_ground_truth  # the ground truth will be handled slightly different
 
