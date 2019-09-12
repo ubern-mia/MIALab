@@ -2,20 +2,22 @@
 import enum
 
 import pymia.data.conversion as conversion
+import SimpleITK as sitk
 
 
 class BrainImageTypes(enum.Enum):
     """Represents human readable image types."""
-    T1 = 1  #: The T1-weighted image.
-    T2 = 2  #: The T2-weighted image.
+    T1w = 1  #: The T1-weighted image.
+    T2w = 2  #: The T2-weighted image.
     GroundTruth = 3  #: The ground truth image.
     BrainMask = 4  #: The brain mask image.
+    RegistrationTransform = 5  #: The registration transformation
 
 
 class BrainImage:
     """Represents a brain image."""
     
-    def __init__(self, id_: str, path: str, images: dict):
+    def __init__(self, id_: str, path: str, images: dict, transformation: sitk.Transform):
         """Initializes a new instance of the BrainImage class.
 
         Args:
@@ -27,6 +29,7 @@ class BrainImage:
         self.id_ = id_
         self.path = path
         self.images = images
+        self.transformation = transformation
 
         # ensure we have an image to get the image properties
         if len(images) == 0:

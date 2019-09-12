@@ -33,7 +33,7 @@ class DataCollection:
         self.data = None  # use float32 since TensorFlow does not support float64
         self.labels = None
 
-    def add_data(self, data, label: int=UNKNOWN_LABEL):
+    def add_data(self, data, label: int = UNKNOWN_LABEL):
         """Adds data to the collection.
 
         Args:

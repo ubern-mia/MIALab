@@ -4,7 +4,7 @@ Data
 Medical Images
 --------------
 
-The dataset consists of 3 Tesla head MR images of 100 unrelated subjects from the `Human Connectome Project (HCP) <https://www.humanconnectome.org/>`_ dataset of healthy volunteers [2]_.For each subject, the following data is available:
+The dataset consists of 3 tesla head MR images of 100 unrelated subjects from the `Human Connectome Project (HCP) <https://www.humanconnectome.org/>`_ dataset of healthy volunteers [2]_. For each subject, the following data is available:
 
 - T1-weighted (T1w) MR image volume, not skull-stripped (but defaced for anonymization [3]_), and skull-stripped with a bias field correction
 - T2-weighted (T2w) MR image volume, processed the same way as the T1w image
@@ -19,7 +19,7 @@ Preparing the Data
 ^^^^^^^^^^^^^^^^^^
 
 The data is available online through the Human Connectome Project (HCP) `website <https://www.humanconnectome.org/>`_. To download the data, you need to create a free account. Be sure you download the 100 unrelated subjects.
-Once downloaded, you can run ``python bin/prepare_data.py --data_dir=<path_to_downloaded_data>`` (setup environment first, see :ref:`installation_label`).
+Once downloaded, you can run ``python bin/prepare_data.py --data_dir=<path_to_downloaded_data>`` (setup the Python environment first, see :ref:`installation_label`).
 The script
 
 - resamples the images and labels to unit voxel (1 mm x 1 mm x 1 mm)
@@ -31,7 +31,6 @@ The script
     - ``mni``: for the images in atlas space
     - ``no_skull``: for the skull-stripped images
     - ``biasfieldcorr``: for the bias field corrected images
-
 
 You may use training and testing cases combined to evaluate the model performance if you like (k-fold cross-validation, leave-one-out cross-validation, ...), but it makes sense to do the final evaluation with this data splitting to ensure comparability.
 
@@ -46,10 +45,10 @@ The MR image and label files with ``mni`` prefix are registered to the `MNI152 a
 
 Add these files to the ``./data/atlas/`` directory.
 
-Toy Example
------------
+Random Forest Toy Example
+-------------------------
 
-The toy example data files in the data directory (``exp1_n2.txt``, ...) are taken from the Sherwood library [1]_.
+The get a feeling of what a random forest, the type of machine learning classifier used to classify voxels in the brain tissues at interest, does, toy example data are provided. The toy example data files in the data directory (``exp1_n2.txt``, ...) are taken from the Sherwood library [1]_.
 
 References
 ----------

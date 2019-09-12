@@ -33,7 +33,8 @@ def main(savefig: bool, result_dir: str, numtrees: int, treedepth: int):
     features, labels = data[0], data[1]
 
     # split into training and  testing data
-    feat_train, feat_test, labels_train, labels_test = train_test_split(features, labels, test_size=0.5, random_state=42)
+    feat_train, feat_test, labels_train, labels_test = train_test_split(features, labels, test_size=0.5,
+                                                                        random_state=42)
 
     # initialize the forest
     forest = sk_ensemble.RandomForestClassifier(max_features=feat_train.shape[1],
@@ -60,7 +61,6 @@ def main(savefig: bool, result_dir: str, numtrees: int, treedepth: int):
     print("Training accuracy: {0:.2%}".format(train_acc))
     print("Testing accuracy: {0:.2%}".format(test_acc))
 
-
     # plot the result
     h = .02  # step size in the mesh
     # set font for text in figure
@@ -79,14 +79,14 @@ def main(savefig: bool, result_dir: str, numtrees: int, treedepth: int):
     # just plot the dataset first
     cm = plt.cm.RdBu
     cm_bright = ListedColormap(['#FF0000', '#0000FF'])
-    #ax = plt.subplot(len(datasets), len(classifiers) + 1, i)
+    # ax = plt.subplot(len(datasets), len(classifiers) + 1, i)
 
     # Plot the training points
     plt.scatter(feat_train[:, 0], feat_train[:, 1], c=labels_train, cmap=cm_bright,
-               edgecolors='k')
+                edgecolors='k', label="Train")
     # and testing points
     plt.scatter(feat_test[:, 0], feat_test[:, 1], c=labels_test, cmap=cm_bright, alpha=0.6,
-               edgecolors='k')
+                edgecolors='k', marker="P", label="Test")
     plt.xlim(xx.min(), xx.max())
     plt.ylim(yy.min(), yy.max())
     plt.title("Random Forest Classification Exercise")
@@ -102,12 +102,15 @@ def main(savefig: bool, result_dir: str, numtrees: int, treedepth: int):
     plt.contourf(xx, yy, prob_boundary, cmap=cm, alpha=.8)
 
     # add model information
-    plt.text(x_min+0.2, y_max-0.2, "Number of trees: {0:d}".format(numtrees), fontdict=font)
-    plt.text(x_min+0.2, y_max-0.3, "Max. tree depth: {0:d}".format(treedepth), fontdict=font)
+    plt.text(x_min + 0.2, y_max - 0.2, "Number of trees: {0:d}".format(numtrees), fontdict=font)
+    plt.text(x_min + 0.2, y_max - 0.3, "Max. tree depth: {0:d}".format(treedepth), fontdict=font)
 
     # add accuracy information to plot
-    plt.text(x_max-2, y_max-0.2, "Training accuracy: {0:.2%}".format(train_acc), fontdict=font)
-    plt.text(x_max-2, y_max-0.3, "Testing accuracy: {0:.2%}".format(test_acc), fontdict=font)
+    plt.text(x_max - 2, y_max - 0.2, "Training accuracy: {0:.2%}".format(train_acc), fontdict=font)
+    plt.text(x_max - 2, y_max - 0.3, "Testing accuracy: {0:.2%}".format(test_acc), fontdict=font)
+
+    # add legend
+    plt.legend(loc='lower left')
 
     plt.show()
 

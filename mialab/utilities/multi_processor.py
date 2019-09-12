@@ -36,7 +36,7 @@ class BrainImageToPicklableBridge:
     """A :class:`BrainImage <data.structure.BrainImage>` to :class:`PicklableBrainImage` bridge."""
 
     @staticmethod
-    def convert(brain_image: structure.BrainImage)-> PicklableBrainImage:
+    def convert(brain_image: structure.BrainImage) -> PicklableBrainImage:
         """Converts a :class:`BrainImage <data.structure.BrainImage>` to :class:`PicklableBrainImage`.
 
         Args:
@@ -84,7 +84,7 @@ class PicklableToBrainImageBridge:
             feature_images[key] = conversion.NumpySimpleITKImageBridge.convert(np_feat_img,
                                                                                picklable_brain_image.image_properties)
 
-        brain_image = structure.BrainImage(picklable_brain_image.id_, picklable_brain_image.path, images)
+        brain_image = structure.BrainImage(picklable_brain_image.id_, picklable_brain_image.path, images, None)
         brain_image.feature_matrix = picklable_brain_image.feature_matrix
         return brain_image
 
@@ -235,7 +235,7 @@ class MultiProcessor:
     """Class managing multiprocessing"""
 
     @staticmethod
-    def run(fn: callable, param_list: iter, fn_kwargs: dict=None, pickle_helper_cls: type=DefaultPickleHelper):
+    def run(fn: callable, param_list: iter, fn_kwargs: dict = None, pickle_helper_cls: type = DefaultPickleHelper):
         """ Executes the function ``fn`` in parallel (different processes) for each parameter in the parameter list.
 
         Args:
