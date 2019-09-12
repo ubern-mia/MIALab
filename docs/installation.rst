@@ -46,10 +46,7 @@ The installation has been tested on Windows 10.
 #. Install all required packages for the MIALab
    
    - :bash:`cd /d \path\to\MIALab\repository`
-   - :bash:`pip install .` will install all required packages. If you do not have the `Visual C++ 2015 Build Tools <http://landinghub.visualstudio.com/visual-cpp-build-tools>`_ installed, the installation of ``pydensecrf`` will fail and you have two options:
-
-      - Option 1: install the `Visual C++ 2015 Build Tools <http://landinghub.visualstudio.com/visual-cpp-build-tools>`_, execute :bash:`pip install cython -U` and rerun :bash:`pip install .`
-      - Option 2: unzip the ``pydensecrf_win.zip`` from ILIAS and place the two folders in ``<path_to_Anaconda>\envs\mialab\Lib\site-packages\``
+   - :bash:`pip install .` will install all required packages
 
 #. Execute the hello world to verify the installation
    
@@ -97,7 +94,7 @@ Run the following commands in the terminal (tested on Ubuntu 16.04 LTS and 18.04
 #. Install all required packages for the MIALab
    
    - :bash:`cd /path/to/MIALab/repository`
-   - :bash:`pip install .` will install all required packages (if the ``pydensecrf`` installation fails, install g++ by executing ``sudo apt-get install g++`` and ``sudo apt-get install python3.6-dev``)
+   - :bash:`pip install .` will install all required packages
 
 #. Execute the hello world to verify the installation
    
