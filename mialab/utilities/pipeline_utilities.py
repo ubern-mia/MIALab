@@ -186,15 +186,15 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
 
     # construct pipeline for T1w image pre-processing
     pipeline_t1 = fltr.FilterPipeline()
-    if kwargs.get('skullstrip_pre', False):
-        pipeline_t1.add_filter(fltr_prep.SkullStripping())
-        pipeline_t1.set_param(fltr_prep.SkullStrippingParameters(img.images[structure.BrainImageTypes.BrainMask]),
-                              len(pipeline_t1.filters) - 1)
     if kwargs.get('normalization_pre', False):
         pipeline_t1.add_filter(fltr_prep.ImageNormalization())
     if kwargs.get('registration_pre', False):
         pipeline_t1.add_filter(fltr_prep.ImageRegistration())
         pipeline_t1.set_param(fltr_prep.ImageRegistrationParameters(atlas_t1, img.transformation),
+                              len(pipeline_t1.filters) - 1)
+    if kwargs.get('skullstrip_pre', False):
+        pipeline_t1.add_filter(fltr_prep.SkullStripping())
+        pipeline_t1.set_param(fltr_prep.SkullStrippingParameters(img.images[structure.BrainImageTypes.BrainMask]),
                               len(pipeline_t1.filters) - 1)
 
     # execute pipeline on T1w image
@@ -202,15 +202,15 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
 
     # construct pipeline for T2w image pre-processing
     pipeline_t2 = fltr.FilterPipeline()
-    if kwargs.get('skullstrip_pre', False):
-        pipeline_t2.add_filter(fltr_prep.SkullStripping())
-        pipeline_t2.set_param(fltr_prep.SkullStrippingParameters(img.images[structure.BrainImageTypes.BrainMask]),
-                              len(pipeline_t2.filters) - 1)
     if kwargs.get('normalization_pre', False):
         pipeline_t2.add_filter(fltr_prep.ImageNormalization())
     if kwargs.get('registration_pre', False):
         pipeline_t2.add_filter(fltr_prep.ImageRegistration())
         pipeline_t2.set_param(fltr_prep.ImageRegistrationParameters(atlas_t2, img.transformation),
+                              len(pipeline_t2.filters) - 1)
+    if kwargs.get('skullstrip_pre', False):
+        pipeline_t2.add_filter(fltr_prep.SkullStripping())
+        pipeline_t2.set_param(fltr_prep.SkullStrippingParameters(img.images[structure.BrainImageTypes.BrainMask]),
                               len(pipeline_t2.filters) - 1)
 
     # execute pipeline on T2w image
