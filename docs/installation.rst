@@ -40,6 +40,10 @@ The installation has been tested on Windows 10.
    
    - :bash:`activate mialab`
 
+#. Install PyTorch manually (PyTorch is a dependency of pymia, which unfortunately fails to install on Windows. Therefore, we install it manually instead of using the setup script.)
+
+   - :bash:`pip install torch==1.2.0+cpu torchvision==0.4.0+cpu -f https://download.pytorch.org/whl/torch_stable.html`
+
 #. Install all required packages for the MIALab
    
    - :bash:`cd /d \path\to\MIALab\repository`
