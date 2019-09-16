@@ -9,10 +9,24 @@ import pymia.data.conversion as conversion
 import mialab.data.structure as structure
 
 
+class PickableAffineTransform:
+    """Represents a transformation that can be pickled."""
+
+    def __init__(self, transform: sitk.Transform):
+        self.dimension = transform.GetDimension()
+        self.parameters = transform.GetParameters()
+
+    def get_sitk_transformation(self):
+        transform = sitk.AffineTransform(self.dimension)
+        transform.SetParameters(self.parameters)
+        return transform
+
+
 class PicklableBrainImage:
     """Represents a brain image that can be pickled."""
 
-    def __init__(self, id_: str, path: str, np_images: dict, image_properties: conversion.ImageProperties):
+    def __init__(self, id_: str, path: str, np_images: dict, image_properties: conversion.ImageProperties,
+                 transform: sitk.Transform):
         """Initializes a new instance of the :class:`BrainImage <data.structure.BrainImage>` class.
 
         Args:
@@ -30,6 +44,7 @@ class PicklableBrainImage:
         self.feature_matrix = None  # a tuple (features, labels),
         # where the shape of features is (n, number_of_features) and the shape of labels is (n, 1)
         # with n being the amount of voxels
+        self.pickable_transform = PickableAffineTransform(transform)
 
 
 class BrainImageToPicklableBridge:
@@ -54,7 +69,8 @@ class BrainImageToPicklableBridge:
             np_feature_images[key] = sitk.GetArrayFromImage(feat_img)
 
         pickable_brain_image = PicklableBrainImage(brain_image.id_, brain_image.path, np_images,
-                                                   brain_image.image_properties)
+                                                   brain_image.image_properties,
+                                                   brain_image.transformation)
         pickable_brain_image.np_feature_images = np_feature_images
         pickable_brain_image.feature_matrix = brain_image.feature_matrix
 
@@ -84,7 +100,9 @@ class PicklableToBrainImageBridge:
             feature_images[key] = conversion.NumpySimpleITKImageBridge.convert(np_feat_img,
                                                                                picklable_brain_image.image_properties)
 
-        brain_image = structure.BrainImage(picklable_brain_image.id_, picklable_brain_image.path, images, None)
+        transform = picklable_brain_image.pickable_transform.get_sitk_transformation()
+
+        brain_image = structure.BrainImage(picklable_brain_image.id_, picklable_brain_image.path, images, transform)
         brain_image.feature_matrix = picklable_brain_image.feature_matrix
         return brain_image
 
