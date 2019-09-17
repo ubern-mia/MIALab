@@ -197,7 +197,7 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     if kwargs.get('normalization_pre', False):
         pipeline_t1.add_filter(fltr_prep.ImageNormalization())
 
-    # execute pipeline on T1w image
+    # execute pipeline on the T1w image
     img.images[structure.BrainImageTypes.T1w] = pipeline_t1.execute(img.images[structure.BrainImageTypes.T1w])
 
     # construct pipeline for T2w image pre-processing
@@ -213,7 +213,7 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     if kwargs.get('normalization_pre', False):
         pipeline_t2.add_filter(fltr_prep.ImageNormalization())
 
-    # execute pipeline on T2w image
+    # execute pipeline on the T2w image
     img.images[structure.BrainImageTypes.T2w] = pipeline_t2.execute(img.images[structure.BrainImageTypes.T2w])
 
     # construct pipeline for ground truth image pre-processing
@@ -223,9 +223,20 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
         pipeline_gt.set_param(fltr_prep.ImageRegistrationParameters(atlas_t1, img.transformation, True),
                               len(pipeline_gt.filters) - 1)
 
-    # execute pipeline on ground truth image
+    # execute pipeline on the ground truth image
     img.images[structure.BrainImageTypes.GroundTruth] = pipeline_gt.execute(
         img.images[structure.BrainImageTypes.GroundTruth])
+
+    # construct pipeline for brain mask pre-processing
+    pipeline_brain_mask = fltr.FilterPipeline()
+    if kwargs.get('registration_pre', False):
+        pipeline_brain_mask.add_filter(fltr_prep.ImageRegistration())
+        pipeline_brain_mask.set_param(fltr_prep.ImageRegistrationParameters(atlas_t1, img.transformation, True),
+                              len(pipeline_brain_mask.filters) - 1)
+
+    # execute pipeline on the brain mask image
+    img.images[structure.BrainImageTypes.BrainMask] = pipeline_brain_mask.execute(
+        img.images[structure.BrainImageTypes.BrainMask])
 
     # update image properties to atlas image properties after registration
     img.image_properties = conversion.ImageProperties(img.images[structure.BrainImageTypes.T1w])
