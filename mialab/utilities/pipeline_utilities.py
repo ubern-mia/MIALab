@@ -246,8 +246,8 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     feature_extractor = FeatureExtractor(img, **kwargs)
     img = feature_extractor.execute()
 
-    # img.feature_images = {}  # in case you have memory issues, you can uncomment this line because we only need
-    # the img.feature_matrix for training of the classifier
+    img.feature_images = {}  # we free up memory because we only need the img.feature_matrix
+    # for training of the classifier
 
     return img
 
