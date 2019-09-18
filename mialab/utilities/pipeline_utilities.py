@@ -184,6 +184,18 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     transform = sitk.ReadTransform(path_to_transform)
     img = structure.BrainImage(id_, path, img, transform)
 
+    # construct pipeline for brain mask registration
+    # we need to perform this before the T1w and T2w pipeline because the registered mask is used for skull-stripping
+    pipeline_brain_mask = fltr.FilterPipeline()
+    if kwargs.get('registration_pre', False):
+        pipeline_brain_mask.add_filter(fltr_prep.ImageRegistration())
+        pipeline_brain_mask.set_param(fltr_prep.ImageRegistrationParameters(atlas_t1, img.transformation, True),
+                              len(pipeline_brain_mask.filters) - 1)
+
+    # execute pipeline on the brain mask image
+    img.images[structure.BrainImageTypes.BrainMask] = pipeline_brain_mask.execute(
+        img.images[structure.BrainImageTypes.BrainMask])
+
     # construct pipeline for T1w image pre-processing
     pipeline_t1 = fltr.FilterPipeline()
     if kwargs.get('registration_pre', False):
@@ -226,17 +238,6 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     # execute pipeline on the ground truth image
     img.images[structure.BrainImageTypes.GroundTruth] = pipeline_gt.execute(
         img.images[structure.BrainImageTypes.GroundTruth])
-
-    # construct pipeline for brain mask pre-processing
-    pipeline_brain_mask = fltr.FilterPipeline()
-    if kwargs.get('registration_pre', False):
-        pipeline_brain_mask.add_filter(fltr_prep.ImageRegistration())
-        pipeline_brain_mask.set_param(fltr_prep.ImageRegistrationParameters(atlas_t1, img.transformation, True),
-                              len(pipeline_brain_mask.filters) - 1)
-
-    # execute pipeline on the brain mask image
-    img.images[structure.BrainImageTypes.BrainMask] = pipeline_brain_mask.execute(
-        img.images[structure.BrainImageTypes.BrainMask])
 
     # update image properties to atlas image properties after registration
     img.image_properties = conversion.ImageProperties(img.images[structure.BrainImageTypes.T1w])
