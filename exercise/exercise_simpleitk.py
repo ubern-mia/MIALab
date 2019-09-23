@@ -43,7 +43,7 @@ def register_images(img, label_img, atlas_img):
     transform = None  # todo: modify here
 
     # todo: apply the obtained transform to register the image (img) to the atlas image (atlas_img)
-    # hint: 'Resample' (with referenceImage=atlas_img, transform=transform, interpolator=sitkLinear, defaultPixelValue=0.0, outputPixelType=label_img.GetPixelIDValue())
+    # hint: 'Resample' (with referenceImage=atlas_img, transform=transform, interpolator=sitkLinear, defaultPixelValue=0.0, outputPixelType=img.GetPixelIDValue())
     registered_img = None  # todo: modify here
 
     # todo: apply the obtained transform to register the label image (label_img) to the atlas image (atlas_img), too
