@@ -300,7 +300,7 @@ def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eva
     evaluator.add_label(4, 'Amygdala')
     evaluator.add_label(5, 'Thalamus')
     evaluator.metrics = [metric.DiceCoefficient()]
-    # todo: add hausdorff distance (see metric.HausdorffDistance)
+    # todo: add hausdorff distance, 95th percentile (see metric.HausdorffDistance)
     warnings.warn('Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?')
     return evaluator
 
