@@ -8,19 +8,19 @@ import pymia.filtering.filter as pymia_fltr
 import SimpleITK as sitk
 
 
-class ImageNormalization(pymia_fltr.IFilter):
+class ImageNormalization(pymia_fltr.Filter):
     """Represents a normalization filter."""
 
     def __init__(self):
         """Initializes a new instance of the ImageNormalization class."""
         super().__init__()
 
-    def execute(self, image: sitk.Image, params: pymia_fltr.IFilterParams = None) -> sitk.Image:
+    def execute(self, image: sitk.Image, params: pymia_fltr.FilterParams = None) -> sitk.Image:
         """Executes a normalization on an image.
 
         Args:
             image (sitk.Image): The image.
-            params (IFilterParams): The parameters (unused).
+            params (FilterParams): The parameters (unused).
 
         Returns:
             sitk.Image: The normalized image.
@@ -46,7 +46,7 @@ class ImageNormalization(pymia_fltr.IFilter):
             .format(self=self)
 
 
-class SkullStrippingParameters(pymia_fltr.IFilterParams):
+class SkullStrippingParameters(pymia_fltr.FilterParams):
     """Skull-stripping parameters."""
 
     def __init__(self, img_mask: sitk.Image):
@@ -58,7 +58,7 @@ class SkullStrippingParameters(pymia_fltr.IFilterParams):
         self.img_mask = img_mask
 
 
-class SkullStripping(pymia_fltr.IFilter):
+class SkullStripping(pymia_fltr.Filter):
     """Represents a skull-stripping filter."""
 
     def __init__(self):
@@ -92,7 +92,7 @@ class SkullStripping(pymia_fltr.IFilter):
             .format(self=self)
 
 
-class ImageRegistrationParameters(pymia_fltr.IFilterParams):
+class ImageRegistrationParameters(pymia_fltr.FilterParams):
     """Image registration parameters."""
 
     def __init__(self, atlas: sitk.Image, transformation: sitk.Transform, is_ground_truth: bool = False):
@@ -108,7 +108,7 @@ class ImageRegistrationParameters(pymia_fltr.IFilterParams):
         self.is_ground_truth = is_ground_truth
 
 
-class ImageRegistration(pymia_fltr.IFilter):
+class ImageRegistration(pymia_fltr.Filter):
     """Represents a registration filter."""
 
     def __init__(self):

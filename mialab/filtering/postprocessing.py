@@ -11,19 +11,19 @@ import pymia.filtering.filter as pymia_fltr
 import SimpleITK as sitk
 
 
-class ImagePostProcessing(pymia_fltr.IFilter):
+class ImagePostProcessing(pymia_fltr.Filter):
     """Represents a post-processing filter."""
 
     def __init__(self):
         """Initializes a new instance of the ImagePostProcessing class."""
         super().__init__()
 
-    def execute(self, image: sitk.Image, params: pymia_fltr.IFilterParams = None) -> sitk.Image:
+    def execute(self, image: sitk.Image, params: pymia_fltr.FilterParams = None) -> sitk.Image:
         """Registers an image.
 
         Args:
             image (sitk.Image): The image.
-            params (IFilterParams): The parameters.
+            params (FilterParams): The parameters.
 
         Returns:
             sitk.Image: The post-processed image.
@@ -44,7 +44,7 @@ class ImagePostProcessing(pymia_fltr.IFilter):
             .format(self=self)
 
 
-# class DenseCRFParams(pymia_fltr.IFilterParams):
+# class DenseCRFParams(pymia_fltr.FilterParams):
 #     """Dense CRF parameters."""
 #     def __init__(self, img_t1: sitk.Image, img_t2: sitk.Image, img_proba: sitk.Image):
 #         """Initializes a new instance of the DenseCRFParams
@@ -59,7 +59,7 @@ class ImagePostProcessing(pymia_fltr.IFilter):
 #         self.img_proba = img_proba
 #
 #
-# class DenseCRF(pymia_fltr.IFilter):
+# class DenseCRF(pymia_fltr.Filter):
 #     """A dense conditional random field (dCRF).
 #
 #     Implements the work of Krähenbühl and Koltun, Efficient Inference in Fully Connected CRFs
@@ -75,7 +75,7 @@ class ImagePostProcessing(pymia_fltr.IFilter):
 #
 #         Args:
 #             image (sitk.Image): The image (unused).
-#             params (IFilterParams): The parameters.
+#             params (FilterParams): The parameters.
 #
 #         Returns:
 #             sitk.Image: The filtered image.

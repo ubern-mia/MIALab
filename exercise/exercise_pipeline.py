@@ -60,13 +60,13 @@ def register_images(image_dict, atlas_img):
 
 
 def preprocess_filter_rescale_t1(image_dict, new_min_val, new_max_val):
-    class MinMaxRescaleFilterParams(fltr.IFilterParams):
+    class MinMaxRescaleFilterParams(fltr.FilterParams):
         def __init__(self, min_, max_) -> None:
             super().__init__()
             self.min = min_
             self.max = max_
 
-    class MinMaxRescaleFilter(fltr.IFilter):
+    class MinMaxRescaleFilter(fltr.Filter):
         def execute(self, img: sitk.Image, params: MinMaxRescaleFilterParams = None) -> sitk.Image:
             resacaled_img = sitk.RescaleIntensity(img, params.min, params.max)
             return resacaled_img
@@ -81,8 +81,8 @@ def preprocess_filter_rescale_t1(image_dict, new_min_val, new_max_val):
 
 def extract_feature_median_t1(image_dict):
 
-    class MedianFilter(fltr.IFilter):
-        def execute(self, img: sitk.Image, params: fltr.IFilterParams = None) -> sitk.Image:
+    class MedianFilter(fltr.Filter):
+        def execute(self, img: sitk.Image, params: fltr.FilterParams = None) -> sitk.Image:
             med_img = sitk.Median(img)
             return med_img
 

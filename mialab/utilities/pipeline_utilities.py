@@ -281,28 +281,27 @@ def post_process(img: structure.BrainImage, segmentation: sitk.Image, probabilit
     return pipeline.execute(segmentation)
 
 
-def init_evaluator(directory: str, result_file_name: str = 'results.csv') -> eval_.Evaluator:
+def init_evaluator() -> eval_.Evaluator:
     """Initializes an evaluator.
-
-    Args:
-        directory (str): The directory for the results file.
-        result_file_name (str): The result file name (CSV file).
 
     Returns:
         eval.Evaluator: An evaluator.
     """
-    os.makedirs(directory, exist_ok=True)  # generate result directory, if it does not exists
 
-    evaluator = eval_.Evaluator(eval_.ConsoleEvaluatorWriter(5))
-    evaluator.add_writer(eval_.CSVEvaluatorWriter(os.path.join(directory, result_file_name)))
-    evaluator.add_label(1, 'WhiteMatter')
-    evaluator.add_label(2, 'GreyMatter')
-    evaluator.add_label(3, 'Hippocampus')
-    evaluator.add_label(4, 'Amygdala')
-    evaluator.add_label(5, 'Thalamus')
-    evaluator.metrics = [metric.DiceCoefficient()]
+    # initialize metrics
+    metrics = [metric.DiceCoefficient()]
     # todo: add hausdorff distance, 95th percentile (see metric.HausdorffDistance)
     warnings.warn('Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?')
+
+    # define the labels to evaluate
+    labels = {1: 'WhiteMatter',
+              2: 'GreyMatter',
+              3: 'Hippocampus',
+              4: 'Amygdala',
+              5: 'Thalamus'
+              }
+
+    evaluator = eval_.SegmentationEvaluator(metrics, labels)
     return evaluator
 
 

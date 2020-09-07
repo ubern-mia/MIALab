@@ -32,7 +32,7 @@ The installation has been tested on Windows 10.
    - Open "Anaconda Prompt"
    - :bash:`conda list`, which should list all installed Anaconda packages
 
-#. Create a new Python 3.6 environment with the name mialab
+#. Create a new Python 3.7 environment with the name mialab
    
    - :bash:`conda create -n mialab python=3.7`
 
@@ -40,14 +40,10 @@ The installation has been tested on Windows 10.
    
    - :bash:`activate mialab`
 
-#. Install PyTorch manually (PyTorch is a dependency of pymia, which unfortunately fails to install on Windows. Therefore, we install it manually instead of using the setup script.)
-
-   - :bash:`pip install torch==1.2.0+cpu torchvision==0.4.0+cpu -f https://download.pytorch.org/whl/torch_stable.html`
-
 #. Install all required packages for the MIALab
    
    - :bash:`cd /d \path\to\MIALab\repository`
-   - :bash:`pip install .` will install all required packages
+   - :bash:`pip install -r requirements.txt` will install all required packages
 
 #. Execute the hello world to verify the installation
    
@@ -80,7 +76,7 @@ Run the following commands in the terminal (tested on Ubuntu 16.04 LTS and 18.04
    
    - :bash:`conda list`, which should list all installed Anaconda packages
 
-#. Create a new Python 3.6 environment with the name mialab (confirm with y when promted during creation)
+#. Create a new Python 3.7 environment with the name mialab (confirm with y when promted during creation)
    
    - :bash:`conda create -n mialab python=3.7`
 
@@ -91,7 +87,7 @@ Run the following commands in the terminal (tested on Ubuntu 16.04 LTS and 18.04
 #. Install all required packages for the MIALab
    
    - :bash:`cd /path/to/MIALab/repository`
-   - :bash:`pip install .` will install all required packages
+   - :bash:`pip install -r requirements.txt` will install all required packages
 
 #. Execute the hello world to verify the installation
    
@@ -124,7 +120,7 @@ The installation has not been tested.
    
    - :bash:`conda list`, which should list all installed Anaconda packages
 
-#. Create a new Python 3.6 environment with the name mialab
+#. Create a new Python 3.7 environment with the name mialab
    
    - :bash:`conda create -n mialab python=3.7`
 
@@ -135,7 +131,7 @@ The installation has not been tested.
 #. Install all required packages for the MIALab
    
    - :bash:`cd /path/to/MIALab/repository`
-   - :bash:`pip install .` will install all required packages
+   - :bash:`pip install -r requirements.txt` will install all required packages
 
 #. Execute the hello world to verify the installation
    

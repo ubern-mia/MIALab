@@ -6,19 +6,19 @@ import pymia.filtering.filter as fltr
 import SimpleITK as sitk
 
 
-class AtlasCoordinates(fltr.IFilter):
+class AtlasCoordinates(fltr.Filter):
     """Represents an atlas coordinates feature extractor."""
 
     def __init__(self):
         """Initializes a new instance of the AtlasCoordinates class."""
         super().__init__()
 
-    def execute(self, image: sitk.Image, params: fltr.IFilterParams = None) -> sitk.Image:
+    def execute(self, image: sitk.Image, params: fltr.FilterParams = None) -> sitk.Image:
         """Executes a atlas coordinates feature extractor on an image.
 
         Args:
             image (sitk.Image): The image.
-            params (fltr.IFilterParams): The parameters (unused).
+            params (fltr.FilterParams): The parameters (unused).
 
         Returns:
             sitk.Image: The atlas coordinates image
@@ -121,7 +121,7 @@ def first_order_texture_features_function(values):
                      ])
 
 
-class NeighborhoodFeatureExtractor(fltr.IFilter):
+class NeighborhoodFeatureExtractor(fltr.Filter):
     """Represents a feature extractor filter, which works on a neighborhood."""
 
     def __init__(self, kernel=(3, 3, 3), function_=first_order_texture_features_function):
@@ -131,12 +131,12 @@ class NeighborhoodFeatureExtractor(fltr.IFilter):
         self.kernel = kernel
         self.function = function_
 
-    def execute(self, image: sitk.Image, params: fltr.IFilterParams=None) -> sitk.Image:
+    def execute(self, image: sitk.Image, params: fltr.FilterParams=None) -> sitk.Image:
         """Executes a neighborhood feature extractor on an image.
 
         Args:
             image (sitk.Image): The image.
-            params (fltr.IFilterParams): The parameters (unused).
+            params (fltr.FilterParams): The parameters (unused).
 
         Returns:
             sitk.Image: The normalized image.

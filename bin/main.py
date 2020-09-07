@@ -13,7 +13,8 @@ import SimpleITK as sitk
 import sklearn.ensemble as sk_ensemble
 import numpy as np
 import pymia.data.conversion as conversion
-import pymia.data.loading as load
+import pymia.data.loading as load  # adapt this
+import pymia.evaluation.writer as writer
 
 sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
 # fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
@@ -86,7 +87,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
     print('-' * 5, 'Testing...')
 
     # initialize evaluator
-    evaluator = putil.init_evaluator(result_dir)
+    evaluator = putil.init_evaluator()
 
     # crawl the training image directories
     crawler = load.FileSystemDataCrawler(data_test_dir,
@@ -132,6 +133,25 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
         # save results
         sitk.WriteImage(images_prediction[i], os.path.join(result_dir, images_test[i].id_ + '_SEG.mha'), True)
         sitk.WriteImage(images_post_processed[i], os.path.join(result_dir, images_test[i].id_ + '_SEG-PP.mha'), True)
+
+    # use two writers to report the results
+    # todo: verify if correct. See example at https://github.com/rundherum/pymia/blob/master/examples/evaluation/basic.py
+    os.makedirs(result_dir, exist_ok=True)  # generate result directory, if it does not exists
+    result_file = os.path.join(result_dir, 'results.csv')
+    writer.CSVWriter(result_file).write(evaluator.results)
+
+    print('\nSubject-wise results...')
+    writer.ConsoleWriter().write(evaluator.results)
+
+    # report also mean and standard deviation among all subjects
+    result_summary_file = os.path.join(result_dir, 'results_summary.csv')
+    functions = {'MEAN': np.mean, 'STD': np.std}
+    writer.CSVStatisticsWriter(result_summary_file, functions=functions).write(evaluator.results)
+    print('\nAggregated statistic results...')
+    writer.ConsoleStatisticsWriter(functions=functions).write(evaluator.results)
+
+    # clear results such that the evaluator is ready for the next evaluation
+    evaluator.clear()
 
 
 if __name__ == "__main__":
