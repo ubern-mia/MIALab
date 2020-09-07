@@ -12,12 +12,12 @@ with open('LICENSE') as f:
     license_ = f.read()
 
 REQUIRED_PACKAGES = [
-    'pymia == 0.2.1',
-    'scikit-learn >= 0.21.3',
-    'pathos >= 0.2.4',
+    'pymia == 0.3.1',
+    'scikit-learn >= 0.23.2',
+    'pathos >= 0.2.6',
     # 'pydensecrf >= 1.0rc3',
-    'sphinx >= 2.2.0',
-    'sphinx_rtd_theme >= 0.4.3',
+    'sphinx >= 3.2.1',
+    'sphinx_rtd_theme >= 0.5.0',
 ]
 
 TEST_PACKAGES = [
