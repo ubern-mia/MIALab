@@ -32,7 +32,7 @@ The installation has been tested on Windows 10.
    - Open "Anaconda Prompt"
    - :bash:`conda list`, which should list all installed Anaconda packages
 
-#. Create a new Python 3.6 environment with the name mialab
+#. Create a new Python 3.7 environment with the name mialab
    
    - :bash:`conda create -n mialab python=3.7`
 
@@ -42,7 +42,7 @@ The installation has been tested on Windows 10.
 
 #. Install PyTorch manually (PyTorch is a dependency of pymia, which unfortunately fails to install on Windows. Therefore, we install it manually instead of using the setup script.)
 
-   - :bash:`pip install torch==1.2.0+cpu torchvision==0.4.0+cpu -f https://download.pytorch.org/whl/torch_stable.html`
+   - :bash:`pip install torch===1.6.0 torchvision===0.7.0 -f https://download.pytorch.org/whl/torch_stable.html`
 
 #. Install all required packages for the MIALab
    
@@ -80,7 +80,7 @@ Run the following commands in the terminal (tested on Ubuntu 16.04 LTS and 18.04
    
    - :bash:`conda list`, which should list all installed Anaconda packages
 
-#. Create a new Python 3.6 environment with the name mialab (confirm with y when promted during creation)
+#. Create a new Python 3.7 environment with the name mialab (confirm with y when promted during creation)
    
    - :bash:`conda create -n mialab python=3.7`
 
@@ -101,6 +101,7 @@ Run the following commands in the terminal (tested on Ubuntu 16.04 LTS and 18.04
    
    - :bash:`sphinx-build -b html ./docs ./docs/_build`
    - The documentation is now available under ``./docs/_build/index.html``
+   - If the `sphinx-build`-command is not working add the sphinx directory to the environment variables
 
 
 macOS
@@ -124,7 +125,7 @@ The installation has not been tested.
    
    - :bash:`conda list`, which should list all installed Anaconda packages
 
-#. Create a new Python 3.6 environment with the name mialab
+#. Create a new Python 3.7 environment with the name mialab
    
    - :bash:`conda create -n mialab python=3.7`
 
