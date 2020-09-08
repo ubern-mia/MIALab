@@ -2,6 +2,10 @@
 Medical Image Analysis Laboratory
 =================================
 
+.. image:: https://readthedocs.org/projects/mialab/badge/?version=latest
+    :target: https://mialab.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 Welcome to the medical image analysis laboratory (MIALab).
 This repository contains all code you will need to get started with classical medical image analysis.
 

@@ -38,9 +38,9 @@ What is the optimal setting to register the images to an atlas?
 Materials
 ^^^^^^^^^
 
-- ``pymia.filtering.registration``, e.g., use the ``RegistrationPlotter``
+- ``pymia.filtering.registration``
 - \P. Viola and W. M. I. Wells, Alignment by maximization of mutual information, Proc. IEEE Int. Conf. Comput. Vis., vol. 24, no. 2, pp. 16–23, 1995.
-- \P. Cattin and V. Roth, Biomedical Image Analysis, 2016. [Online]. Available: https://miac.unibas.ch/BIA/ [Accessed: 25-Aug-2017].
+- \P. Cattin and V. Roth, Biomedical Image Analysis, 2016. [Online]. Available: https://miac.unibas.ch/BIA/ [Accessed: 08-Sep-2020].
 - M.-M. Rohé, M. Datar, T. Heimann, M. Sermesant, and X. Pennec, “SVF-Net: Learning Deformable Image Registration Using Shape Matching,” in Medical Image Computing and Computer Assisted Intervention − MICCAI 2017: 20th International Conference, Quebec City, QC, Canada, September 11-13, 2017, Proceedings, Part I, Springer International Publishing, 2017, pp. 266–274.
 - `SimpleITK Notebooks <http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/>`_: See chapters 60-67
 - `ITK Software Guide, Book 2 <https://itk.org/ITKSoftwareGuide/html/Book2/ITKSoftwareGuide-Book2ch3.html>`_: In C++ but with a thorough description
@@ -51,7 +51,7 @@ There exist various tools for registration besides the implemented code for regi
 
 - `3D Slicer <https://www.slicer.org/>`_: Open source software which also includes registration.
 - `ANTs <http://stnava.github.io/ANTs/>`_: Advanced Normalization Tools, which come with registration algorithms.
-- `NiftyReg <http://cmictig.cs.ucl.ac.uk/research/software/software-nifty/niftyreg>`_: Rigid, affine and non-linear registration of medical images.
+- `NiftyReg <http://cmictig.cs.ucl.ac.uk/wiki/index.php/NiftyReg>`_: Rigid, affine and non-linear registration of medical images.
 - `SimpleElastix <https://simpleelastix.github.io/>`_: An extension of SimpleITK.
 
 Post-processing
@@ -69,7 +69,7 @@ Materials
 - ``mialab.filtering.postprocessing``, e.g. use ``DenseCRF``
 - \P. Krähenbühl and V. Koltun, Efficient Inference in Fully Connected CRFs with Gaussian Edge Potentials, Advances in Neural Information Processing Systems, vol. 24, pp. 109-117, 2011.
 - \S. Nowozin and C. H. Lampert, Structured Learning and Prediction in Computer Vision, Foundations and Trends in Computer Graphics and Vision, vol. 6, pp. 185-365, 2010.
-- \P. Cattin and V. Roth, Biomedical Image Analysis - Mathematical Morphology, 2013. [Online]. Available: http://informatik.unibas.ch/fileadmin/Lectures/FS2013/CS252/morphology13.pdf [Accessed: 25-Aug-2017]
+- \P. Cattin, Image Segmentation, 2016. [Online]. Available: https://www.miac.unibas.ch/SIP/pdf/SIP-07-Segmentation.pdf [Accessed: 08-Sep-2020], see chapter 6 - Mathematical Morphology
 
 Evaluation
 ----------
@@ -100,7 +100,7 @@ Do other machine learning algorithms perform better on our task? Can we improve 
 Materials
 ^^^^^^^^^
 
-- `scikit-learn: Supervised machine learning algorithms <http://scikit-learn.org/stable/supervised_learning.html#supervised-learning>`_
+- `scikit-learn: Supervised learning <http://scikit-learn.org/stable/supervised_learning.html#supervised-learning>`_
 - \A. Criminisi and J. Shotton, Decision Forests for Computer Vision and Medical Image Analysis, 1st ed. London: Springer, 2013.
 - \R. S. Olson, W. La Cava, Z. Mustahsan, A. Varik, and J. H. Moore, Data-driven Advice for Applying Machine Learning to Bioinformatics Problems, Aug. 2017.
 
@@ -149,4 +149,5 @@ Materials
 ^^^^^^^^^
 
 - `Generic U-Net Tensorflow implementation for image segmentation <https://github.com/jakeret/tf_unet>`_
+- `U-Net PyTorch implementation for brain MRI <https://pytorch.org/hub/mateuszbuda_brain-segmentation-pytorch_unet/>`_
 - \O. Ronneberger, P. Fischer, and T. Brox, U-Net: Convolutional Networks for Biomedical Image Segmentation, May 2015.

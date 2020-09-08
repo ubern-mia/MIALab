@@ -3,7 +3,6 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
 
 import SimpleITK as sitk
-import pymia.data.loading as load
 import pymia.filtering.filter as fltr
 import pymia.filtering.registration as fltr_reg
 
@@ -16,7 +15,7 @@ def collect_image_paths(data_dir):
     image_keys = [structure.BrainImageTypes.T1w,
                   structure.BrainImageTypes.GroundTruth]
 
-    class MyFilePathGenerator(load.FilePathGenerator):
+    class MyFilePathGenerator(futil.FilePathGenerator):
         @staticmethod
         def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
             if file_key == structure.BrainImageTypes.T1w:
@@ -29,7 +28,7 @@ def collect_image_paths(data_dir):
 
     dir_filter = futil.DataDirectoryFilter()
 
-    # todo: create an instance of load.FileSystemDataCrawler and pass the correpsonding arguments
+    # todo: create an instance of futil.FileSystemDataCrawler and pass the correpsonding arguments
     crawler = None  # todo: modify here
 
     return crawler
@@ -100,7 +99,7 @@ if __name__ == '__main__':
 
     callback.start_test('collect_image_paths')
     crawler = collect_image_paths('../data/exercise/')
-    if isinstance(crawler, load.FileSystemDataCrawler):
+    if isinstance(crawler, futil.FileSystemDataCrawler):
         image_paths = crawler.data
         subjectx_paths = image_paths.get('subjectX')  # only consider subjectX
         identifier = subjectx_paths.pop('subjectX', '')

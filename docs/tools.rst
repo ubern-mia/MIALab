@@ -6,7 +6,7 @@ This list summarizes software tools and libraries we are going to use or we can 
 Python
 ------
 
-- We use `Python 3.6 <https://docs.python.org/3.6/>`_ inside an `Anaconda <https://www.anaconda.com/>`_ environment.
+- We use `Python 3.7 <https://docs.python.org/3.7/>`_ or newer inside an `Anaconda <https://www.anaconda.com/>`_ environment.
 
 Libraries
 ^^^^^^^^^
@@ -90,4 +90,5 @@ Organization
 ------------
 
 - `Trello <https://trello.com/>`_: Tool to organize and prioritize your projects
+- `Jira <https://www.atlassian.com/software/jira>`_: Tool to manage large projects
 - `Asana <https://asana.com/>`_: Task management tool

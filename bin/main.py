@@ -13,7 +13,6 @@ import SimpleITK as sitk
 import sklearn.ensemble as sk_ensemble
 import numpy as np
 import pymia.data.conversion as conversion
-import pymia.data.loading as load  # adapt this
 import pymia.evaluation.writer as writer
 
 sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
@@ -52,10 +51,10 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
     print('-' * 5, 'Training...')
 
     # crawl the training image directories
-    crawler = load.FileSystemDataCrawler(data_train_dir,
-                                         LOADING_KEYS,
-                                         futil.BrainImageFilePathGenerator(),
-                                         futil.DataDirectoryFilter())
+    crawler = futil.FileSystemDataCrawler(data_train_dir,
+                                          LOADING_KEYS,
+                                          futil.BrainImageFilePathGenerator(),
+                                          futil.DataDirectoryFilter())
     pre_process_params = {'skullstrip_pre': True,
                           'normalization_pre': True,
                           'registration_pre': True,
@@ -90,10 +89,10 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
     evaluator = putil.init_evaluator()
 
     # crawl the training image directories
-    crawler = load.FileSystemDataCrawler(data_test_dir,
-                                         LOADING_KEYS,
-                                         futil.BrainImageFilePathGenerator(),
-                                         futil.DataDirectoryFilter())
+    crawler = futil.FileSystemDataCrawler(data_test_dir,
+                                          LOADING_KEYS,
+                                          futil.BrainImageFilePathGenerator(),
+                                          futil.DataDirectoryFilter())
 
     # load images for testing and pre-process
     pre_process_params['training'] = False
@@ -135,7 +134,6 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
         sitk.WriteImage(images_post_processed[i], os.path.join(result_dir, images_test[i].id_ + '_SEG-PP.mha'), True)
 
     # use two writers to report the results
-    # todo: verify if correct. See example at https://github.com/rundherum/pymia/blob/master/examples/evaluation/basic.py
     os.makedirs(result_dir, exist_ok=True)  # generate result directory, if it does not exists
     result_file = os.path.join(result_dir, 'results.csv')
     writer.CSVWriter(result_file).write(evaluator.results)
