@@ -92,3 +92,24 @@ Organization
 - `Trello <https://trello.com/>`_: Tool to organize and prioritize your projects
 - `Jira <https://www.atlassian.com/software/jira>`_: Tool to manage large projects
 - `Asana <https://asana.com/>`_: Task management tool
+
+Server Transactions
+-------------------
+
+.. _ssh_clients_label:
+
+SSH Clients
+^^^^^^^^^^^
+
+- `Putty <https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html>`_: [Win, Linux]
+- `Termius <https://termius.com/>`_: [Win, Linux, Mac]
+- or pick any (`list of SSH clients <https://en.wikipedia.org/wiki/Comparison_of_SSH_clients>`_)
+
+.. _sftp_clients_label:
+
+SFTP Clients
+^^^^^^^^^^^^
+
+- `WinSCP <https://winscp.net/eng/download.php>`_: [Win]
+- `FileZilla <https://filezilla-project.org/download.php?show_all=1>`_: [Win, Linux, Mac]
+- or pick any (`list of SFTP clients <https://en.wikipedia.org/wiki/Category:SFTP_clients>`_)

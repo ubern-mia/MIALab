@@ -19,7 +19,6 @@ The aim of the pipeline is to classify each voxel of a brain MR image in one of 
 An example sagittal image slice is shown in the figure below, where the label image (reference segmentation referred to as ground truth or simply labels) is shown next to the two available MR images (T1-weighted and T2-weigthed).
 
 .. image:: pics/background.png
-   :width: 600
 
 References
 ----------

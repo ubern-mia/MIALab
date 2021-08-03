@@ -44,8 +44,8 @@ class AtlasCoordinates(fltr.Filter):
         lin_coords = np.reshape(coords, [coords.shape[0] * coords.shape[1] * coords.shape[2], 4])
 
         # generate transformation matrix
-        tmpmat = image.GetDirection() + image.GetOrigin()
-        tfm = np.reshape(tmpmat, [3, 4], order='F')
+        tmp_mat = image.GetDirection() + image.GetOrigin()
+        tfm = np.reshape(tmp_mat, [3, 4], order='F')
         tfm = np.vstack((tfm, [0, 0, 0, 1]))
 
         atlas_coords = (tfm @ np.transpose(lin_coords))[0:3, :]
@@ -99,14 +99,14 @@ def first_order_texture_features_function(values):
     snr = mean / std if std != 0 else 0
     min_ = np.min(values)
     max_ = np.max(values)
-    numvalues = len(values)
+    num_values = len(values)
     p = values / (np.sum(values) + eps)
     return np.array([mean,
                      np.var(values),  # variance
                      std,
-                     np.sqrt(numvalues * (numvalues - 1)) / (numvalues - 2) * np.sum((values - mean) ** 3) /
-                     (numvalues*std**3 + eps),  # adjusted Fisher-Pearson coefficient of skewness
-                     np.sum((values - mean) ** 4) / (numvalues * std ** 4 + eps),  # kurtosis
+                     np.sqrt(num_values * (num_values - 1)) / (num_values - 2) * np.sum((values - mean) ** 3) /
+                     (num_values*std**3 + eps),  # adjusted Fisher-Pearson coefficient of skewness
+                     np.sum((values - mean) ** 4) / (num_values * std ** 4 + eps),  # kurtosis
                      np.sum(-p * np.log2(p)),  # entropy
                      np.sum(p**2),  # energy (intensity histogram uniformity)
                      snr,
@@ -131,7 +131,7 @@ class NeighborhoodFeatureExtractor(fltr.Filter):
         self.kernel = kernel
         self.function = function_
 
-    def execute(self, image: sitk.Image, params: fltr.FilterParams=None) -> sitk.Image:
+    def execute(self, image: sitk.Image, params: fltr.FilterParams = None) -> sitk.Image:
         """Executes a neighborhood feature extractor on an image.
 
         Args:
@@ -204,7 +204,7 @@ class RandomizedTrainingMaskGenerator:
     def get_mask(ground_truth: sitk.Image,
                  ground_truth_labels: list,
                  label_percentages: list,
-                 background_mask: sitk.Image=None) -> sitk.Image:
+                 background_mask: sitk.Image = None) -> sitk.Image:
         """Gets a training mask.
 
         Args:
@@ -213,7 +213,8 @@ class RandomizedTrainingMaskGenerator:
                 where 0=background, 1=label1, 2=label2, ..., e.g. [0, 1]
             label_percentages (list of float): The percentage of voxels of a corresponding label to extract as mask,
                 e.g. [0.2, 0.2].
-            background_mask (sitk.Image): A mask, where intensity 0 indicates voxels to exclude independent of the label.
+            background_mask (sitk.Image): A mask, where intensity 0 indicates voxels to exclude independent of the
+            label.
 
         Returns:
             sitk.Image: The training mask.

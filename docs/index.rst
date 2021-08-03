@@ -11,10 +11,12 @@
     installation
     ide
     tools
+    ubelix
 
 .. toctree::
     :maxdepth: 2
     :caption: Packages
+
 
     mialab.data
     mialab.filtering

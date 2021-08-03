@@ -10,24 +10,25 @@ To open the MIALab as project and to configure the Python interpreter do the fol
 #. Launch PyCharm
 #. Click Open (or File > Open)
 
-    #. In the dialog navigate to ``</path/to/where/you/have/the/code>/MIALab``
-    #. Click OK
-    #. MIALab is now open as PyCharm project (PyCharm created the ``.idea`` directory)
+   #.  In the dialog navigate to ``</path/to/where/you/have/the/code>/MIALab``
+   #.  Click OK
+   #.  MIALab is now open as PyCharm project (PyCharm created the ``.idea`` directory)
 
 #. Click File > Settings... to open the settings dialog
 
-    #. Navigate to Project: MIALab > Project Interpreter
-    #. Select the Python interpreter ``</path/to/your/anaconda/installation>/envs/mialab/bin/python`` (on Linux and macOS) or ``<\path\to\your\anaconda\installation>\envs\mialab\python.exe`` (on Windows)
+   #.  Navigate to Project: MIALab > Python Interpreter
+   #.  Select the Python interpreter ``</path/to/your/anaconda/installation>/envs/mialab/bin/python`` (on Linux and macOS) or ``<\path\to\your\anaconda\installation>\envs\mialab\python.exe`` (on Windows)
 
-        - If the interpreter is not available in the combo box, click the gear icon and choose Add Local and navigate the the files above
+         .. hint::
+            If the interpreter is not available in the combo box, click the gear icon and choose Add Local and navigate the the files above
 
-    #. Confirm by clicking OK
+   #.  Confirm by clicking OK
 
 #. Open the ``hello_world.py`` (``bin`` directory) in the navigator
 
-    #. Right click in the editor > Run 'hello_world'
-    #. Runs the hello_world and adds a configuration (see top right corner) to the project
-    #. You can add configurations manually under Run > Edit Configurations...
+   #.  Right click in the editor > Run 'hello_world'
+   #.  Runs the hello_world and adds a configuration (see top right corner) to the project
+   #.  You can add configurations manually under Run > Edit Configurations...
 
 You can watch the `getting started <https://www.jetbrains.com/pycharm/documentation/>`_ videos to get accustomed with the interface.
 
@@ -47,8 +48,8 @@ To add a configuration for the **Sphinx documentation** do the following:
 #. Click Add New Configuration (plus icon) > Python docs > Sphinx task
 #. Edit the following
 
-    #. Name (e.g. ``docs``)
-    #. Input to ``</path/to/where/you/have/the/code>/MIALab/docs`` (on Linux and macOS) or ``<\path\to\where\you\have\the\code>\MIALab\docs`` (on Windows)
-    #. Output to ``</path/to/where/you/have/the/code>/MIALab/docs/_build/html`` (on Linux and macOS) or ``<\path\to\where\you\have\the\code>\MIALab\docs\_build\html`` (on Windows)
+   #.  Name (e.g. ``docs``)
+   #.  Input to ``</path/to/where/you/have/the/code>/MIALab/docs`` (on Linux and macOS) or ``<\path\to\where\you\have\the\code>\MIALab\docs`` (on Windows)
+   #.  Output to ``</path/to/where/you/have/the/code>/MIALab/docs/_build/html`` (on Linux and macOS) or ``<\path\to\where\you\have\the\code>\MIALab\docs\_build\html`` (on Windows)
 
 #. Click OK

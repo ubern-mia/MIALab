@@ -168,7 +168,6 @@ class FileSystemDataCrawler:
         >>>                                 '.mha')
         >>> for id_, path in crawler.data.items():
         >>>     print(id_, path)
-
         Patient1 {'Patient1': '/path/to/root_dir/Patient1', <MyImgType.T1: 1>: '/path/to/root_dir/Patient1/Image.mha', <MyImgType.GroundTruth: 2>: '/path/to/root_dir/Patient1/GroundTruth.mha'}
         Patient2 {'Patient2': '/path/to/root_dir/Patient2', <MyImgType.T1: 1>: '/path/to/root_dir/Patient2/Image.mha', <MyImgType.GroundTruth: 2>: '/path/to/root_dir/Patient2/GroundTruth.mha'}
     """

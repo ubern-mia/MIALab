@@ -15,7 +15,6 @@ The pipeline itself consists of the following steps:
 The dashed boxes indicate pre-steps or selections that influence a step. The provided experiments (see :ref:`experiments_label`) correspond to boxes in the figure. Additionally, we will also have a look at the evaluation of such a pipeline.
 
 .. image:: pics/pipeline.png
-   :width: 600
 
 An in-depth description of the concept of the pipeline with references for further reading can be found in [1]_.
 

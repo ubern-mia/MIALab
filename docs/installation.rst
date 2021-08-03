@@ -8,136 +8,160 @@ Installation
 
 To start with the installation, download the `Anaconda installer <https://www.anaconda.com/distribution/>`_ for your operating system and Python 3.7.
 
+.. _installation_initial_steps_label:
 
-Windows
---------
-The installation has been tested on Windows 10.
+Initial Steps
+-------------
+These steps need to be performed for all operating systems.
 
-#. git installation
-   
-   - Download `git <https://git-scm.com/downloads>`_ and install
+#. Create a `Github account <https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home>`_
+   (The free account is sufficient).
 
-#. Clone MIALab repository
-   
-   - open "Git Bash"
-   - :bash:`cd \path\to\where\you\want\the\code`
-   - :bash:`git clone https://github.com/ubern-mia/MIALab.git`
+#. Fork the MIALab repository
 
-#. Anaconda installation
+   -  Go to the `MIALab repository <https://github.com/ubern-mia/MIALab>`_
+   -  Fork the MIALab repository by clicking on the `Fork` button in the right upper corner
+   -  Follow the instructions of Github
+   -  Go to your MIALab fork (You are at the right location if the text in the left upper corner is of structure `[yourgithubaccount] / MIALab`
+   -  Click on the green `Clone` button and copy the URL (:bash:`https://github.com/[yourgithubaccount]/MIALab.git`) shown. You will later use it for cloning your fork to your local machine and probably to UBELIX.
 
-   - Follow the instructions on the `official website <https://docs.anaconda.com/anaconda/install/windows/>`__
+#. Continue with the operating system specific installation instructions
 
-#. Verify the installation
-   
-   - Open "Anaconda Prompt"
-   - :bash:`conda list`, which should list all installed Anaconda packages
+Operating System Specific Installation Steps
+--------------------------------------------
+Select your operating system to get the corresponding installation steps:
 
-#. Create a new Python 3.7 environment with the name mialab
-   
-   - :bash:`conda create -n mialab python=3.7`
+.. tab:: Windows
 
-#. Activate the environment by
-   
-   - :bash:`activate mialab`
+   The installation has been tested on Windows 10.
 
-#. Install all required packages for the MIALab
-   
-   - :bash:`cd /d \path\to\MIALab\repository`
-   - :bash:`pip install -r requirements.txt` will install all required packages
+   #. git installation
 
-#. Execute the hello world to verify the installation
-   
-   - :bash:`python .\bin\hello_world.py`
+      -  Download `git <https://git-scm.com/downloads>`_ and install
 
-#. Run Sphinx to create the documentation
-   
-   - :bash:`sphinx-build -b html .\docs .\docs\_build`
-   - The documentation is now available under ``.\docs\_build\index.html``
+   #. Clone your MIALab repository fork
 
-Linux
-------
-Run the following commands in the terminal (tested on Ubuntu 16.04 LTS and 18.04 LTS).
+      -  Open "Git Bash"
+      -  :bash:`cd \path\to\where\you\want\the\code`
+      -  Clone the MIALab repository fork using the URL from the :ref:`installation_initial_steps_label`
+      -  :bash:`git clone https://github.com/[yourgithubaccount]/MIALab.git`
 
-#. git installation
-   
-   - :bash:`sudo apt-get install git`
+   #. Anaconda installation
 
-#. Clone MIALab repository
-   
-   - :bash:`cd /path/to/where/you/want/the/code`
-   - :bash:`git clone https://github.com/ubern-mia/MIALab.git`
+      -  Follow the instructions on the `official website <https://docs.anaconda.com/anaconda/install/windows/>`__
 
-#. Run Anaconda installation script
+   #. Verify the installation
 
-   - Follow the instructions on the `official website <https://docs.anaconda.com/anaconda/install/linux>`__
-   - No need to install the GUI packages
+      -  Open "Anaconda Prompt"
+      -  :bash:`conda list`, which should list all installed Anaconda packages
 
-#. Verify the installation
-   
-   - :bash:`conda list`, which should list all installed Anaconda packages
+   #. Create a new Python 3.7 environment with the name mialab (confirm with :bash:`y` when promoted during creation)
 
-#. Create a new Python 3.7 environment with the name mialab (confirm with y when promted during creation)
-   
-   - :bash:`conda create -n mialab python=3.7`
+      -  :bash:`conda create -n mialab python=3.7`
 
-#. Activate the environment by
-   
-   - :bash:`conda activate mialab`
+   #. Activate the environment by
 
-#. Install all required packages for the MIALab
-   
-   - :bash:`cd /path/to/MIALab/repository`
-   - :bash:`pip install -r requirements.txt` will install all required packages
+      -  :bash:`conda activate mialab`
 
-#. Execute the hello world to verify the installation
-   
-   - :bash:`python ./bin/hello_world.py`
+   #. Install all required packages for the MIALab
 
-#. Run Sphinx to create the documentation
-   
-   - :bash:`sphinx-build -b html ./docs ./docs/_build`
-   - The documentation is now available under ``./docs/_build/index.html``
+      -  :bash:`cd \path\to\MIALab\repository`
+      -  :bash:`pip install -r requirements.txt` will install all required packages
 
+   #. Execute the hello world to verify the installation
 
-macOS
-------
-The installation has not been tested.
+      -  :bash:`python .\bin\hello_world.py`
 
-#. git installation
-   
-   - Download `git <https://git-scm.com/downloads>`_ and install
+   #. Run Sphinx to create the documentation
 
-#. Clone MIALab repository
-   
-   - :bash:`cd /path/to/where/you/want/the/code`
-   - :bash:`git clone https://github.com/ubern-mia/MIALab.git`
+      -  :bash:`sphinx-build -b html .\docs .\docs\_build`
+      -  The documentation is now available under ``.\docs\_build\index.html``
 
-#. Anaconda installation
+.. tab:: Linux
 
-   - Follow the instructions on the `official website <https://docs.anaconda.com/anaconda/install/mac-os/>`__
+   Run the following commands in the terminal (tested on Ubuntu 16.04 LTS and 18.04 LTS).
 
-#. Verify the installation
-   
-   - :bash:`conda list`, which should list all installed Anaconda packages
+   #. git installation
 
-#. Create a new Python 3.7 environment with the name mialab
-   
-   - :bash:`conda create -n mialab python=3.7`
+      -  :bash:`sudo apt-get install git`
 
-#. Activate the environment by
-   
-   - :bash:`source activate mialab`
+   #. Clone your MIALab repository fork
 
-#. Install all required packages for the MIALab
-   
-   - :bash:`cd /path/to/MIALab/repository`
-   - :bash:`pip install -r requirements.txt` will install all required packages
+      -  :bash:`cd /path/to/where/you/want/the/code`
+      -  Clone the MIALab repository fork using the URL from the :ref:`installation_initial_steps_label`
+      -  :bash:`git clone https://github.com/[yourgithubaccount]/MIALab.git`
 
-#. Execute the hello world to verify the installation
-   
-   - :bash:`python ./bin/hello_world.py`
- 
-#. Run Sphinx to create the documentation
-   
-   - :bash:`sphinx-build -b html ./docs ./docs/_build`
-   - The documentation is now available under ``./docs/_build/index.html``
+   #. Run Anaconda installation script
+
+      -  Follow the instructions on the `official website <https://docs.anaconda.com/anaconda/install/linux>`__
+      -  No need to install the GUI packages
+
+   #. Verify the installation
+
+      -  :bash:`conda list`, which should list all installed Anaconda packages
+
+   #. Create a new Python 3.7 environment with the name mialab (confirm with :bash:`y` when promoted during creation)
+
+      -  :bash:`conda create -n mialab python=3.7`
+
+   #. Activate the environment by
+
+      -  :bash:`conda activate mialab`
+
+   #. Install all required packages for the MIALab
+
+      -  :bash:`cd /path/to/MIALab/repository`
+      -  :bash:`pip install -r requirements.txt` will install all required packages
+
+   #. Execute the hello world to verify the installation
+
+      -  :bash:`python ./bin/hello_world.py`
+
+   #. Run Sphinx to create the documentation
+
+      -  :bash:`sphinx-build -b html ./docs ./docs/_build`
+      -  The documentation is now available under ``./docs/_build/index.html``
+
+.. tab:: macOS
+
+   The installation has not been tested.
+
+   #. git installation
+
+      -  Download `git <https://git-scm.com/downloads>`_ and install
+
+   #. Clone your MIALab repository fork
+
+      -  :bash:`cd /path/to/where/you/want/the/code`
+      -  Clone the MIALab repository fork using the URL from the :ref:`installation_initial_steps_label`
+      -  :bash:`git clone https://github.com/[yourgithubaccount]/MIALab.git`
+
+   #. Anaconda installation
+
+      -  Follow the instructions on the `official website <https://docs.anaconda.com/anaconda/install/mac-os/>`__
+
+   #. Verify the installation
+
+      -  :bash:`conda list`, which should list all installed Anaconda packages
+
+   #. Create a new Python 3.7 environment with the name mialab (confirm with :bash:`y` when promoted during creation)
+
+      -  :bash:`conda create -n mialab python=3.7`
+
+   #. Activate the environment by
+
+      -  :bash:`conda activate mialab`
+
+   #. Install all required packages for the MIALab
+
+      -  :bash:`cd /path/to/MIALab/repository`
+      -  :bash:`pip install -r requirements.txt` will install all required packages
+
+   #. Execute the hello world to verify the installation
+
+      -  :bash:`python ./bin/hello_world.py`
+
+   #. Run Sphinx to create the documentation
+
+      -  :bash:`sphinx-build -b html ./docs ./docs/_build`
+      -  The documentation is now available under ``./docs/_build/index.html``
