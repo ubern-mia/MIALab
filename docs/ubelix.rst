@@ -159,7 +159,7 @@ Writing A Job Script
 ^^^^^^^^^^^^^^^^^^^^
 The job script specifies the resources you require for your computation. Because the experiments you will do in this
 course require more or less similar resources we prepared a
-`template job script <../additional_material/template_jobscript.sh>`_ for you.
+`template job script <https://raw.githubusercontent.com/ubern-mia/MIALab/master/docs/additional_material/template_jobscript.sh>`_ for you.
 
 .. code:: bash
 
