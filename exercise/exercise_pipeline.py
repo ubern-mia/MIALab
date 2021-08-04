@@ -40,7 +40,7 @@ def collect_image_paths(data_dir):
     return crawler_
 
 
-def load_images(image_paths_):
+def load_images(image_paths):
     # todo: read the images (T1 as sitk.sitkFloat32, GroundTruth as sitk.sitkUInt8)
     image_dict = {
         structure.BrainImageTypes.T1w: None,  # todo: modify here
@@ -50,7 +50,7 @@ def load_images(image_paths_):
     return image_dict
 
 
-def register_images(image_dict, atlas_img_):
+def register_images(image_dict, atlas_img):
     registration = fltr_reg.MultiModalRegistration()
     registration_params = fltr_reg.MultiModalRegistrationParams(atlas_img)
     # todo execute the registration with the T1-weighted image and the registration parameters
@@ -59,9 +59,9 @@ def register_images(image_dict, atlas_img_):
     gt_img = image_dict[structure.BrainImageTypes.GroundTruth]
     # todo: apply transform to GroundTruth image (gt_img) (hint: sitk.Resample, referenceImage=atlas_img,
     #  transform=registration.transform, interpolator=sitk.sitkNearestNeighbor
-    registered_gt_ = None  # todo: modify here
+    registered_gt = None  # todo: modify here
 
-    return registered_t1, registered_gt_
+    return registered_t1, registered_gt
 
 
 def preprocess_filter_rescale_t1(image_dict, new_min_val, new_max_val):
@@ -92,9 +92,9 @@ def extract_feature_median_t1(image_dict):
 
     # todo: use the above filter class to get the median image feature of the T1-weighted image
     filter_ = None  # todo: modify here
-    median_img_ = None  # todo: modify here
+    median_img = None  # todo: modify here
 
-    return median_img_
+    return median_img
 
 
 # --- DO NOT CHANGE
@@ -105,8 +105,8 @@ if __name__ == '__main__':
     callback.start_test('collect_image_paths')
     crawler = collect_image_paths('../data/exercise/')
     if isinstance(crawler, futil.FileSystemDataCrawler):
-        image_paths = crawler.data
-        subject_x_paths = image_paths.get('subjectX')  # only consider subjectX
+        image_paths_ = crawler.data
+        subject_x_paths = image_paths_.get('subjectX')  # only consider subjectX
         identifier = subject_x_paths.pop('subjectX', '')
         collect_ok = all((identifier.endswith('subjectX'),
                           structure.BrainImageTypes.GroundTruth in subject_x_paths,
@@ -127,14 +127,14 @@ if __name__ == '__main__':
     callback.end_test(load_ok)
 
     callback.start_test('register_images')
-    atlas_img = sitk.ReadImage('../data/exercise/mni_icbm152_t1_tal_nlin_sym_09a.nii.gz')
+    atlas_img_ = sitk.ReadImage('../data/exercise/mni_icbm152_t1_tal_nlin_sym_09a.nii.gz')
     if isinstance(subject_x_paths, dict):
-        registered_img, registered_gt = register_images(subject_x_images, atlas_img)
-        if isinstance(registered_img, sitk.Image) and isinstance(registered_gt, sitk.Image):
+        registered_img, registered_gt_ = register_images(subject_x_images, atlas_img_)
+        if isinstance(registered_img, sitk.Image) and isinstance(registered_gt_, sitk.Image):
             stats = sitk.LabelStatisticsImageFilter()
-            stats.Execute(registered_img, registered_gt)
-            labels = stats.GetLabels()
-            register_ok = registered_img.GetSize() == registered_gt.GetSize() == (197, 233, 189) and labels == tuple(
+            stats.Execute(registered_img, registered_gt_)
+            labels = tuple(sorted(stats.GetLabels()))
+            register_ok = registered_img.GetSize() == registered_gt_.GetSize() == (197, 233, 189) and labels == tuple(
                 range(6))
         else:
             register_ok = False
@@ -157,11 +157,11 @@ if __name__ == '__main__':
 
     callback.start_test('extract_feature_median_t1')
     if isinstance(subject_x_images, dict):
-        median_img = extract_feature_median_t1(subject_x_images)
-        if isinstance(median_img, sitk.Image):
+        median_img_ = extract_feature_median_t1(subject_x_images)
+        if isinstance(median_img_, sitk.Image):
             median_ref = sitk.ReadImage('../data/exercise/subjectX/T1med.nii.gz')
             min_max = sitk.MinimumMaximumImageFilter()
-            min_max.Execute(median_img - median_ref)
+            min_max.Execute(median_img_ - median_ref)
             median_ok = min_max.GetMinimum() == 0 and min_max.GetMaximum() == 0
         else:
             median_ok = False

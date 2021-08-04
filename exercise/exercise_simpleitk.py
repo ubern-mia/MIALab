@@ -169,7 +169,7 @@ if __name__ == '__main__':
         if isinstance(registered_img_, sitk.Image) and isinstance(registered_label_, sitk.Image):
             stats = sitk.LabelStatisticsImageFilter()
             stats.Execute(registered_img_, registered_label_)
-            labels = stats.GetLabels()
+            labels = tuple(sorted(stats.GetLabels()))
             register_ok = all((registered_img_.GetSize() == registered_label_.GetSize() == (197, 233, 189),
                                labels == tuple(range(6))))
         else:
@@ -182,7 +182,7 @@ if __name__ == '__main__':
     if isinstance(np_img_, np.ndarray):
         pre_np = preprocess_rescale_numpy(np_img_, -3, 101)
         if isinstance(pre_np, np.ndarray):
-            pre_np_ok = pre_np.min() == -3 and pre_np.max() == 101
+            pre_np_ok = np.min(pre_np) == -3 and np.max(pre_np) == 101
         else:
             pre_np_ok = False
     else:
