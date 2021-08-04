@@ -15,13 +15,16 @@ import numpy as np
 import pymia.data.conversion as conversion
 import pymia.evaluation.writer as writer
 
-sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
-# fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
-# somehow pip install does not keep track of packages
-
-import mialab.data.structure as structure
-import mialab.utilities.file_access_utilities as futil
-import mialab.utilities.pipeline_utilities as putil
+try:
+    import mialab.data.structure as structure
+    import mialab.utilities.file_access_utilities as futil
+    import mialab.utilities.pipeline_utilities as putil
+except ImportError:
+    # Append the MIALab root directory to Python path
+    sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))
+    import mialab.data.structure as structure
+    import mialab.utilities.file_access_utilities as futil
+    import mialab.utilities.pipeline_utilities as putil
 
 LOADING_KEYS = [structure.BrainImageTypes.T1w,
                 structure.BrainImageTypes.T2w,

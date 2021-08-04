@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append t
 # somehow pip install does not keep track of packages
 
 
-def main(savefig: bool, result_dir: str, numtrees: int, treedepth: int):
+def main(save_fig: bool, result_dir: str, num_trees: int, tree_depth: int):
     """Trains a decision forest classifier on a the iris dataset."""
 
     # generate result directory
@@ -51,7 +51,7 @@ def main(savefig: bool, result_dir: str, numtrees: int, treedepth: int):
     predictions_train = forest.predict(feat_train)
 
     # let's have a look at the feature importance
-    print('Feature importances:')
+    print('Feature importance:')
     print(forest.feature_importances_)
 
     # calculate training and testing accuracies
@@ -102,8 +102,8 @@ def main(savefig: bool, result_dir: str, numtrees: int, treedepth: int):
     plt.contourf(xx, yy, prob_boundary, cmap=cm, alpha=.8)
 
     # add model information
-    plt.text(x_min + 0.2, y_max - 0.2, "Number of trees: {0:d}".format(numtrees), fontdict=font)
-    plt.text(x_min + 0.2, y_max - 0.3, "Max. tree depth: {0:d}".format(treedepth), fontdict=font)
+    plt.text(x_min + 0.2, y_max - 0.2, "Number of trees: {0:d}".format(num_trees), fontdict=font)
+    plt.text(x_min + 0.2, y_max - 0.3, "Max. tree depth: {0:d}".format(tree_depth), fontdict=font)
 
     # add accuracy information to plot
     plt.text(x_max - 2, y_max - 0.2, "Training accuracy: {0:.2%}".format(train_acc), fontdict=font)
@@ -115,10 +115,10 @@ def main(savefig: bool, result_dir: str, numtrees: int, treedepth: int):
     plt.show()
 
     # save figure if flag is set
-    if savefig:
+    if save_fig:
         t = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        figure.savefig(os.path.join(result_dir, 'rfplot_{}.png'.format(t)))
-        print('Plot saved as ' + os.path.join(result_dir, 'rfplot_{}.png'.format(t)))
+        figure.savefig(os.path.join(result_dir, 'rf_plot_{}.png'.format(t)))
+        print('Plot saved as ' + os.path.join(result_dir, 'rf_plot_{}.png'.format(t)))
 
 
 if __name__ == "__main__":
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='2-dimensional point classification with decision forests')
 
     parser.add_argument(
-        '--savefig',
+        '--save_fig',
         type=bool,
         default=True,
         help='Set to True to save plot to result_dir.'
@@ -138,23 +138,23 @@ if __name__ == "__main__":
     parser.add_argument(
         '--result_dir',
         type=str,
-        default=os.path.normpath(os.path.join(script_dir, 'randomforest_plots')),
+        default=os.path.normpath(os.path.join(script_dir, 'random_forest_plots')),
         help='Directory for results.'
     )
 
     parser.add_argument(
-        '--numtrees',
+        '--num_trees',
         type=int,
         default=1,
         help='Number of trees in the random forest classifier.'
     )
 
     parser.add_argument(
-        '--treedepth',
+        '--tree_depth',
         type=int,
         default=1,
         help='Maximum depth of the trees in the random forest classifier.'
     )
 
     args = parser.parse_args()
-    main(args.savefig, args.result_dir, args.numtrees, args.treedepth)
+    main(args.save_fig, args.result_dir, args.num_trees, args.tree_depth)

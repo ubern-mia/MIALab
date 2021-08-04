@@ -62,7 +62,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'mialab'
-copyright = '2017-2021, Medical Image Analysis Group, ARTORG Center for Biomedical Engineering Sciences, University of Bern'
+copyright = '2017-2021, Medical Image Analysis Group, ARTORG Center for Biomedical Engineering Sciences, ' \
+            'University of Bern'
 author = 'Fabian Balsiger, Alain Jungo, Yannick Suter, Elias Ruefenacht, You Suhang'
 
 # The version info for the project you're documenting, acts as replacement for

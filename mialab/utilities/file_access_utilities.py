@@ -10,8 +10,8 @@ import mialab.data.structure as structure
 class FilePathGenerator(metaclass=abc.ABCMeta):
     """Represents an abstract file path generator.
 
-    This class is used in :py:class:`FileSystemDataCrawler` to convert a human readable data identifier to an data file path,
-    which allows to load the data."""
+    This class is used in :py:class:`FileSystemDataCrawler` to convert a human readable data identifier to an
+    data file path, which allows to load the data."""
 
     @staticmethod
     @abc.abstractmethod
@@ -158,7 +158,7 @@ class FileSystemDataCrawler:
         >>>
         >>> class MyDirFilter(DirectoryFilter):
         >>>     @staticmethod
-        >>>     def filter_directories(dirs: typing.List[str]) -> typing.List[str]:
+        >>>     def filter_directories(dirs: t.List[str]) -> t.List[str]:
         >>>         return sorted([dir_ for dir_ in dirs if dir_.lower().__contains__('patient')])
         >>>
         >>> crawler = FileSystemDataCrawler('/path/to/root_dir',
@@ -168,8 +168,12 @@ class FileSystemDataCrawler:
         >>>                                 '.mha')
         >>> for id_, path in crawler.data.items():
         >>>     print(id_, path)
-        Patient1 {'Patient1': '/path/to/root_dir/Patient1', <MyImgType.T1: 1>: '/path/to/root_dir/Patient1/Image.mha', <MyImgType.GroundTruth: 2>: '/path/to/root_dir/Patient1/GroundTruth.mha'}
-        Patient2 {'Patient2': '/path/to/root_dir/Patient2', <MyImgType.T1: 1>: '/path/to/root_dir/Patient2/Image.mha', <MyImgType.GroundTruth: 2>: '/path/to/root_dir/Patient2/GroundTruth.mha'}
+        Patient1 {'Patient1': '/path/to/root_dir/Patient1',
+                  <MyImgType.T1: 1>: '/path/to/root_dir/Patient1/Image.mha',
+                  <MyImgType.GroundTruth: 2>: '/path/to/root_dir/Patient1/GroundTruth.mha'}
+        Patient2 {'Patient2': '/path/to/root_dir/Patient2',
+                  <MyImgType.T1: 1>: '/path/to/root_dir/Patient2/Image.mha',
+                  <MyImgType.GroundTruth: 2>: '/path/to/root_dir/Patient2/GroundTruth.mha'}
     """
 
     def __init__(self,

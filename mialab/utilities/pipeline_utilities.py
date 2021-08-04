@@ -306,7 +306,7 @@ def init_evaluator() -> eval_.Evaluator:
 
 
 def pre_process_batch(data_batch: t.Dict[structure.BrainImageTypes, structure.BrainImage],
-                      pre_process_params: dict=None, multi_process=True) -> t.List[structure.BrainImage]:
+                      pre_process_params: dict = None, multi_process: bool = True) -> t.List[structure.BrainImage]:
     """Loads and pre-processes a batch of images.
 
     The pre-processing includes:
@@ -335,8 +335,8 @@ def pre_process_batch(data_batch: t.Dict[structure.BrainImageTypes, structure.Br
 
 
 def post_process_batch(brain_images: t.List[structure.BrainImage], segmentations: t.List[sitk.Image],
-                       probabilities: t.List[sitk.Image], post_process_params: dict=None,
-                       multi_process=True) -> t.List[sitk.Image]:
+                       probabilities: t.List[sitk.Image], post_process_params: dict = None,
+                       multi_process: bool = True) -> t.List[sitk.Image]:
     """ Post-processes a batch of images.
 
     Args:

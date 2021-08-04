@@ -1,83 +1,91 @@
 import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
 
 import numpy as np
 import SimpleITK as sitk
 
-import exercise.helper as helper
+try:
+    import exercise.helper as helper
+except ImportError:
+    # Append the MIALab root directory to Python path
+    sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))
+    import exercise.helper as helper
 
 
 def load_image(img_path, is_label_img):
     # todo: load the image from the image path with the SimpleITK interface (hint: 'ReadImage')
-    # todo: if 'is_label_img' is True use argument outputPixelType=sitk.sitkUInt8, else use outputPixelType=sitk.sitkFloat32
+    # todo: if 'is_label_img' is True use argument outputPixelType=sitk.sitkUInt8,
+    #  else use outputPixelType=sitk.sitkFloat32
 
     pixel_type = None  # todo: modify here
-    img = None  # todo: modify here
+    img_ = None  # todo: modify here
 
-    return img
+    return img_
 
 
-def to_numpy_array(img):
+def to_numpy_array(img_):
     # todo: transform the SimpleITK image to a numpy ndarray (hint: 'GetArrayFromImage')
-    np_img = None  # todo: modify here
+    np_img_ = None  # todo: modify here
 
-    return np_img
+    return np_img_
 
 
 def to_sitk_image(np_image, reference_img):
     # todo: transform the numpy ndarray to a SimpleITK image (hint: 'GetImageFromArray')
-    # todo: do not forget to copy meta-information (e.g., spacing, origin, etc.) from the reference image (hint: 'CopyInformation')!
-    #       (otherwise defaults are set)
+    # todo: do not forget to copy meta-information (e.g., spacing, origin, etc.) from the reference image
+    #  (hint: 'CopyInformation')! (otherwise defaults are set)
 
-    img = None  # todo: modify here
+    img_ = None  # todo: modify here
     # todo: ...
 
-    return img
+    return img_
 
 
-def register_images(img, label_img, atlas_img):
-    registration_method = _get_registration_method(atlas_img, img)  # type: sitk.ImageRegistrationMethod
+def register_images(img_, label_img_, atlas_img_):
+    registration_method = _get_registration_method(atlas_img_, img_)  # type: sitk.ImageRegistrationMethod
     # todo: execute the registration_method to the img (hint: fixed=atlas_img, moving=img)
-    # the registration returns the transformation of the moving image (parameter img) to the space of the atlas image (atlas_img)
+    # the registration returns the transformation of the moving image (parameter img) to the space of
+    # the atlas image (atlas_img)
     transform = None  # todo: modify here
 
     # todo: apply the obtained transform to register the image (img) to the atlas image (atlas_img)
-    # hint: 'Resample' (with referenceImage=atlas_img, transform=transform, interpolator=sitkLinear, defaultPixelValue=0.0, outputPixelType=img.GetPixelIDValue())
-    registered_img = None  # todo: modify here
+    # hint: 'Resample' (with referenceImage=atlas_img, transform=transform, interpolator=sitkLinear,
+    # defaultPixelValue=0.0, outputPixelType=img.GetPixelIDValue())
+    registered_img_ = None  # todo: modify here
 
     # todo: apply the obtained transform to register the label image (label_img) to the atlas image (atlas_img), too
     # be careful with the interpolator type for label images!
-    # hint: 'Resample' (with interpolator=sitkNearestNeighbor, defaultPixelValue=0.0, outputPixelType=label_img.GetPixelIDValue())
-    registered_label = None  # todo: modify here
+    # hint: 'Resample' (with interpolator=sitkNearestNeighbor, defaultPixelValue=0.0,
+    # outputPixelType=label_img.GetPixelIDValue())
+    registered_label_ = None  # todo: modify here
 
-    return registered_img, registered_label
+    return registered_img_, registered_label_
 
 
-def preprocess_rescale_numpy(np_img, new_min_val, new_max_val):
-    max_val = np_img.max()
-    min_val = np_img.min()
+def preprocess_rescale_numpy(np_img_, new_min_val, new_max_val):
+    max_val = np_img_.max()
+    min_val = np_img_.min()
     # todo: rescale the intensities of the np_img to the range [new_min_val, new_max_val]. Use numpy arithmetics only.
     rescaled_np_img = None  # todo: modify here
 
     return rescaled_np_img
 
 
-def preprocess_rescale_sitk(img, new_min_val, new_max_val):
+def preprocess_rescale_sitk(img_, new_min_val, new_max_val):
     # todo: rescale the intensities of the img to the range [new_min_val, new_max_val] (hint: RescaleIntensity)
     rescaled_img = None  # todo: modify here
 
     return rescaled_img
 
 
-def extract_feature_median(img):
+def extract_feature_median(img_):
     # todo: apply median filter to image (hint: 'Median')
-    median_img = None  # todo: modify here
+    median_img_ = None  # todo: modify here
 
-    return median_img
+    return median_img_
 
 
-def postprocess_largest_component(label_img):
+def postprocess_largest_component(label_img_):
     # todo: get the connected components from the label_img (hint: 'ConnectedComponent')
     connected_components = None  # todo: modify here
 
@@ -89,7 +97,7 @@ def postprocess_largest_component(label_img):
 
 
 # --- DO NOT CHANGE
-def _get_registration_method(atlas_img, img) -> sitk.ImageRegistrationMethod:
+def _get_registration_method(atlas_img_, img_) -> sitk.ImageRegistrationMethod:
     registration_method = sitk.ImageRegistrationMethod()
 
     # Similarity metric settings.
@@ -113,7 +121,7 @@ def _get_registration_method(atlas_img, img) -> sitk.ImageRegistrationMethod:
     registration_method.SmoothingSigmasAreSpecifiedInPhysicalUnitsOn()
 
     # Set initial transform
-    initial_transform = sitk.CenteredTransformInitializer(atlas_img, img,
+    initial_transform = sitk.CenteredTransformInitializer(atlas_img_, img_,
                                                           sitk.Euler3DTransform(),
                                                           sitk.CenteredTransformInitializerFilter.GEOMETRY)
     registration_method.SetInitialTransform(initial_transform, inPlace=False)
@@ -127,23 +135,30 @@ if __name__ == '__main__':
 
     callback.start_test('load_image')
     img = load_image('../data/exercise/subjectX/T1native.nii.gz', False)
-    load_ok = isinstance(img, sitk.Image) and img.GetPixelID() == 8 and img.GetSize() == (181, 217, 181) and \
-              img.GetPixel(100, 100, 100) == 12175 and img.GetPixel(100, 100, 101) == 11972
-
+    load_ok = all((isinstance(img, sitk.Image),
+                   img.GetPixelID() == 8,
+                   img.GetSize() == (181, 217, 181),
+                   img.GetPixel(100, 100, 100) == 12175,
+                   img.GetPixel(100, 100, 101) == 11972))
     callback.end_test(load_ok)
 
     callback.start_test('to_numpy_array')
     np_img = to_numpy_array(img)
-    to_numpy_ok = isinstance(np_img, np.ndarray) and np_img.dtype.name == 'float32' and np_img.shape == (181, 217, 181) \
-                  and np_img[100, 100, 100] == 12175 and np_img[101, 100, 100] == 11972
+    to_numpy_ok = all((isinstance(np_img, np.ndarray),
+                       np_img.dtype.name == 'float32',
+                       np_img.shape == (181, 217, 181),
+                       np_img[100, 100, 100] == 12175,
+                       np_img[101, 100, 100] == 11972))
     callback.end_test(to_numpy_ok)
 
     callback.start_test('to_sitk_image')
     rev_img = to_sitk_image(np_img, img)
-    to_sitk_ok = isinstance(rev_img, sitk.Image) and rev_img.GetOrigin() == img.GetOrigin() and \
-                 rev_img.GetSpacing() == img.GetSpacing() and \
-                 rev_img.GetDirection() == img.GetDirection() and rev_img.GetPixel(100, 100, 100) == 12175 and \
-                 rev_img.GetPixel(100, 100, 101) == 11972
+    to_sitk_ok = all((isinstance(rev_img, sitk.Image),
+                      rev_img.GetOrigin() == img.GetOrigin(),
+                      rev_img.GetSpacing() == img.GetSpacing(),
+                      rev_img.GetDirection() == img.GetDirection(),
+                      rev_img.GetPixel(100, 100, 100) == 12175,
+                      rev_img.GetPixel(100, 100, 101) == 11972))
     callback.end_test(to_sitk_ok)
 
     callback.start_test('register_images')
@@ -155,8 +170,8 @@ if __name__ == '__main__':
             stats = sitk.LabelStatisticsImageFilter()
             stats.Execute(registered_img, registered_label)
             labels = stats.GetLabels()
-            register_ok = registered_img.GetSize() == registered_label.GetSize() == (197, 233, 189) and \
-                          labels == tuple(range(6))
+            register_ok = all((registered_img.GetSize() == registered_label.GetSize() == (197, 233, 189),
+                               labels == tuple(range(6))))
         else:
             register_ok = False
     else:

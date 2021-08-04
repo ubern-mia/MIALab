@@ -40,7 +40,7 @@ def main():
     # d = crf.DenseCRF(1000, 2)
 
     # --- pymia
-    eval = pymia_eval.SegmentationEvaluator([], {})
+    eval_ = pymia_eval.SegmentationEvaluator([], {})
 
     print('Everything seems to work fine!')
 

@@ -13,10 +13,6 @@ import numpy as np
 from PIL import Image, ImageDraw
 import sklearn.ensemble as sk_ensemble
 
-sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
-# fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
-# somehow pip install does not keep track of packages
-
 
 class DataCollection:
     """Represents a collection of data (features) with associated labels (if any)."""
@@ -187,7 +183,7 @@ class Plotter:
 
             it.iternext()
 
-    def plot_pixels_proba(self, data, probabilities):
+    def plot_pixels_probabilities(self, data, probabilities):
         """Plots probabilities on an image.
 
         Args:
@@ -236,9 +232,7 @@ def main(result_dir: str, input_file: str):
     test_data = Generator.get_test_data(1000)
 
     # initialize the forest
-    forest = sk_ensemble.RandomForestClassifier(max_features=data.dimension,
-                                                n_estimators=10,
-                                                max_depth=10)
+    forest = sk_ensemble.RandomForestClassifier(max_features=data.dimension, n_estimators=10, max_depth=10)
 
     # train the forest
     print('Decision forest training...')
@@ -256,7 +250,7 @@ def main(result_dir: str, input_file: str):
     print('Plotting...')
     t = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
     plotter = Plotter()
-    plotter.plot_pixels_proba(test_data, np.array(probabilities))
+    plotter.plot_pixels_probabilities(test_data, np.array(probabilities))
     plotter.plot_points(data.data, data.labels)
     plotter.save(os.path.join(result_dir, 'result_{}.png'.format(t)))
 

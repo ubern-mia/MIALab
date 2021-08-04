@@ -9,7 +9,7 @@ import pymia.data.conversion as conversion
 import mialab.data.structure as structure
 
 
-class PickableAffineTransform:
+class PicklableAffineTransform:
     """Represents a transformation that can be pickled."""
 
     def __init__(self, transform: sitk.Transform):
@@ -44,7 +44,7 @@ class PicklableBrainImage:
         self.feature_matrix = None  # a tuple (features, labels),
         # where the shape of features is (n, number_of_features) and the shape of labels is (n, 1)
         # with n being the amount of voxels
-        self.pickable_transform = PickableAffineTransform(transform)
+        self.pickable_transform = PicklableAffineTransform(transform)
 
 
 class BrainImageToPicklableBridge:
