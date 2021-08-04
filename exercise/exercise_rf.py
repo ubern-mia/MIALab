@@ -16,10 +16,6 @@ from sklearn.datasets import make_moons
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
-# fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
-# somehow pip install does not keep track of packages
-
 
 def main(save_fig: bool, result_dir: str, num_trees: int, tree_depth: int):
     """Trains a decision forest classifier on a the iris dataset."""
@@ -38,8 +34,8 @@ def main(save_fig: bool, result_dir: str, num_trees: int, tree_depth: int):
 
     # initialize the forest
     forest = sk_ensemble.RandomForestClassifier(max_features=feat_train.shape[1],
-                                                n_estimators=args.numtrees,
-                                                max_depth=args.treedepth)
+                                                n_estimators=num_trees,
+                                                max_depth=tree_depth)
 
     # train the forest
     print('Decision forest training...')
@@ -76,10 +72,9 @@ def main(save_fig: bool, result_dir: str, num_trees: int, tree_depth: int):
     xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
                          np.arange(y_min, y_max, h))
 
-    # just plot the dataset first
-    cm = plt.cm.RdBu
+    # Get the color maps
+    cm = plt.cm.get_cmap('RdBu')
     cm_bright = ListedColormap(['#FF0000', '#0000FF'])
-    # ax = plt.subplot(len(datasets), len(classifiers) + 1, i)
 
     # Plot the training points
     plt.scatter(feat_train[:, 0], feat_train[:, 1], c=labels_train, cmap=cm_bright,
@@ -94,7 +89,7 @@ def main(save_fig: bool, result_dir: str, num_trees: int, tree_depth: int):
     plt.ylabel("Feature 2")
 
     # Plot the decision boundary. For that, we will assign a color to each
-    # point in the mesh [x_min, x_max]x[y_min, y_max].
+    # point in the mesh [x_min, x_max] x [y_min, y_max].
     prob_boundary = forest.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, 1]
 
     # Put the result into a color plot
