@@ -146,7 +146,7 @@ class FileSystemDataCrawler:
         >>>
         >>> class MyFilePathGenerator(FilePathGenerator):
         >>>     @staticmethod
-        >>>     def get_full_file_path(id_: str, root_dir: str, file_key, file_extension: str) -> str:
+        >>>     def get_full_file_path(_id: str, root_dir: str, file_key, file_extension: str) -> str:
         >>>         if file_key == MyImgType.T1:
         >>>             file_name = 'Image'
         >>>         elif file_key == MyImgType.GroundTruth:

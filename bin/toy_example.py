@@ -120,7 +120,8 @@ class Generator:
 
         rng = np.linspace(0, grid_size - 1, grid_size)
         grid = np.meshgrid(rng, rng)
-        return np.append(grid[0].reshape(-1, 1), grid[1].reshape(-1, 1), axis=1).astype(np.float32, copy=False)
+        return np.append(np.reshape(grid[0], (-1, 1)),
+                         np.reshape(grid[1], (-1, 1)), axis=1).astype(np.float32, copy=False)
 
     @staticmethod
     def get_test_data_with_label(grid_size: int):
@@ -240,7 +241,6 @@ def main(result_dir: str, input_file: str):
 
     # apply the forest to test data
     print('Decision forest testing...')
-    predictions = forest.predict(test_data)
     probabilities = forest.predict_proba(test_data)
 
     # let's have a look at the feature importance

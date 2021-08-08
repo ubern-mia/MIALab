@@ -51,12 +51,12 @@ class ImagePostProcessing(pymia_fltr.Filter):
 #
 #         Args:
 #             img_t1 (sitk.Image): The T1-weighted image.
-#             img_t2 (sitk.Image): The T2-weigthed image.
-#             img_proba (sitk.Image): The posterior probability image.
+#             img_t2 (sitk.Image): The T2-weighted image.
+#             img_probability (sitk.Image): The posterior probability image.
 #         """
 #         self.img_t1 = img_t1
 #         self.img_t2 = img_t2
-#         self.img_proba = img_proba
+#         self.img_probability = img_probability
 #
 #
 # class DenseCRF(pymia_fltr.Filter):
@@ -86,25 +86,25 @@ class ImagePostProcessing(pymia_fltr.Filter):
 #
 #         img_t2 = sitk.GetArrayFromImage(params.img_t1)
 #         img_ir = sitk.GetArrayFromImage(params.img_t2)
-#         img_proba = sitk.GetArrayFromImage(params.img_proba)
+#         img_probability = sitk.GetArrayFromImage(params.img_probability)
 #
 #         # some variables
-#         x = img_proba.shape[2]
-#         y = img_proba.shape[1]
-#         z = img_proba.shape[0]
-#         no_labels = img_proba.shape[3]
+#         x = img_probability.shape[2]
+#         y = img_probability.shape[1]
+#         z = img_probability.shape[0]
+#         no_labels = img_probability.shape[3]
 #
-#         img_proba = np.rollaxis(img_proba, 3, 0)
+#         img_probability = np.rollaxis(img_probability, 3, 0)
 #
 #         d = crf.DenseCRF(x * y * z, no_labels)  # width, height, nlabels
-#         U = crf_util.unary_from_softmax(img_proba)
+#         U = crf_util.unary_from_softmax(img_probability)
 #         d.setUnaryEnergy(U)
 #
 #         stack = np.stack([img_t2, img_ir], axis=3)
 #
 #         # Create the pairwise bilateral term from the above images.
 #         # The two `s{dims,chan}` parameters are model hyper-parameters defining
-#         # the strength of the location and image content bilaterals, respectively.
+#         # the strength of the location and image content bi-laterals, respectively.
 #
 #         # higher weight equals stronger
 #         pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(1, 1, 1), schan=(1, 1), img=stack, chdim=3)

@@ -3,11 +3,9 @@
 Uses the main libraries to verify the environment installation.
 """
 
-import sys
-
+from datetime import datetime
 import matplotlib.pyplot as plt
 import numpy as np
-# import pydensecrf.densecrf as crf
 import pymia.evaluation.evaluator as pymia_eval
 import SimpleITK as sitk
 import sklearn.ensemble as sk_ensemble
@@ -15,10 +13,10 @@ import sklearn.ensemble as sk_ensemble
 
 def main():
 
-    print('Welcome to MIALab 2020!')
+    print(f'Welcome to MIALab {datetime.now().year}!')
 
     # --- scikit-learn
-    clf = sk_ensemble.RandomForestClassifier(max_depth=2, random_state=0)
+    sk_ensemble.RandomForestClassifier(max_depth=2, random_state=0)
 
     # --- SimpleITK
     image = sitk.Image(256, 128, 64, sitk.sitkInt16)
@@ -36,11 +34,8 @@ def main():
 
     plt.show()
 
-    # --- pydensecrf
-    # d = crf.DenseCRF(1000, 2)
-
     # --- pymia
-    eval_ = pymia_eval.SegmentationEvaluator([], {})
+    pymia_eval.SegmentationEvaluator([], {})
 
     print('Everything seems to work fine!')
 

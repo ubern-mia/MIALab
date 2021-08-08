@@ -109,12 +109,12 @@ def get_files(data_dir, image_names, label_names):
         return files
 
     subject_files = {}
-    subdirs = glob.glob(data_dir + '/*')
-    for subdir in subdirs:
-        if not os.path.isdir(subdir):
+    sub_dirs = glob.glob(data_dir + '/*')
+    for sub_dir in sub_dirs:
+        if not os.path.isdir(sub_dir):
             continue
 
-        id_ = os.path.basename(subdir)
+        id_ = os.path.basename(sub_dir)
 
         image_files = join_and_check_path(id_, image_names)
         label_files = join_and_check_path(id_, label_names)
@@ -138,14 +138,14 @@ def split_dataset(train_split, subject_files):
     return train_subject, test_subject
 
 
-def transform_and_write(subject_files, image_tranform, label_transform, out_dir):
+def transform_and_write(subject_files, image_transform, label_transform, out_dir):
 
     for id_, subject_file in subject_files.items():
         print(' - {}'.format(id_))
 
         for in_image_file, out_image_file in subject_file['images']:
             image = sitk.ReadImage(in_image_file, sitk.sitkUInt16)
-            transformed_image = image_tranform(image)
+            transformed_image = image_transform(image)
             out_image_path = os.path.join(out_dir, out_image_file)
             if not os.path.exists(os.path.dirname(out_image_path)):
                 os.makedirs(os.path.dirname(out_image_path))
@@ -225,7 +225,8 @@ class MergeLabel(Transform):
         merged_img = np.zeros_like(np_img)
 
         for new_label, labels_to_merge in self.to_combine.items():
-            merged_img[np.in1d(np_img.ravel(), labels_to_merge, assume_unique=True).reshape(np_img.shape)] = new_label
+            indices = np.reshape(np.in1d(np_img.ravel(), labels_to_merge, assume_unique=True), np_img.shape)
+            merged_img[indices] = new_label
 
         out_img = sitk.GetImageFromArray(merged_img)
         out_img.CopyInformation(img)
