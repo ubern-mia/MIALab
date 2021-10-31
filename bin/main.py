@@ -15,16 +15,13 @@ import numpy as np
 import pymia.data.conversion as conversion
 import pymia.evaluation.writer as writer
 
-try:
-    import mialab.data.structure as structure
-    import mialab.utilities.file_access_utilities as futil
-    import mialab.utilities.pipeline_utilities as putil
-except ImportError:
-    # Append the MIALab root directory to Python path
-    sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))
-    import mialab.data.structure as structure
-    import mialab.utilities.file_access_utilities as futil
-    import mialab.utilities.pipeline_utilities as putil
+sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
+# fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
+# somehow pip install does not keep track of packages
+
+import mialab.data.structure as structure
+import mialab.utilities.file_access_utilities as futil
+import mialab.utilities.pipeline_utilities as putil
 
 LOADING_KEYS = [structure.BrainImageTypes.T1w,
                 structure.BrainImageTypes.T2w,
@@ -47,6 +44,8 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
         - Post-processing of the segmentation
         - Evaluation of the segmentation
     """
+
+    np.random.seed(42)
 
     # load atlas images
     putil.load_atlas_images(data_atlas_dir)
@@ -74,8 +73,8 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
     warnings.warn('Random forest parameters not properly set.')
     forest = sk_ensemble.RandomForestClassifier(max_features=images[0].feature_matrix[0].shape[1],
-                                                n_estimators=1,
-                                                max_depth=5)
+                                                n_estimators=10,
+                                                max_depth=10)
 
     start_time = timeit.default_timer()
     forest.fit(data_train, labels_train)

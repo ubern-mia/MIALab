@@ -67,8 +67,8 @@ class FeatureExtractor:
         Returns:
             structure.BrainImage: The image with extracted features.
         """
-        # todo: add T2w features
-        warnings.warn('No features from T2-weighted image extracted.')
+        # todo: add T2§w features
+        # warnings.warn('No features from T2-weighted image extracted.')
 
         if self.coordinates_feature:
             atlas_coordinates = fltr_feat.AtlasCoordinates()
@@ -77,11 +77,14 @@ class FeatureExtractor:
 
         if self.intensity_feature:
             self.img.feature_images[FeatureImageTypes.T1w_INTENSITY] = self.img.images[structure.BrainImageTypes.T1w]
+            self.img.feature_images[FeatureImageTypes.T2w_INTENSITY] = self.img.images[structure.BrainImageTypes.T2w]
 
         if self.gradient_intensity_feature:
             # compute gradient magnitude images
             self.img.feature_images[FeatureImageTypes.T1w_GRADIENT_INTENSITY] = \
                 sitk.GradientMagnitude(self.img.images[structure.BrainImageTypes.T1w])
+            self.img.feature_images[FeatureImageTypes.T2w_GRADIENT_INTENSITY] = \
+                sitk.GradientMagnitude(self.img.images[structure.BrainImageTypes.T2w])
 
         self._generate_feature_matrix()
 
@@ -289,9 +292,8 @@ def init_evaluator() -> eval_.Evaluator:
     """
 
     # initialize metrics
-    metrics = [metric.DiceCoefficient()]
-    # todo: add hausdorff distance, 95th percentile (see metric.HausdorffDistance)
-    warnings.warn('Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?')
+    metrics = [metric.DiceCoefficient(), metric.HausdorffDistance(95)]
+    # warnings.warn('Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?')
 
     # define the labels to evaluate
     labels = {1: 'WhiteMatter',
@@ -302,11 +304,12 @@ def init_evaluator() -> eval_.Evaluator:
               }
 
     evaluator = eval_.SegmentationEvaluator(metrics, labels)
+
     return evaluator
 
 
 def pre_process_batch(data_batch: t.Dict[structure.BrainImageTypes, structure.BrainImage],
-                      pre_process_params: dict = None, multi_process: bool = True) -> t.List[structure.BrainImage]:
+                      pre_process_params: dict=None, multi_process=True) -> t.List[structure.BrainImage]:
     """Loads and pre-processes a batch of images.
 
     The pre-processing includes:
@@ -335,8 +338,8 @@ def pre_process_batch(data_batch: t.Dict[structure.BrainImageTypes, structure.Br
 
 
 def post_process_batch(brain_images: t.List[structure.BrainImage], segmentations: t.List[sitk.Image],
-                       probabilities: t.List[sitk.Image], post_process_params: dict = None,
-                       multi_process: bool = True) -> t.List[sitk.Image]:
+                       probabilities: t.List[sitk.Image], post_process_params: dict=None,
+                       multi_process=True) -> t.List[sitk.Image]:
     """ Post-processes a batch of images.
 
     Args:
