@@ -19,7 +19,7 @@ module load Anaconda3
 eval "$(conda shell.bash hook)"
 
 # Load your environment
-conda create --name mialab --file env.yml
+conda env create
 conda activate mialab
 
 # Run your code
