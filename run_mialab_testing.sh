@@ -12,7 +12,7 @@
 #SBATCH --error=output/_%x_%j.err
 
 # Create output dir
-mkdir ./output
+mkdir -p ./output
 
 # Load Anaconda3
 module load Anaconda3
@@ -23,4 +23,4 @@ conda env create
 conda activate mialab
 
 # Run your code
-srun python3 bin/main.py --result_dir "../output/
+srun python3 bin/main.py --result_dir "./output/"
