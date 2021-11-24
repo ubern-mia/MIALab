@@ -7,7 +7,6 @@ import datetime
 import os
 import sys
 import timeit
-import warnings
 
 import SimpleITK as sitk
 import sklearn.ensemble as sk_ensemble
