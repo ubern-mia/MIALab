@@ -11,13 +11,16 @@
 #SBATCH --output=output/_%x_%j.out
 #SBATCH --error=output/_%x_%j.err
 
+# Create output dir
+mkdir ./output
+
 # Load Anaconda3
 module load Anaconda3
 eval "$(conda shell.bash hook)"
 
 # Load your environment
-conda create --name mialab --file env.txt
+conda create --name mialab --file env.yml
 conda activate mialab
 
 # Run your code
-srun python3 MIALab/bin/main.py --result_dir ../output/%x_%j/
+srun python3 bin/main.py --result_dir "../output/
