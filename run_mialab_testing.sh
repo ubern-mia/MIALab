@@ -8,11 +8,11 @@
 #SBATCH --qos=job_epyc2_short
 #SBATCH --mail-user=bryan.perdrizat@students.unibe.ch
 #SBATCH --mail-type=none
-#SBATCH --output=output/_%x_%j.out
-#SBATCH --error=output/_%x_%j.err
+#SBATCH --output=output/logs/_%x_%j.out
+#SBATCH --error=output/logs/_%x_%j.err
 
 # Create output dir
-mkdir -p ./output
+mkdir -p ./output/logs
 
 # Load Anaconda3
 module load Anaconda3
