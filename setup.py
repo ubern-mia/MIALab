@@ -2,8 +2,8 @@ import sys
 from setuptools import find_packages, setup
 
 
-if sys.version_info < (3, 7):
-    sys.exit("Requires Python 3.7 or higher")
+if sys.version_info < (3, 8):
+    sys.exit("Requires Python 3.8 or higher")
 
 with open('README.rst') as f:
     readme = f.read()
@@ -26,7 +26,7 @@ TEST_PACKAGES = [
 
 setup(
     name='MIALab',
-    version='0.2.0',
+    version='0.3.1',
     description='medical image analysis laboratory',
     long_description=readme,
     author='Healthcare Imaging A.I.',
@@ -42,7 +42,7 @@ setup(
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Topic :: Scientific/Engineering :: Image Recognition',
         'Topic :: Scientific/Engineering :: Mathematics',
         'Topic :: Scientific/Engineering :: Medical Science Apps.',
