@@ -107,6 +107,10 @@ This procedure needs to be performed once before the first computation on UBELIX
 fork onto UBELIX. For detailed information we refer to the
 `official UBELIX Python documentation <https://hpc-unibe-ch.github.io/software/python.html>`_.
 
+.. note::
+   If you prefer an automatic generation of your Python environment you can run :bash:`bash scripts/create_ubelix_env.sh`
+   from your MIALab directory on UBELIX and skip the following steps.
+
 #. Login via SSH to UBELIX (:bash:`[campusaccount]@submit.unibe.ch`)
 
 #. Load the Python module: :bash:`module load Anaconda3`
@@ -128,7 +132,7 @@ fork onto UBELIX. For detailed information we refer to the
 
 .. important::
    If you require additional Python packages later in your project you can add them to your :bash:`requirements.txt`
-   file and re-execute step 5 - 7 in the previous procedure.
+   file and re-execute the steps 2 - 3 and 5 - 7 in the previous procedure.
 
 
 Transfer Large-Size Data from UBELIX to your Local Machine
@@ -207,9 +211,9 @@ The following procedure needs to be performed whenever you want to submit a comp
 
 **Additional Useful Commands**
 
--  Monitor your jobs by :bash:`squeue --user [yourcampusaccont]`
+-  Monitor your jobs via :bash:`squeue --me`
 
--  Cancel one of your jobs by :bash:`scancel [yourjobid]`
+-  Cancel a job via :bash:`scancel [yourjobid]`
 
 .. important::
    Cancel jobs which contain errors such that other users can use the allocated resources.

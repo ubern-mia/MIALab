@@ -22,7 +22,7 @@ These steps need to be performed for all operating systems.
    -  Go to the `MIALab repository <https://github.com/ubern-mia/MIALab>`_
    -  Fork the MIALab repository by clicking on the `Fork` button in the right upper corner
    -  Follow the instructions of Github
-   -  Go to your MIALab fork (You are at the right location if the text in the left upper corner is of structure `[yourgithubaccount] / MIALab`
+   -  Go to your MIALab fork (You are at the right location if the text in the left upper corner is of structure `[yourgithubaccount] / MIALab`)
    -  Click on the green `Clone` button and copy the URL (:bash:`https://github.com/[yourgithubaccount]/MIALab.git`) shown. You will later use it for cloning your fork to your local machine and probably to UBELIX.
 
 #. Continue with the operating system specific installation instructions

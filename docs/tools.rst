@@ -112,4 +112,4 @@ SFTP Clients
 
 - `WinSCP <https://winscp.net/eng/download.php>`_: [Win]
 - `FileZilla <https://filezilla-project.org/download.php?show_all=1>`_: [Win, Linux, Mac]
-- or pick any (`list of SFTP clients <https://en.wikipedia.org/wiki/Category:SFTP_clients>`_)
+- or pick any (`list of SFTP clients <https://en.wikipedia.org/wiki/Comparison_of_FTP_client_software>`_)
