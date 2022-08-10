@@ -121,8 +121,8 @@ fork onto UBELIX. For detailed information we refer to the
    -  Do **not** run :bash:`conda init` because it hardcodes environment variables and you need to rework the
       :bash:`.bashrc` file.
 
-#. Create a new Python 3.7 environment with the name mialab (confirm with :bash:`y` when promoted during creation):
-   :bash:`conda create -n mialab python=3.7`
+#. Create a new Python 3.8 environment with the name mialab (confirm with :bash:`y` when promoted during creation):
+   :bash:`conda create -n mialab python=3.8`
 
 #. Activate your new environment: :bash:`conda activate mialab`
 

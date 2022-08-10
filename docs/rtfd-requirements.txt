@@ -3,4 +3,4 @@
 pillow>=6.2.0  # fixes RTD error "error: Pillow 5.4.1 is installed but pillow>=6.2.0 is required by {'matplotlib'}"
 furo>=2021.7.31b41
 sphinx-inline-tabs>=2021.3.28b7
-sphinx-copybutton==0.4.0
+sphinx-copybutton~=0.5.0

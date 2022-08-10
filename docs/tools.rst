@@ -6,7 +6,7 @@ This list summarizes software tools and libraries we are going to use or we can 
 Python
 ------
 
-- We use `Python 3.7 <https://docs.python.org/3.7/>`_ or newer inside an `Anaconda <https://www.anaconda.com/>`_ environment.
+- We use `Python 3.8 <https://docs.python.org/3.8/>`_ or newer inside an `Anaconda <https://www.anaconda.com/>`_ environment.
 
 Libraries
 ^^^^^^^^^
