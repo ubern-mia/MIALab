@@ -107,13 +107,15 @@ def main(save_fig: bool, result_dir: str, num_trees: int, tree_depth: int):
     # add legend
     plt.legend(loc='lower left')
 
-    plt.show()
+    # plt.show()
 
     # save figure if flag is set
     if save_fig:
-        t = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        figure.savefig(os.path.join(result_dir, 'rf_plot_{}.png'.format(t)))
-        print('Plot saved as ' + os.path.join(result_dir, 'rf_plot_{}.png'.format(t)))
+        # t = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+        figure.savefig(os.path.join(result_dir, 'rf_plot_n-{}_d-{}.png'.format(num_trees, tree_depth)))
+        print('Plot saved as ' + os.path.join(result_dir, 'rf_plot_n-{}_d-{}.png'.format(num_trees, tree_depth)))
+
+    print("-------------------------------------------------------------------")
 
 
 if __name__ == "__main__":
