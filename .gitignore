@@ -242,3 +242,5 @@ data/
 *.nii.gz
 *.mha
 exercise/randomforest_plots/
+logs/*
+random_forest_plots/
