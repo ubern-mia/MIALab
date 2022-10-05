@@ -1,0 +1,16 @@
+
+    Effect of tree depth:
+    
+	- Already above 90% with little depth
+	- Separating "line" changes increase, i assume its the DoF
+
+
+    Effect of the number of trees:
+    
+	- More shaded areas, i assume it's like the overlapping of all different threes. (red if all overlapp)
+	- Something like confidence region
+
+
+    Parameter tuning:
+    
+	- Seems to converge aroung 10 threes with depth of 20

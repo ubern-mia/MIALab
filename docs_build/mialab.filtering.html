@@ -1,0 +1,671 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Utilities (mialab.utilities package)" href="mialab.utilities.html" /><link rel="prev" title="Data (mialab.data package)" href="mialab.data.html" />
+
+    <meta name="generator" content="sphinx-5.2.2, furo 2022.09.15"/>
+        <title>Filtering and manipulation (mialab.filtering package) - mialab 0.3.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">mialab 0.3.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="_static/./pics/logo_light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/./pics/logo_dark.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">mialab 0.3.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Clinical Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ide.html">Integrated Development Environment (IDE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubelix.html">UBELIX HPC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Packages</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="mialab.data.html">Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.data</span></code> package)</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Filtering and manipulation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering</span></code> package)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mialab.utilities.html">Utilities (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities</span></code> package)</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="filtering-and-manipulation-mialab-filtering-package">
+<h1>Filtering and manipulation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering</span></code> package)<a class="headerlink" href="#filtering-and-manipulation-mialab-filtering-package" title="Permalink to this heading">#</a></h1>
+<p>This package contains various image filters and image manipulation functions.</p>
+<section id="module-mialab.filtering.preprocessing">
+<span id="pre-processing-mialab-filtering-preprocessing-module"></span><h2>Pre-processing (<a class="reference internal" href="#module-mialab.filtering.preprocessing" title="mialab.filtering.preprocessing"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering.preprocessing</span></code></a> module)<a class="headerlink" href="#module-mialab.filtering.preprocessing" title="Permalink to this heading">#</a></h2>
+<p>The pre-processing module contains classes for image pre-processing.</p>
+<p>Image pre-processing aims to improve the image quality (image intensities) for subsequent pipeline steps.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.ImageNormalization">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.filtering.preprocessing.</span></span><span class="sig-name descname"><span class="pre">ImageNormalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#ImageNormalization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.ImageNormalization" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a normalization filter.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.ImageNormalization.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#ImageNormalization.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.ImageNormalization.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the ImageNormalization class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.ImageNormalization.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pymia.filtering.filter.FilterParams</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.Image</span></span></span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#ImageNormalization.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.ImageNormalization.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Executes a normalization on an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>sitk.Image</em>) – The image.</p></li>
+<li><p><strong>params</strong> (<em>FilterParams</em>) – The parameters (unused).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The normalized image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>sitk.Image</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.ImageRegistration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.filtering.preprocessing.</span></span><span class="sig-name descname"><span class="pre">ImageRegistration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#ImageRegistration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.ImageRegistration" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a registration filter.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.ImageRegistration.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#ImageRegistration.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.ImageRegistration.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the ImageRegistration class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.ImageRegistration.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mialab.filtering.preprocessing.ImageRegistrationParameters" title="mialab.filtering.preprocessing.ImageRegistrationParameters"><span class="pre">ImageRegistrationParameters</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.Image</span></span></span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#ImageRegistration.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.ImageRegistration.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Registers an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>sitk.Image</em>) – The image.</p></li>
+<li><p><strong>params</strong> (<a class="reference internal" href="#mialab.filtering.preprocessing.ImageRegistrationParameters" title="mialab.filtering.preprocessing.ImageRegistrationParameters"><em>ImageRegistrationParameters</em></a>) – The registration parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The registered image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>sitk.Image</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.ImageRegistrationParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.filtering.preprocessing.</span></span><span class="sig-name descname"><span class="pre">ImageRegistrationParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#ImageRegistrationParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.ImageRegistrationParameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Image registration parameters.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.ImageRegistrationParameters.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atlas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_ground_truth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#ImageRegistrationParameters.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.ImageRegistrationParameters.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the ImageRegistrationParameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atlas</strong> (<em>sitk.Image</em>) – The atlas image.</p></li>
+<li><p><strong>transformation</strong> (<em>sitk.Transform</em>) – The transformation for registration.</p></li>
+<li><p><strong>is_ground_truth</strong> (<em>bool</em>) – Indicates weather the registration is performed on the ground truth or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.SkullStripping">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.filtering.preprocessing.</span></span><span class="sig-name descname"><span class="pre">SkullStripping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#SkullStripping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.SkullStripping" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a skull-stripping filter.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.SkullStripping.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#SkullStripping.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.SkullStripping.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the SkullStripping class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.SkullStripping.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mialab.filtering.preprocessing.SkullStrippingParameters" title="mialab.filtering.preprocessing.SkullStrippingParameters"><span class="pre">SkullStrippingParameters</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.Image</span></span></span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#SkullStripping.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.SkullStripping.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Executes a skull stripping on an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>sitk.Image</em>) – The image.</p></li>
+<li><p><strong>params</strong> (<a class="reference internal" href="#mialab.filtering.preprocessing.SkullStrippingParameters" title="mialab.filtering.preprocessing.SkullStrippingParameters"><em>SkullStrippingParameters</em></a>) – The parameters with the brain mask.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The normalized image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>sitk.Image</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.SkullStrippingParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.filtering.preprocessing.</span></span><span class="sig-name descname"><span class="pre">SkullStrippingParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#SkullStrippingParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.SkullStrippingParameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Skull-stripping parameters.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.preprocessing.SkullStrippingParameters.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/preprocessing.html#SkullStrippingParameters.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.preprocessing.SkullStrippingParameters.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the SkullStrippingParameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img_mask</strong> (<em>sitk.Image</em>) – The brain mask image.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mialab.filtering.feature_extraction">
+<span id="feature-extraction-mialab-filtering-feature-extraction-module"></span><h2>Feature extraction (<a class="reference internal" href="#module-mialab.filtering.feature_extraction" title="mialab.filtering.feature_extraction"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering.feature_extraction</span></code></a> module)<a class="headerlink" href="#module-mialab.filtering.feature_extraction" title="Permalink to this heading">#</a></h2>
+<p>The feature extraction module contains classes for feature extraction.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.filtering.feature_extraction.AtlasCoordinates">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.filtering.feature_extraction.</span></span><span class="sig-name descname"><span class="pre">AtlasCoordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/feature_extraction.html#AtlasCoordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.feature_extraction.AtlasCoordinates" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents an atlas coordinates feature extractor.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.feature_extraction.AtlasCoordinates.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/feature_extraction.html#AtlasCoordinates.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.feature_extraction.AtlasCoordinates.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the AtlasCoordinates class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.feature_extraction.AtlasCoordinates.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pymia.filtering.filter.FilterParams</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.Image</span></span></span><a class="reference internal" href="_modules/mialab/filtering/feature_extraction.html#AtlasCoordinates.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.feature_extraction.AtlasCoordinates.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Executes a atlas coordinates feature extractor on an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>sitk.Image</em>) – The image.</p></li>
+<li><p><strong>params</strong> (<em>fltr.FilterParams</em>) – The parameters (unused).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The atlas coordinates image
+(a vector image with 3 components, which represent the physical x, y, z coordinates in mm).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>sitk.Image</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If image is not 3-D.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.filtering.feature_extraction.NeighborhoodFeatureExtractor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.filtering.feature_extraction.</span></span><span class="sig-name descname"><span class="pre">NeighborhoodFeatureExtractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/feature_extraction.html#NeighborhoodFeatureExtractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.feature_extraction.NeighborhoodFeatureExtractor" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a feature extractor filter, which works on a neighborhood.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.feature_extraction.NeighborhoodFeatureExtractor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel=(3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">3)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function_=&lt;function</span> <span class="pre">first_order_texture_features_function&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/feature_extraction.html#NeighborhoodFeatureExtractor.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.feature_extraction.NeighborhoodFeatureExtractor.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the NeighborhoodFeatureExtractor class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.feature_extraction.NeighborhoodFeatureExtractor.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pymia.filtering.filter.FilterParams</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.Image</span></span></span><a class="reference internal" href="_modules/mialab/filtering/feature_extraction.html#NeighborhoodFeatureExtractor.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.feature_extraction.NeighborhoodFeatureExtractor.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Executes a neighborhood feature extractor on an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>sitk.Image</em>) – The image.</p></li>
+<li><p><strong>params</strong> (<em>fltr.FilterParams</em>) – The parameters (unused).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The normalized image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>sitk.Image</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If image is not 3-D.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.filtering.feature_extraction.RandomizedTrainingMaskGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.filtering.feature_extraction.</span></span><span class="sig-name descname"><span class="pre">RandomizedTrainingMaskGenerator</span></span><a class="reference internal" href="_modules/mialab/filtering/feature_extraction.html#RandomizedTrainingMaskGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.feature_extraction.RandomizedTrainingMaskGenerator" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a training mask generator.</p>
+<p>A training mask is an image with intensity values 0 and 1, where 1 represents masked.
+Such a mask can be used to sample voxels for training.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.feature_extraction.RandomizedTrainingMaskGenerator.get_mask">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ground_truth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ground_truth_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_percentages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">SimpleITK.Image</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.Image</span></span></span><a class="reference internal" href="_modules/mialab/filtering/feature_extraction.html#RandomizedTrainingMaskGenerator.get_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.feature_extraction.RandomizedTrainingMaskGenerator.get_mask" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets a training mask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ground_truth</strong> (<em>sitk.Image</em>) – The ground truth image.</p></li>
+<li><p><strong>ground_truth_labels</strong> (<em>list</em><em> of </em><em>int</em>) – The ground truth labels,
+where 0=background, 1=label1, 2=label2, …, e.g. [0, 1]</p></li>
+<li><p><strong>label_percentages</strong> (<em>list</em><em> of </em><em>float</em>) – The percentage of voxels of a corresponding label to extract as mask,
+e.g. [0.2, 0.2].</p></li>
+<li><p><strong>background_mask</strong> (<em>sitk.Image</em>) – A mask, where intensity 0 indicates voxels to exclude independent of the</p></li>
+<li><p><strong>label.</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The training mask.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>sitk.Image</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mialab.filtering.feature_extraction.first_order_texture_features_function">
+<span class="sig-prename descclassname"><span class="pre">mialab.filtering.feature_extraction.</span></span><span class="sig-name descname"><span class="pre">first_order_texture_features_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/feature_extraction.html#first_order_texture_features_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.feature_extraction.first_order_texture_features_function" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculates first-order texture features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>values</strong> (<em>np.array</em>) – The values to calculate the first-order texture features from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>A vector containing the first-order texture features:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>mean</p></li>
+<li><p>variance</p></li>
+<li><p>sigma</p></li>
+<li><p>skewness</p></li>
+<li><p>kurtosis</p></li>
+<li><p>entropy</p></li>
+<li><p>energy</p></li>
+<li><p>snr</p></li>
+<li><p>min</p></li>
+<li><p>max</p></li>
+<li><p>range</p></li>
+<li><p>percentile10th</p></li>
+<li><p>percentile25th</p></li>
+<li><p>percentile50th</p></li>
+<li><p>percentile75th</p></li>
+<li><p>percentile90th</p></li>
+</ul>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-mialab.filtering.postprocessing">
+<span id="post-processing-mialab-filtering-postprocessing-module"></span><h2>Post-processing (<a class="reference internal" href="#module-mialab.filtering.postprocessing" title="mialab.filtering.postprocessing"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering.postprocessing</span></code></a> module)<a class="headerlink" href="#module-mialab.filtering.postprocessing" title="Permalink to this heading">#</a></h2>
+<p>The post-processing module contains classes for image filtering mostly applied after a classification.</p>
+<p>Image post-processing aims to alter images such that they depict a desired representation.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.filtering.postprocessing.ImagePostProcessing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.filtering.postprocessing.</span></span><span class="sig-name descname"><span class="pre">ImagePostProcessing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/postprocessing.html#ImagePostProcessing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.postprocessing.ImagePostProcessing" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a post-processing filter.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.postprocessing.ImagePostProcessing.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/filtering/postprocessing.html#ImagePostProcessing.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.postprocessing.ImagePostProcessing.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the ImagePostProcessing class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.filtering.postprocessing.ImagePostProcessing.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pymia.filtering.filter.FilterParams</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.Image</span></span></span><a class="reference internal" href="_modules/mialab/filtering/postprocessing.html#ImagePostProcessing.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.filtering.postprocessing.ImagePostProcessing.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Registers an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>sitk.Image</em>) – The image.</p></li>
+<li><p><strong>params</strong> (<em>FilterParams</em>) – The parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The post-processed image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>sitk.Image</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="mialab.utilities.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Utilities (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities</span></code> package)</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="mialab.data.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.data</span></code> package)</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2022, Medical Image Analysis Group, ARTORG Center for Biomedical Engineering Sciences, University of Bern
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Filtering and manipulation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering</span></code> package)</a><ul>
+<li><a class="reference internal" href="#module-mialab.filtering.preprocessing">Pre-processing (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering.preprocessing</span></code> module)</a><ul>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.ImageNormalization"><code class="docutils literal notranslate"><span class="pre">ImageNormalization</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.ImageNormalization.__init__"><code class="docutils literal notranslate"><span class="pre">ImageNormalization.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.ImageNormalization.execute"><code class="docutils literal notranslate"><span class="pre">ImageNormalization.execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.ImageRegistration"><code class="docutils literal notranslate"><span class="pre">ImageRegistration</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.ImageRegistration.__init__"><code class="docutils literal notranslate"><span class="pre">ImageRegistration.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.ImageRegistration.execute"><code class="docutils literal notranslate"><span class="pre">ImageRegistration.execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.ImageRegistrationParameters"><code class="docutils literal notranslate"><span class="pre">ImageRegistrationParameters</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.ImageRegistrationParameters.__init__"><code class="docutils literal notranslate"><span class="pre">ImageRegistrationParameters.__init__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.SkullStripping"><code class="docutils literal notranslate"><span class="pre">SkullStripping</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.SkullStripping.__init__"><code class="docutils literal notranslate"><span class="pre">SkullStripping.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.SkullStripping.execute"><code class="docutils literal notranslate"><span class="pre">SkullStripping.execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.SkullStrippingParameters"><code class="docutils literal notranslate"><span class="pre">SkullStrippingParameters</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.filtering.preprocessing.SkullStrippingParameters.__init__"><code class="docutils literal notranslate"><span class="pre">SkullStrippingParameters.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-mialab.filtering.feature_extraction">Feature extraction (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering.feature_extraction</span></code> module)</a><ul>
+<li><a class="reference internal" href="#mialab.filtering.feature_extraction.AtlasCoordinates"><code class="docutils literal notranslate"><span class="pre">AtlasCoordinates</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.filtering.feature_extraction.AtlasCoordinates.__init__"><code class="docutils literal notranslate"><span class="pre">AtlasCoordinates.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.filtering.feature_extraction.AtlasCoordinates.execute"><code class="docutils literal notranslate"><span class="pre">AtlasCoordinates.execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.filtering.feature_extraction.NeighborhoodFeatureExtractor"><code class="docutils literal notranslate"><span class="pre">NeighborhoodFeatureExtractor</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.filtering.feature_extraction.NeighborhoodFeatureExtractor.__init__"><code class="docutils literal notranslate"><span class="pre">NeighborhoodFeatureExtractor.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.filtering.feature_extraction.NeighborhoodFeatureExtractor.execute"><code class="docutils literal notranslate"><span class="pre">NeighborhoodFeatureExtractor.execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.filtering.feature_extraction.RandomizedTrainingMaskGenerator"><code class="docutils literal notranslate"><span class="pre">RandomizedTrainingMaskGenerator</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.filtering.feature_extraction.RandomizedTrainingMaskGenerator.get_mask"><code class="docutils literal notranslate"><span class="pre">RandomizedTrainingMaskGenerator.get_mask()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.filtering.feature_extraction.first_order_texture_features_function"><code class="docutils literal notranslate"><span class="pre">first_order_texture_features_function()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-mialab.filtering.postprocessing">Post-processing (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering.postprocessing</span></code> module)</a><ul>
+<li><a class="reference internal" href="#mialab.filtering.postprocessing.ImagePostProcessing"><code class="docutils literal notranslate"><span class="pre">ImagePostProcessing</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.filtering.postprocessing.ImagePostProcessing.__init__"><code class="docutils literal notranslate"><span class="pre">ImagePostProcessing.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.filtering.postprocessing.ImagePostProcessing.execute"><code class="docutils literal notranslate"><span class="pre">ImagePostProcessing.execute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/tabs.js"></script>
+    </body>
+</html>

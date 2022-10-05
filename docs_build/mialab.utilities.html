@@ -1,0 +1,1064 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Filtering and manipulation (mialab.filtering package)" href="mialab.filtering.html" />
+
+    <meta name="generator" content="sphinx-5.2.2, furo 2022.09.15"/>
+        <title>Utilities (mialab.utilities package) - mialab 0.3.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">mialab 0.3.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="_static/./pics/logo_light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/./pics/logo_dark.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">mialab 0.3.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Clinical Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experiments.html">Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ide.html">Integrated Development Environment (IDE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubelix.html">UBELIX HPC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Packages</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="mialab.data.html">Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.data</span></code> package)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mialab.filtering.html">Filtering and manipulation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering</span></code> package)</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Utilities (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities</span></code> package)</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="utilities-mialab-utilities-package">
+<h1>Utilities (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities</span></code> package)<a class="headerlink" href="#utilities-mialab-utilities-package" title="Permalink to this heading">#</a></h1>
+<p>This package contains various classes and functions for the pipeline construction and execution.</p>
+<section id="module-mialab.utilities.file_access_utilities">
+<span id="the-file-access-module-mialab-utilities-file-access-utilities"></span><h2>The file access module (<a class="reference internal" href="#module-mialab.utilities.file_access_utilities" title="mialab.utilities.file_access_utilities"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities.file_access_utilities</span></code></a>)<a class="headerlink" href="#module-mialab.utilities.file_access_utilities" title="Permalink to this heading">#</a></h2>
+<p>This modules contains utility functions and classes for the access of the file system.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.BrainImageFilePathGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.file_access_utilities.</span></span><span class="sig-name descname"><span class="pre">BrainImageFilePathGenerator</span></span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#BrainImageFilePathGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.BrainImageFilePathGenerator" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a brain image file path generator.</p>
+<p>The generator is used to convert a human readable image identifier to an image file path,
+which allows to load the image.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.BrainImageFilePathGenerator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#BrainImageFilePathGenerator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.BrainImageFilePathGenerator.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the BrainImageFilePathGenerator class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.BrainImageFilePathGenerator.get_full_file_path">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_full_file_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_extension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#BrainImageFilePathGenerator.get_full_file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.BrainImageFilePathGenerator.get_full_file_path" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the full file path for an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – The image identification.</p></li>
+<li><p><strong>root_dir</strong> (<em>str</em>) – The image’ root directory.</p></li>
+<li><p><strong>file_key</strong> (<em>object</em>) – A human readable identifier used to identify the image.</p></li>
+<li><p><strong>file_extension</strong> (<em>str</em>) – The image’ file extension.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The images’ full file path.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.DataDirectoryFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.file_access_utilities.</span></span><span class="sig-name descname"><span class="pre">DataDirectoryFilter</span></span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#DataDirectoryFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.DataDirectoryFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a data directory filter.</p>
+<p>The filter is used to</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.DataDirectoryFilter.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#DataDirectoryFilter.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.DataDirectoryFilter.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the DataDirectoryFilter class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.DataDirectoryFilter.filter_directories">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter_directories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#DataDirectoryFilter.filter_directories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.DataDirectoryFilter.filter_directories" title="Permalink to this definition">#</a></dt>
+<dd><p>Filters a list of directories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dirs</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of directories.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The filtered list of directories.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.DirectoryFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.file_access_utilities.</span></span><span class="sig-name descname"><span class="pre">DirectoryFilter</span></span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#DirectoryFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.DirectoryFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents an abstract directory filter.</p>
+<p>This class is used in  <a class="reference internal" href="#mialab.utilities.file_access_utilities.FileSystemDataCrawler" title="mialab.utilities.file_access_utilities.FileSystemDataCrawler"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileSystemDataCrawler</span></code></a> to filter a list of directories.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.DirectoryFilter.filter_directories">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter_directories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#DirectoryFilter.filter_directories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.DirectoryFilter.filter_directories" title="Permalink to this definition">#</a></dt>
+<dd><p>Filters a list of directories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dirs</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of directories.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The filtered list of directories.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.FilePathGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.file_access_utilities.</span></span><span class="sig-name descname"><span class="pre">FilePathGenerator</span></span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#FilePathGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.FilePathGenerator" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents an abstract file path generator.</p>
+<p>This class is used in <a class="reference internal" href="#mialab.utilities.file_access_utilities.FileSystemDataCrawler" title="mialab.utilities.file_access_utilities.FileSystemDataCrawler"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileSystemDataCrawler</span></code></a> to convert a human readable data identifier to an
+data file path, which allows to load the data.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.FilePathGenerator.get_full_file_path">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_full_file_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_extension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#FilePathGenerator.get_full_file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.FilePathGenerator.get_full_file_path" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the full file path for a data file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – The data’s identification.</p></li>
+<li><p><strong>root_dir</strong> (<em>str</em>) – The data file’s root directory.</p></li>
+<li><p><strong>file_key</strong> (<em>object</em>) – A human readable identifier used to identify the data file.</p></li>
+<li><p><strong>file_extension</strong> (<em>str</em>) – The data’s file extension.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The data’s full file path.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.FileSystemDataCrawler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.file_access_utilities.</span></span><span class="sig-name descname"><span class="pre">FileSystemDataCrawler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path_generator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mialab.utilities.file_access_utilities.FilePathGenerator" title="mialab.utilities.file_access_utilities.FilePathGenerator"><span class="pre">FilePathGenerator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mialab.utilities.file_access_utilities.DirectoryFilter" title="mialab.utilities.file_access_utilities.DirectoryFilter"><span class="pre">DirectoryFilter</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_extension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.nii.gz'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#FileSystemDataCrawler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.FileSystemDataCrawler" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a file system data crawler.</p>
+<p class="rubric">Examples</p>
+<p>Suppose we have the following directory structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">root_dir</span>
+    <span class="o">./</span><span class="n">Patient1</span>
+        <span class="o">./</span><span class="n">Image</span><span class="o">.</span><span class="n">mha</span>
+        <span class="o">./</span><span class="n">GroundTruth</span><span class="o">.</span><span class="n">mha</span>
+        <span class="o">./</span><span class="n">some_text_file</span><span class="o">.</span><span class="n">txt</span>
+    <span class="o">./</span><span class="n">Patient2</span>
+        <span class="o">./</span><span class="n">Image</span><span class="o">.</span><span class="n">mha</span>
+        <span class="o">./</span><span class="n">GroundTruth</span><span class="o">.</span><span class="n">mha</span>
+        <span class="o">./</span><span class="n">GroundTruthRater2</span><span class="o">.</span><span class="n">mha</span>
+    <span class="o">./</span><span class="n">Atlas</span>
+        <span class="o">./</span><span class="n">Atlas</span><span class="o">.</span><span class="n">mha</span>
+</pre></div>
+</div>
+<p>We can use the following code to load the images <cite>Image.mha</cite> and <cite>GroundTruth.mha</cite>
+in the directories <cite>Patient1</cite> and <cite>Patient2</cite>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyImgType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">T1</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">GroundTruth</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyFilePathGenerator</span><span class="p">(</span><span class="n">FilePathGenerator</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nd">@staticmethod</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">get_full_file_path</span><span class="p">(</span><span class="n">_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">root_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_key</span><span class="p">,</span> <span class="n">file_extension</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">if</span> <span class="n">file_key</span> <span class="o">==</span> <span class="n">MyImgType</span><span class="o">.</span><span class="n">T1</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;Image&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">elif</span> <span class="n">file_key</span> <span class="o">==</span> <span class="n">MyImgType</span><span class="o">.</span><span class="n">GroundTruth</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;GroundTruth&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">else</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown key&#39;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="n">file_name</span> <span class="o">+</span> <span class="n">file_extension</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyDirFilter</span><span class="p">(</span><span class="n">DirectoryFilter</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nd">@staticmethod</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">filter_directories</span><span class="p">(</span><span class="n">dirs</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">dir_</span> <span class="k">for</span> <span class="n">dir_</span> <span class="ow">in</span> <span class="n">dirs</span> <span class="k">if</span> <span class="n">dir_</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">(</span><span class="s1">&#39;patient&#39;</span><span class="p">)])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crawler</span> <span class="o">=</span> <span class="n">FileSystemDataCrawler</span><span class="p">(</span><span class="s1">&#39;/path/to/root_dir&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                <span class="p">[</span><span class="n">MyImgType</span><span class="o">.</span><span class="n">T1</span><span class="p">,</span> <span class="n">MyImgType</span><span class="o">.</span><span class="n">GroundTruth</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>                                <span class="n">MyFilePathGenerator</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span>                                <span class="n">MyDirFilter</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span>                                <span class="s1">&#39;.mha&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">id_</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">crawler</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<span class="go">Patient1 {&#39;Patient1&#39;: &#39;/path/to/root_dir/Patient1&#39;,</span>
+<span class="go">          &lt;MyImgType.T1: 1&gt;: &#39;/path/to/root_dir/Patient1/Image.mha&#39;,</span>
+<span class="go">          &lt;MyImgType.GroundTruth: 2&gt;: &#39;/path/to/root_dir/Patient1/GroundTruth.mha&#39;}</span>
+<span class="go">Patient2 {&#39;Patient2&#39;: &#39;/path/to/root_dir/Patient2&#39;,</span>
+<span class="go">          &lt;MyImgType.T1: 1&gt;: &#39;/path/to/root_dir/Patient2/Image.mha&#39;,</span>
+<span class="go">          &lt;MyImgType.GroundTruth: 2&gt;: &#39;/path/to/root_dir/Patient2/GroundTruth.mha&#39;}</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.file_access_utilities.FileSystemDataCrawler.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path_generator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mialab.utilities.file_access_utilities.FilePathGenerator" title="mialab.utilities.file_access_utilities.FilePathGenerator"><span class="pre">FilePathGenerator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mialab.utilities.file_access_utilities.DirectoryFilter" title="mialab.utilities.file_access_utilities.DirectoryFilter"><span class="pre">DirectoryFilter</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_extension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.nii.gz'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/file_access_utilities.html#FileSystemDataCrawler.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.file_access_utilities.FileSystemDataCrawler.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the FileSystemDataCrawler class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root_dir</strong> (<em>str</em>) – The path to the root directory, which contains subdirectories with the data.</p></li>
+<li><p><strong>file_keys</strong> (<em>list</em>) – A list of objects, which represent human readable data identifiers
+(one identifier for each data file to crawl).</p></li>
+<li><p><strong>file_path_generator</strong> (<a class="reference internal" href="#mialab.utilities.file_access_utilities.FilePathGenerator" title="mialab.utilities.file_access_utilities.FilePathGenerator"><em>FilePathGenerator</em></a>) – A file path generator, which converts a human readable
+data identifier to an data file path.</p></li>
+<li><p><strong>dir_filter</strong> (<a class="reference internal" href="#mialab.utilities.file_access_utilities.DirectoryFilter" title="mialab.utilities.file_access_utilities.DirectoryFilter"><em>DirectoryFilter</em></a>) – A directory filter, which filters a list of directories.</p></li>
+<li><p><strong>file_extension</strong> (<em>str</em>) – The data file extension (with or without dot).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mialab.utilities.multi_processor">
+<span id="the-multi-processor-module-mialab-utilities-multi-processor"></span><h2>The multi processor module (<a class="reference internal" href="#module-mialab.utilities.multi_processor" title="mialab.utilities.multi_processor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities.multi_processor</span></code></a>)<a class="headerlink" href="#module-mialab.utilities.multi_processor" title="Permalink to this heading">#</a></h2>
+<p>Module for the management of multi-process function calls.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.BrainImageToPicklableBridge">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.multi_processor.</span></span><span class="sig-name descname"><span class="pre">BrainImageToPicklableBridge</span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#BrainImageToPicklableBridge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.BrainImageToPicklableBridge" title="Permalink to this definition">#</a></dt>
+<dd><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">BrainImage</span></code> to <a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">PicklableBrainImage</span></code></a> bridge.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.BrainImageToPicklableBridge.convert">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brain_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage"><span class="pre">PicklableBrainImage</span></a></span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#BrainImageToPicklableBridge.convert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.BrainImageToPicklableBridge.convert" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts a <code class="xref py py-class docutils literal notranslate"><span class="pre">BrainImage</span></code> to <a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">PicklableBrainImage</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>brain_image</strong> (<a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><em>BrainImage</em></a>) – A brain image.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The pickable brain image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage">PicklableBrainImage</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.DefaultPickleHelper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.multi_processor.</span></span><span class="sig-name descname"><span class="pre">DefaultPickleHelper</span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#DefaultPickleHelper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.DefaultPickleHelper" title="Permalink to this definition">#</a></dt>
+<dd><p>Default pickle helper class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.DefaultPickleHelper.make_params_picklable">
+<span class="sig-name descname"><span class="pre">make_params_picklable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#DefaultPickleHelper.make_params_picklable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.DefaultPickleHelper.make_params_picklable" title="Permalink to this definition">#</a></dt>
+<dd><p>Default function called to ensure that all parameters can be pickled before transferred to the new process.
+To be overwritten if non-picklable parameters are contained in <code class="docutils literal notranslate"><span class="pre">params</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>tuple</em>) – Parameters to be rendered picklable.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The modified parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.DefaultPickleHelper.make_return_value_picklable">
+<span class="sig-name descname"><span class="pre">make_return_value_picklable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ret_val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#DefaultPickleHelper.make_return_value_picklable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.DefaultPickleHelper.make_return_value_picklable" title="Permalink to this definition">#</a></dt>
+<dd><p>Default function called to ensure that all return values <code class="docutils literal notranslate"><span class="pre">ret_val</span></code> can be pickled before transferring
+back to the original process.
+To be overwritten if non-picklable objects are contained in <code class="docutils literal notranslate"><span class="pre">ret_val</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ret_val</strong> – Return values of the function executed in another process.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The modified return values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.DefaultPickleHelper.recover_params">
+<span class="sig-name descname"><span class="pre">recover_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#DefaultPickleHelper.recover_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.DefaultPickleHelper.recover_params" title="Permalink to this definition">#</a></dt>
+<dd><p>Default function called to recover (from the pickle state) the original parameters in another process.
+To be overwritten if non-picklable parameters are contained in <code class="docutils literal notranslate"><span class="pre">params</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>tuple</em>) – Parameters to be recovered.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The recovered parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.DefaultPickleHelper.recover_return_value">
+<span class="sig-name descname"><span class="pre">recover_return_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ret_val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#DefaultPickleHelper.recover_return_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.DefaultPickleHelper.recover_return_value" title="Permalink to this definition">#</a></dt>
+<dd><p>Default function called to ensure that all return values <code class="docutils literal notranslate"><span class="pre">ret_val</span></code> can be pickled before transferring
+back to the original process.
+To be overwritten if non-picklable objects are contained in <code class="docutils literal notranslate"><span class="pre">ret_val</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ret_val</strong> – Return values of the function executed in another process.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The modified return values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.MultiProcessor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.multi_processor.</span></span><span class="sig-name descname"><span class="pre">MultiProcessor</span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#MultiProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.MultiProcessor" title="Permalink to this definition">#</a></dt>
+<dd><p>Class managing multiprocessing</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.MultiProcessor.run">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn:</span> <span class="pre">callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_list:</span> <span class="pre">iter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn_kwargs:</span> <span class="pre">~typing.Optional[dict]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pickle_helper_cls:</span> <span class="pre">type</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'mialab.utilities.multi_processor.DefaultPickleHelper'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#MultiProcessor.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.MultiProcessor.run" title="Permalink to this definition">#</a></dt>
+<dd><p>Executes the function <code class="docutils literal notranslate"><span class="pre">fn</span></code> in parallel (different processes) for each parameter in the parameter list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<em>callable</em>) – Function to be executed in another process.</p></li>
+<li><p><strong>param_list</strong> (<em>List</em><em>[</em><em>tuple</em><em>]</em>) – List containing the parameters for each <code class="docutils literal notranslate"><span class="pre">fn</span></code> call.</p></li>
+<li><p><strong>fn_kwargs</strong> (<em>dict</em>) – kwargs for the <code class="docutils literal notranslate"><span class="pre">fn</span></code> function call.</p></li>
+<li><p><strong>pickle_helper_cls</strong> – Class responsible for the pickling of the parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of all return values of the <code class="docutils literal notranslate"><span class="pre">fn</span></code> calls</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PicklableAffineTransform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.multi_processor.</span></span><span class="sig-name descname"><span class="pre">PicklableAffineTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Transform</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PicklableAffineTransform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PicklableAffineTransform" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a transformation that can be pickled.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PicklableAffineTransform.get_sitk_transformation">
+<span class="sig-name descname"><span class="pre">get_sitk_transformation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PicklableAffineTransform.get_sitk_transformation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PicklableAffineTransform.get_sitk_transformation" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PicklableBrainImage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.multi_processor.</span></span><span class="sig-name descname"><span class="pre">PicklableBrainImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">np_images</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pymia.data.conversion.ImageProperties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Transform</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PicklableBrainImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a brain image that can be pickled.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PicklableBrainImage.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">np_images</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pymia.data.conversion.ImageProperties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Transform</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PicklableBrainImage.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PicklableBrainImage.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the <code class="xref py py-class docutils literal notranslate"><span class="pre">BrainImage</span></code> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – An identifier.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – Full path to the image directory.</p></li>
+<li><p><strong>np_images</strong> (<em>dict</em>) – The images, where the key is a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">BrainImageTypes</span></code> and the value is a numpy image.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PicklableToBrainImageBridge">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.multi_processor.</span></span><span class="sig-name descname"><span class="pre">PicklableToBrainImageBridge</span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PicklableToBrainImageBridge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PicklableToBrainImageBridge" title="Permalink to this definition">#</a></dt>
+<dd><p>A <a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">PicklableBrainImage</span></code></a> to <code class="xref py py-class docutils literal notranslate"><span class="pre">BrainImage</span></code> bridge.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PicklableToBrainImageBridge.convert">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">picklable_brain_image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage"><span class="pre">PicklableBrainImage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a></span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PicklableToBrainImageBridge.convert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PicklableToBrainImageBridge.convert" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts a <a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">PicklableBrainImage</span></code></a> to <code class="xref py py-class docutils literal notranslate"><span class="pre">BrainImage</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>picklable_brain_image</strong> (<a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage"><em>PicklableBrainImage</em></a>) – A pickable brain image.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The brain image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage">BrainImage</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PostProcessingPickleHelper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.multi_processor.</span></span><span class="sig-name descname"><span class="pre">PostProcessingPickleHelper</span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PostProcessingPickleHelper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PostProcessingPickleHelper" title="Permalink to this definition">#</a></dt>
+<dd><p>Post-processing pickle helper class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PostProcessingPickleHelper.make_params_picklable">
+<span class="sig-name descname"><span class="pre">make_params_picklable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">SimpleITK.Image</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">SimpleITK.Image</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PostProcessingPickleHelper.make_params_picklable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PostProcessingPickleHelper.make_params_picklable" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensures that all post-processing parameters can be pickled before transferred to the new process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>tuple</em>) – Post-processing parameters to be rendered picklable.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The modified post-processing parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PostProcessingPickleHelper.make_return_value_picklable">
+<span class="sig-name descname"><span class="pre">make_return_value_picklable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ret_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">pymia.data.conversion.ImageProperties</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PostProcessingPickleHelper.make_return_value_picklable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PostProcessingPickleHelper.make_return_value_picklable" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensures that all post-processing return values <code class="docutils literal notranslate"><span class="pre">ret_val</span></code> can be pickled before transferring back to
+the original process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ret_val</strong> (<em>sitk.Image</em>) – Return values of the post-processing function executed in another process.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The modified post-processing return values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PostProcessingPickleHelper.recover_params">
+<span class="sig-name descname"><span class="pre">recover_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage"><span class="pre">PicklableBrainImage</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PostProcessingPickleHelper.recover_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PostProcessingPickleHelper.recover_params" title="Permalink to this definition">#</a></dt>
+<dd><p>Recovers (from the pickle state) the original post-processing parameters in another process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>tuple</em>) – Post-processing parameters to be recovered.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The recovered post-processing parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PostProcessingPickleHelper.recover_return_value">
+<span class="sig-name descname"><span class="pre">recover_return_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ret_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">pymia.data.conversion.ImageProperties</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.Image</span></span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PostProcessingPickleHelper.recover_return_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PostProcessingPickleHelper.recover_return_value" title="Permalink to this definition">#</a></dt>
+<dd><p>Recovers (from the pickle state) the original post-processing return values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ret_val</strong> – Post-processing return values to be recovered.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The recovered post-processing return values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>sitk.Image</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PreProcessingPickleHelper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.multi_processor.</span></span><span class="sig-name descname"><span class="pre">PreProcessingPickleHelper</span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PreProcessingPickleHelper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PreProcessingPickleHelper" title="Permalink to this definition">#</a></dt>
+<dd><p>Pre-processing pickle helper class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PreProcessingPickleHelper.make_return_value_picklable">
+<span class="sig-name descname"><span class="pre">make_return_value_picklable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ret_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage"><span class="pre">PicklableBrainImage</span></a></span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PreProcessingPickleHelper.make_return_value_picklable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PreProcessingPickleHelper.make_return_value_picklable" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensures that all pre-processing return values <code class="docutils literal notranslate"><span class="pre">ret_val</span></code> can be pickled before transferring back to
+the original process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ret_val</strong> (<a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><em>BrainImage</em></a>) – Return values of the pre-processing function executed in another process.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The modified pre-processing return values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage">PicklableBrainImage</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.multi_processor.PreProcessingPickleHelper.recover_return_value">
+<span class="sig-name descname"><span class="pre">recover_return_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ret_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage"><span class="pre">PicklableBrainImage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a></span></span><a class="reference internal" href="_modules/mialab/utilities/multi_processor.html#PreProcessingPickleHelper.recover_return_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.multi_processor.PreProcessingPickleHelper.recover_return_value" title="Permalink to this definition">#</a></dt>
+<dd><p>Recovers (from the pickle state) the original pre-processing return values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ret_val</strong> (<a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage" title="mialab.utilities.multi_processor.PicklableBrainImage"><em>PicklableBrainImage</em></a>) – Pre-processing return values to be recovered.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The recovered pre-processing return values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage">BrainImage</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mialab.utilities.pipeline_utilities">
+<span id="the-pipeline-module-mialab-utilities-pipeline-utilities"></span><h2>The pipeline module (<a class="reference internal" href="#module-mialab.utilities.pipeline_utilities" title="mialab.utilities.pipeline_utilities"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities.pipeline_utilities</span></code></a>)<a class="headerlink" href="#module-mialab.utilities.pipeline_utilities" title="Permalink to this heading">#</a></h2>
+<p>This module contains utility classes and functions.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.FeatureExtractor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.pipeline_utilities.</span></span><span class="sig-name descname"><span class="pre">FeatureExtractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/pipeline_utilities.html#FeatureExtractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.pipeline_utilities.FeatureExtractor" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a feature extractor.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.FeatureExtractor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/pipeline_utilities.html#FeatureExtractor.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.pipeline_utilities.FeatureExtractor.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes a new instance of the FeatureExtractor class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> (<a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><em>structure.BrainImage</em></a>) – The image to extract features from.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.FeatureExtractor.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a></span></span><a class="reference internal" href="_modules/mialab/utilities/pipeline_utilities.html#FeatureExtractor.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.pipeline_utilities.FeatureExtractor.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Extracts features from an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The image with extracted features.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage">structure.BrainImage</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.FeatureImageTypes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mialab.utilities.pipeline_utilities.</span></span><span class="sig-name descname"><span class="pre">FeatureImageTypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/pipeline_utilities.html#FeatureImageTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents the feature image types.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.FeatureImageTypes.ATLAS_COORD">
+<span class="sig-name descname"><span class="pre">ATLAS_COORD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes.ATLAS_COORD" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.FeatureImageTypes.T1w_GRADIENT_INTENSITY">
+<span class="sig-name descname"><span class="pre">T1w_GRADIENT_INTENSITY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes.T1w_GRADIENT_INTENSITY" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.FeatureImageTypes.T1w_INTENSITY">
+<span class="sig-name descname"><span class="pre">T1w_INTENSITY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes.T1w_INTENSITY" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.FeatureImageTypes.T2w_GRADIENT_INTENSITY">
+<span class="sig-name descname"><span class="pre">T2w_GRADIENT_INTENSITY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes.T2w_GRADIENT_INTENSITY" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.FeatureImageTypes.T2w_INTENSITY">
+<span class="sig-name descname"><span class="pre">T2w_INTENSITY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes.T2w_INTENSITY" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.init_evaluator">
+<span class="sig-prename descclassname"><span class="pre">mialab.utilities.pipeline_utilities.</span></span><span class="sig-name descname"><span class="pre">init_evaluator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pymia.evaluation.evaluator.Evaluator</span></span></span><a class="reference internal" href="_modules/mialab/utilities/pipeline_utilities.html#init_evaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.pipeline_utilities.init_evaluator" title="Permalink to this definition">#</a></dt>
+<dd><p>Initializes an evaluator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An evaluator.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>eval.Evaluator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.load_atlas_images">
+<span class="sig-prename descclassname"><span class="pre">mialab.utilities.pipeline_utilities.</span></span><span class="sig-name descname"><span class="pre">load_atlas_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mialab/utilities/pipeline_utilities.html#load_atlas_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.pipeline_utilities.load_atlas_images" title="Permalink to this definition">#</a></dt>
+<dd><p>Loads the T1 and T2 atlas images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>directory</strong> (<em>str</em>) – The atlas data directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.post_process">
+<span class="sig-prename descclassname"><span class="pre">mialab.utilities.pipeline_utilities.</span></span><span class="sig-name descname"><span class="pre">post_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">segmentation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.Image</span></span></span><a class="reference internal" href="_modules/mialab/utilities/pipeline_utilities.html#post_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.pipeline_utilities.post_process" title="Permalink to this definition">#</a></dt>
+<dd><p>Post-processes a segmentation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><em>structure.BrainImage</em></a>) – The image.</p></li>
+<li><p><strong>segmentation</strong> (<em>sitk.Image</em>) – The segmentation (label image).</p></li>
+<li><p><strong>probability</strong> (<em>sitk.Image</em>) – The probabilities images (a vector image).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The post-processed image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>sitk.Image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.post_process_batch">
+<span class="sig-prename descclassname"><span class="pre">mialab.utilities.pipeline_utilities.</span></span><span class="sig-name descname"><span class="pre">post_process_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brain_images</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segmentations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">SimpleITK.Image</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">SimpleITK.Image</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_process_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_process</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">SimpleITK.Image</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mialab/utilities/pipeline_utilities.html#post_process_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.pipeline_utilities.post_process_batch" title="Permalink to this definition">#</a></dt>
+<dd><p>Post-processes a batch of images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>brain_images</strong> (<em>List</em><em>[</em><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImageTypes" title="mialab.data.structure.BrainImageTypes"><em>structure.BrainImageTypes</em></a><em>]</em>) – Original images that were used for the prediction.</p></li>
+<li><p><strong>segmentations</strong> (<em>List</em><em>[</em><em>sitk.Image</em><em>]</em>) – The predicted segmentation.</p></li>
+<li><p><strong>probabilities</strong> (<em>List</em><em>[</em><em>sitk.Image</em><em>]</em>) – The prediction probabilities.</p></li>
+<li><p><strong>post_process_params</strong> (<em>dict</em>) – Post-processing parameters.</p></li>
+<li><p><strong>multi_process</strong> (<em>bool</em>) – Whether to use the parallel processing on multiple cores or to run sequentially.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of post-processed images</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[sitk.Image]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.pre_process">
+<span class="sig-prename descclassname"><span class="pre">mialab.utilities.pipeline_utilities.</span></span><span class="sig-name descname"><span class="pre">pre_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a></span></span><a class="reference internal" href="_modules/mialab/utilities/pipeline_utilities.html#pre_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.pipeline_utilities.pre_process" title="Permalink to this definition">#</a></dt>
+<dd><p>Loads and processes an image.</p>
+<p>The processing includes:</p>
+<ul class="simple">
+<li><p>Registration</p></li>
+<li><p>Pre-processing</p></li>
+<li><p>Feature extraction</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – An image identifier.</p></li>
+<li><p><strong>paths</strong> (<em>dict</em>) – A dict, where the keys are an image identifier of type structure.BrainImageTypes
+and the values are paths to the images.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(<a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage">structure.BrainImage</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mialab.utilities.pipeline_utilities.pre_process_batch">
+<span class="sig-prename descclassname"><span class="pre">mialab.utilities.pipeline_utilities.</span></span><span class="sig-name descname"><span class="pre">pre_process_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImageTypes" title="mialab.data.structure.BrainImageTypes"><span class="pre">BrainImageTypes</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_process_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_process</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><span class="pre">BrainImage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/mialab/utilities/pipeline_utilities.html#pre_process_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mialab.utilities.pipeline_utilities.pre_process_batch" title="Permalink to this definition">#</a></dt>
+<dd><p>Loads and pre-processes a batch of images.</p>
+<p>The pre-processing includes:</p>
+<ul class="simple">
+<li><p>Registration</p></li>
+<li><p>Pre-processing</p></li>
+<li><p>Feature extraction</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_batch</strong> (<em>Dict</em><em>[</em><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImageTypes" title="mialab.data.structure.BrainImageTypes"><em>structure.BrainImageTypes</em></a><em>, </em><a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage"><em>structure.BrainImage</em></a><em>]</em>) – Batch of images to be processed.</p></li>
+<li><p><strong>pre_process_params</strong> (<em>dict</em>) – Pre-processing parameters.</p></li>
+<li><p><strong>multi_process</strong> (<em>bool</em>) – Whether to use the parallel processing on multiple cores or to run sequentially.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of images.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="mialab.data.html#mialab.data.structure.BrainImage" title="mialab.data.structure.BrainImage">structure.BrainImage</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="mialab.filtering.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Filtering and manipulation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering</span></code> package)</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2022, Medical Image Analysis Group, ARTORG Center for Biomedical Engineering Sciences, University of Bern
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Utilities (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities</span></code> package)</a><ul>
+<li><a class="reference internal" href="#module-mialab.utilities.file_access_utilities">The file access module (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities.file_access_utilities</span></code>)</a><ul>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.BrainImageFilePathGenerator"><code class="docutils literal notranslate"><span class="pre">BrainImageFilePathGenerator</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.BrainImageFilePathGenerator.__init__"><code class="docutils literal notranslate"><span class="pre">BrainImageFilePathGenerator.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.BrainImageFilePathGenerator.get_full_file_path"><code class="docutils literal notranslate"><span class="pre">BrainImageFilePathGenerator.get_full_file_path()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.DataDirectoryFilter"><code class="docutils literal notranslate"><span class="pre">DataDirectoryFilter</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.DataDirectoryFilter.__init__"><code class="docutils literal notranslate"><span class="pre">DataDirectoryFilter.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.DataDirectoryFilter.filter_directories"><code class="docutils literal notranslate"><span class="pre">DataDirectoryFilter.filter_directories()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.DirectoryFilter"><code class="docutils literal notranslate"><span class="pre">DirectoryFilter</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.DirectoryFilter.filter_directories"><code class="docutils literal notranslate"><span class="pre">DirectoryFilter.filter_directories()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.FilePathGenerator"><code class="docutils literal notranslate"><span class="pre">FilePathGenerator</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.FilePathGenerator.get_full_file_path"><code class="docutils literal notranslate"><span class="pre">FilePathGenerator.get_full_file_path()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.FileSystemDataCrawler"><code class="docutils literal notranslate"><span class="pre">FileSystemDataCrawler</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.file_access_utilities.FileSystemDataCrawler.__init__"><code class="docutils literal notranslate"><span class="pre">FileSystemDataCrawler.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-mialab.utilities.multi_processor">The multi processor module (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities.multi_processor</span></code>)</a><ul>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.BrainImageToPicklableBridge"><code class="docutils literal notranslate"><span class="pre">BrainImageToPicklableBridge</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.BrainImageToPicklableBridge.convert"><code class="docutils literal notranslate"><span class="pre">BrainImageToPicklableBridge.convert()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.DefaultPickleHelper"><code class="docutils literal notranslate"><span class="pre">DefaultPickleHelper</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.DefaultPickleHelper.make_params_picklable"><code class="docutils literal notranslate"><span class="pre">DefaultPickleHelper.make_params_picklable()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.DefaultPickleHelper.make_return_value_picklable"><code class="docutils literal notranslate"><span class="pre">DefaultPickleHelper.make_return_value_picklable()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.DefaultPickleHelper.recover_params"><code class="docutils literal notranslate"><span class="pre">DefaultPickleHelper.recover_params()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.DefaultPickleHelper.recover_return_value"><code class="docutils literal notranslate"><span class="pre">DefaultPickleHelper.recover_return_value()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.MultiProcessor"><code class="docutils literal notranslate"><span class="pre">MultiProcessor</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.MultiProcessor.run"><code class="docutils literal notranslate"><span class="pre">MultiProcessor.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableAffineTransform"><code class="docutils literal notranslate"><span class="pre">PicklableAffineTransform</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableAffineTransform.get_sitk_transformation"><code class="docutils literal notranslate"><span class="pre">PicklableAffineTransform.get_sitk_transformation()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage"><code class="docutils literal notranslate"><span class="pre">PicklableBrainImage</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableBrainImage.__init__"><code class="docutils literal notranslate"><span class="pre">PicklableBrainImage.__init__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableToBrainImageBridge"><code class="docutils literal notranslate"><span class="pre">PicklableToBrainImageBridge</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PicklableToBrainImageBridge.convert"><code class="docutils literal notranslate"><span class="pre">PicklableToBrainImageBridge.convert()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PostProcessingPickleHelper"><code class="docutils literal notranslate"><span class="pre">PostProcessingPickleHelper</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PostProcessingPickleHelper.make_params_picklable"><code class="docutils literal notranslate"><span class="pre">PostProcessingPickleHelper.make_params_picklable()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PostProcessingPickleHelper.make_return_value_picklable"><code class="docutils literal notranslate"><span class="pre">PostProcessingPickleHelper.make_return_value_picklable()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PostProcessingPickleHelper.recover_params"><code class="docutils literal notranslate"><span class="pre">PostProcessingPickleHelper.recover_params()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PostProcessingPickleHelper.recover_return_value"><code class="docutils literal notranslate"><span class="pre">PostProcessingPickleHelper.recover_return_value()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PreProcessingPickleHelper"><code class="docutils literal notranslate"><span class="pre">PreProcessingPickleHelper</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PreProcessingPickleHelper.make_return_value_picklable"><code class="docutils literal notranslate"><span class="pre">PreProcessingPickleHelper.make_return_value_picklable()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.multi_processor.PreProcessingPickleHelper.recover_return_value"><code class="docutils literal notranslate"><span class="pre">PreProcessingPickleHelper.recover_return_value()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-mialab.utilities.pipeline_utilities">The pipeline module (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities.pipeline_utilities</span></code>)</a><ul>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.FeatureExtractor"><code class="docutils literal notranslate"><span class="pre">FeatureExtractor</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.FeatureExtractor.__init__"><code class="docutils literal notranslate"><span class="pre">FeatureExtractor.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.FeatureExtractor.execute"><code class="docutils literal notranslate"><span class="pre">FeatureExtractor.execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes"><code class="docutils literal notranslate"><span class="pre">FeatureImageTypes</span></code></a><ul>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes.ATLAS_COORD"><code class="docutils literal notranslate"><span class="pre">FeatureImageTypes.ATLAS_COORD</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes.T1w_GRADIENT_INTENSITY"><code class="docutils literal notranslate"><span class="pre">FeatureImageTypes.T1w_GRADIENT_INTENSITY</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes.T1w_INTENSITY"><code class="docutils literal notranslate"><span class="pre">FeatureImageTypes.T1w_INTENSITY</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes.T2w_GRADIENT_INTENSITY"><code class="docutils literal notranslate"><span class="pre">FeatureImageTypes.T2w_GRADIENT_INTENSITY</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.FeatureImageTypes.T2w_INTENSITY"><code class="docutils literal notranslate"><span class="pre">FeatureImageTypes.T2w_INTENSITY</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.init_evaluator"><code class="docutils literal notranslate"><span class="pre">init_evaluator()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.load_atlas_images"><code class="docutils literal notranslate"><span class="pre">load_atlas_images()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.post_process"><code class="docutils literal notranslate"><span class="pre">post_process()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.post_process_batch"><code class="docutils literal notranslate"><span class="pre">post_process_batch()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.pre_process"><code class="docutils literal notranslate"><span class="pre">pre_process()</span></code></a></li>
+<li><a class="reference internal" href="#mialab.utilities.pipeline_utilities.pre_process_batch"><code class="docutils literal notranslate"><span class="pre">pre_process_batch()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/tabs.js"></script>
+    </body>
+</html>

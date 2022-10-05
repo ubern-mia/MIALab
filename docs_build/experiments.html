@@ -1,0 +1,487 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Data" href="data.html" /><link rel="prev" title="Pipeline" href="pipeline.html" />
+
+    <meta name="generator" content="sphinx-5.2.2, furo 2022.09.15"/>
+        <title>Experiments - mialab 0.3.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">mialab 0.3.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="_static/./pics/logo_light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/./pics/logo_dark.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">mialab 0.3.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="background.html">Clinical Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ide.html">Integrated Development Environment (IDE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubelix.html">UBELIX HPC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Packages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mialab.data.html">Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.data</span></code> package)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mialab.filtering.html">Filtering and manipulation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering</span></code> package)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mialab.utilities.html">Utilities (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities</span></code> package)</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="experiments">
+<span id="experiments-label"></span><h1>Experiments<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h1>
+<p>The different pipeline steps (<a class="reference internal" href="pipeline.html#pipeline-label"><span class="std std-ref">Pipeline</span></a>) can be investigated and improved. Additionally, various experiments can be performed.
+A list of materials (papers, lectures, links to Python libraries, and code reference) is given for each experiment as starting point.</p>
+<section id="pre-processing">
+<h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this heading">#</a></h2>
+<p>Investigate the influence of pre-processing on the segmentation performance.</p>
+<ul class="simple">
+<li><p>Image smoothing / noise reduction</p></li>
+<li><p>Image normalization</p></li>
+<li><p>Histogram matching</p></li>
+<li><p>Skull stripping (separate the brain from the skull and other surrounding structures)</p></li>
+</ul>
+<section id="materials">
+<h3>Materials<a class="headerlink" href="#materials" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pymia.filtering.preprocessing</span></code></p></li>
+<li><p><a class="reference external" href="http://loli.github.io/medpy/generated/medpy.filter.IntensityRangeStandardization.IntensityRangeStandardization.html#medpy.filter.IntensityRangeStandardization.IntensityRangeStandardization">medpy.filter.IntensityRangeStandardization.IntensityRangeStandardization</a></p></li>
+<li><p>L. G. Nyúl, J. K. Udupa, and X. Zhang, New variants of a method of MRI scale standardization, IEEE Trans. Med. Imaging, vol. 19, no. 2, pp. 143–50, Feb. 2000.</p></li>
+<li><p>J.-P. Bergeest and F. Jäger, A Comparison of Five Methods for Signal Intensity Standardization in MRI, in Bildverarbeitung für die Medizin 2008, Berlin Heidelberg: Springer, 2008, pp. 36–40.</p></li>
+<li><p><a class="reference external" href="http://scikit-learn.org/stable/modules/preprocessing.html#preprocessing">scikit-learn: Pre-processing data</a></p></li>
+</ul>
+</section>
+</section>
+<section id="registration">
+<h2>Registration<a class="headerlink" href="#registration" title="Permalink to this heading">#</a></h2>
+<p>What is the optimal setting to register the images to an atlas?</p>
+<ul class="simple">
+<li><p>Transformation type</p></li>
+<li><p>Metric type</p></li>
+<li><p>Optimizer type</p></li>
+<li><p>Deep learning for image registration</p></li>
+</ul>
+<section id="id1">
+<h3>Materials<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pymia.filtering.registration</span></code></p></li>
+<li><p>P. Viola and W. M. I. Wells, Alignment by maximization of mutual information, Proc. IEEE Int. Conf. Comput. Vis., vol. 24, no. 2, pp. 16–23, 1995.</p></li>
+<li><p>P. Cattin and V. Roth, Biomedical Image Analysis, 2016. [Online]. Available: <a class="reference external" href="https://miac.unibas.ch/BIA/">https://miac.unibas.ch/BIA/</a> [Accessed: 08-Sep-2020].</p></li>
+<li><p>M.-M. Rohé, M. Datar, T. Heimann, M. Sermesant, and X. Pennec, “SVF-Net: Learning Deformable Image Registration Using Shape Matching,” in Medical Image Computing and Computer Assisted Intervention − MICCAI 2017: 20th International Conference, Quebec City, QC, Canada, September 11-13, 2017, Proceedings, Part I, Springer International Publishing, 2017, pp. 266–274.</p></li>
+<li><p><a class="reference external" href="http://insightsoftwareconsortium.github.io/SimpleITK-Notebooks/">SimpleITK Notebooks</a>: See chapters 60-67</p></li>
+<li><p><a class="reference external" href="https://itk.org/ITKSoftwareGuide/html/Book2/ITKSoftwareGuide-Book2ch3.html">ITK Software Guide, Book 2</a>: In C++ but with a thorough description</p></li>
+</ul>
+</section>
+<section id="tools">
+<h3>Tools<a class="headerlink" href="#tools" title="Permalink to this heading">#</a></h3>
+<p>There exist various tools for registration besides the implemented code for registration:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.slicer.org/">3D Slicer</a>: Open source software which also includes registration.</p></li>
+<li><p><a class="reference external" href="http://stnava.github.io/ANTs/">ANTs</a>: Advanced Normalization Tools, which come with registration algorithms.</p></li>
+<li><p><a class="reference external" href="http://cmictig.cs.ucl.ac.uk/wiki/index.php/NiftyReg">NiftyReg</a>: Rigid, affine and non-linear registration of medical images.</p></li>
+<li><p><a class="reference external" href="https://simpleelastix.github.io/">SimpleElastix</a>: An extension of SimpleITK.</p></li>
+</ul>
+</section>
+</section>
+<section id="post-processing">
+<h2>Post-processing<a class="headerlink" href="#post-processing" title="Permalink to this heading">#</a></h2>
+<p>Can we leverage the segmentation performance by post-processing?</p>
+<ul class="simple">
+<li><p>Morphological operators</p></li>
+<li><p>Dense conditional random field (CRF)</p></li>
+<li><p>Manual user interaction (e.g., brushing)</p></li>
+</ul>
+<section id="id2">
+<h3>Materials<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mialab.filtering.postprocessing</span></code>, e.g. use <code class="docutils literal notranslate"><span class="pre">DenseCRF</span></code></p></li>
+<li><p>P. Krähenbühl and V. Koltun, Efficient Inference in Fully Connected CRFs with Gaussian Edge Potentials, Advances in Neural Information Processing Systems, vol. 24, pp. 109-117, 2011.</p></li>
+<li><p>S. Nowozin and C. H. Lampert, Structured Learning and Prediction in Computer Vision, Foundations and Trends in Computer Graphics and Vision, vol. 6, pp. 185-365, 2010.</p></li>
+<li><p>P. Cattin, Image Segmentation, 2016. [Online]. Available: <a class="reference external" href="https://www.miac.unibas.ch/SIP/pdf/SIP-07-Segmentation.pdf">https://www.miac.unibas.ch/SIP/pdf/SIP-07-Segmentation.pdf</a> [Accessed: 08-Sep-2020], see chapter 6 - Mathematical Morphology</p></li>
+</ul>
+</section>
+</section>
+<section id="evaluation">
+<h2>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this heading">#</a></h2>
+<p>Which metrics are suitable for our task? What is the influence of the validation procedure on the results?</p>
+<ul class="simple">
+<li><p>Metric types</p></li>
+<li><p>Influence of e.g. small structures</p></li>
+<li><p>Influence of validation procedure</p></li>
+</ul>
+<section id="id3">
+<h3>Materials<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>See <code class="docutils literal notranslate"><span class="pre">pymia.evaluation</span></code> package</p></li>
+<li><p>A. A. Taha and A. Hanbury, Metrics for evaluating 3D medical image segmentation: analysis, selection, and tool, BMC Med. Imaging, vol. 15, no. 1, pp. 1–28, 2015.</p></li>
+<li><p><a class="reference external" href="https://medium.com/towards-data-science/cross-validation-in-machine-learning-72924a69872f">Cross-validation in machine learning</a></p></li>
+</ul>
+</section>
+</section>
+<section id="machine-learning-algorithms">
+<h2>Machine Learning Algorithms<a class="headerlink" href="#machine-learning-algorithms" title="Permalink to this heading">#</a></h2>
+<p>Do other machine learning algorithms perform better on our task? Can we improve the segmentation performance by parameter tuning?</p>
+<ul class="simple">
+<li><p>Overfitting</p></li>
+<li><p>Parameter tuning (tree depth, forest size)</p></li>
+<li><p>Support Vector Machine (SVM)</p></li>
+<li><p>Variants of decision forests (e.g., gradient boosted trees)</p></li>
+</ul>
+<section id="id4">
+<h3>Materials<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="http://scikit-learn.org/stable/supervised_learning.html#supervised-learning">scikit-learn: Supervised learning</a></p></li>
+<li><p>A. Criminisi and J. Shotton, Decision Forests for Computer Vision and Medical Image Analysis, 1st ed. London: Springer, 2013.</p></li>
+<li><p>R. S. Olson, W. La Cava, Z. Mustahsan, A. Varik, and J. H. Moore, Data-driven Advice for Applying Machine Learning to Bioinformatics Problems, Aug. 2017.</p></li>
+</ul>
+</section>
+</section>
+<section id="feature-engineering">
+<h2>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this heading">#</a></h2>
+<p>What features could be used to improve our model?</p>
+<ul class="simple">
+<li><p>Investigate other features</p>
+<ul>
+<li><p>Hemisphere feature</p></li>
+<li><p>Filter banks</p></li>
+<li><p>Histogram of oriented gradients (HOGs)</p></li>
+</ul>
+</li>
+<li><p>2-D / 3-D differences</p></li>
+</ul>
+<section id="id5">
+<h3>Materials<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="http://scikit-image.org/docs/dev/api/skimage.feature.html">scikit-image feature module</a></p></li>
+</ul>
+</section>
+</section>
+<section id="feature-selection">
+<h2>Feature Selection<a class="headerlink" href="#feature-selection" title="Permalink to this heading">#</a></h2>
+<p>Can we reduce the number of features to decrease the model complexity and the computational burden.</p>
+<ul class="simple">
+<li><p>Decision forest feature importance</p></li>
+<li><p>Principal component analysis (PCA)</p></li>
+<li><p>Mutual information based feature selection</p></li>
+</ul>
+<section id="id6">
+<h3>Materials<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="http://scikit-learn.org/stable/modules/decomposition.html#decompositions">scikit-learn: Dimensionality reduction</a></p></li>
+<li><p><a class="reference external" href="https://github.com/danielhomola/mifs">Parallelized Mutual Information based Feature Selection</a></p></li>
+<li><p>H. Peng, F. Long, and C. Ding, Feature selection based on mutual information criteria of max-dependency, max-relevance, and min-redundancy, IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 27, no. 8, pp. 1226-38, 2005.</p></li>
+</ul>
+</section>
+</section>
+<section id="deep-learning">
+<h2>Deep Learning<a class="headerlink" href="#deep-learning" title="Permalink to this heading">#</a></h2>
+<p>Deep learning has gained much attention in the last years outperforming methods such as decision forests. What is the performance of a deep learning method on our task?</p>
+<ul class="simple">
+<li><p>Implement a deep learning method</p></li>
+</ul>
+<section id="id7">
+<h3>Materials<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jakeret/tf_unet">Generic U-Net Tensorflow implementation for image segmentation</a></p></li>
+<li><p><a class="reference external" href="https://pytorch.org/hub/mateuszbuda_brain-segmentation-pytorch_unet/">U-Net PyTorch implementation for brain MRI</a></p></li>
+<li><p>O. Ronneberger, P. Fischer, and T. Brox, U-Net: Convolutional Networks for Biomedical Image Segmentation, May 2015.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="data.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Data</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="pipeline.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Pipeline</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2022, Medical Image Analysis Group, ARTORG Center for Biomedical Engineering Sciences, University of Bern
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Experiments</a><ul>
+<li><a class="reference internal" href="#pre-processing">Pre-processing</a><ul>
+<li><a class="reference internal" href="#materials">Materials</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#registration">Registration</a><ul>
+<li><a class="reference internal" href="#id1">Materials</a></li>
+<li><a class="reference internal" href="#tools">Tools</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#post-processing">Post-processing</a><ul>
+<li><a class="reference internal" href="#id2">Materials</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evaluation">Evaluation</a><ul>
+<li><a class="reference internal" href="#id3">Materials</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine-learning-algorithms">Machine Learning Algorithms</a><ul>
+<li><a class="reference internal" href="#id4">Materials</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#feature-engineering">Feature Engineering</a><ul>
+<li><a class="reference internal" href="#id5">Materials</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#feature-selection">Feature Selection</a><ul>
+<li><a class="reference internal" href="#id6">Materials</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deep-learning">Deep Learning</a><ul>
+<li><a class="reference internal" href="#id7">Materials</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/tabs.js"></script>
+    </body>
+</html>

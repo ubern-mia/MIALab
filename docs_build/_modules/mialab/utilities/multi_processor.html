@@ -1,0 +1,549 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+
+    <meta name="generator" content="sphinx-5.2.2, furo 2022.09.15"/>
+        <title>mialab.utilities.multi_processor - mialab 0.3.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=9ec31e2665bf879c1d47d93a8ec4893870ee1e45" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">mialab 0.3.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../_static/./pics/logo_light.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../_static/./pics/logo_dark.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">mialab 0.3.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../background.html">Clinical Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pipeline.html">Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../experiments.html">Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../data.html">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ide.html">Integrated Development Environment (IDE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ubelix.html">UBELIX HPC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Packages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../mialab.data.html">Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.data</span></code> package)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mialab.filtering.html">Filtering and manipulation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.filtering</span></code> package)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mialab.utilities.html">Utilities (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mialab.utilities</span></code> package)</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for mialab.utilities.multi_processor</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module for the management of multi-process function calls.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">typing</span> <span class="k">as</span> <span class="nn">t</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">SimpleITK</span> <span class="k">as</span> <span class="nn">sitk</span>
+<span class="kn">from</span> <span class="nn">pathos</span> <span class="kn">import</span> <span class="n">multiprocessing</span> <span class="k">as</span> <span class="n">pmp</span>
+<span class="kn">import</span> <span class="nn">pymia.data.conversion</span> <span class="k">as</span> <span class="nn">conversion</span>
+
+<span class="kn">import</span> <span class="nn">mialab.data.structure</span> <span class="k">as</span> <span class="nn">structure</span>
+
+
+<div class="viewcode-block" id="PicklableAffineTransform"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PicklableAffineTransform">[docs]</a><span class="k">class</span> <span class="nc">PicklableAffineTransform</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Represents a transformation that can be pickled.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">:</span> <span class="n">sitk</span><span class="o">.</span><span class="n">Transform</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">GetDimension</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">GetParameters</span><span class="p">()</span>
+
+<div class="viewcode-block" id="PicklableAffineTransform.get_sitk_transformation"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PicklableAffineTransform.get_sitk_transformation">[docs]</a>    <span class="k">def</span> <span class="nf">get_sitk_transformation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">sitk</span><span class="o">.</span><span class="n">AffineTransform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">)</span>
+        <span class="n">transform</span><span class="o">.</span><span class="n">SetParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">transform</span></div></div>
+
+
+<div class="viewcode-block" id="PicklableBrainImage"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PicklableBrainImage">[docs]</a><span class="k">class</span> <span class="nc">PicklableBrainImage</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Represents a brain image that can be pickled.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PicklableBrainImage.__init__"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PicklableBrainImage.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">np_images</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">image_properties</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">ImageProperties</span><span class="p">,</span>
+                 <span class="n">transform</span><span class="p">:</span> <span class="n">sitk</span><span class="o">.</span><span class="n">Transform</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initializes a new instance of the :class:`BrainImage &lt;data.structure.BrainImage&gt;` class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            id_ (str): An identifier.</span>
+<span class="sd">            path (str): Full path to the image directory.</span>
+<span class="sd">            np_images (dict): The images, where the key is a</span>
+<span class="sd">                :class:`BrainImageTypes &lt;data.structure.BrainImageTypes&gt;` and the value is a numpy image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_</span> <span class="o">=</span> <span class="n">id_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">np_images</span> <span class="o">=</span> <span class="n">np_images</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_properties</span> <span class="o">=</span> <span class="n">image_properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">np_feature_images</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feature_matrix</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># a tuple (features, labels),</span>
+        <span class="c1"># where the shape of features is (n, number_of_features) and the shape of labels is (n, 1)</span>
+        <span class="c1"># with n being the amount of voxels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pickable_transform</span> <span class="o">=</span> <span class="n">PicklableAffineTransform</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="BrainImageToPicklableBridge"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.BrainImageToPicklableBridge">[docs]</a><span class="k">class</span> <span class="nc">BrainImageToPicklableBridge</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A :class:`BrainImage &lt;data.structure.BrainImage&gt;` to :class:`PicklableBrainImage` bridge.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BrainImageToPicklableBridge.convert"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.BrainImageToPicklableBridge.convert">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">brain_image</span><span class="p">:</span> <span class="n">structure</span><span class="o">.</span><span class="n">BrainImage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PicklableBrainImage</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Converts a :class:`BrainImage &lt;data.structure.BrainImage&gt;` to :class:`PicklableBrainImage`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            brain_image (BrainImage): A brain image.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PicklableBrainImage: The pickable brain image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">np_images</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">brain_image</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">np_images</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitk</span><span class="o">.</span><span class="n">GetArrayFromImage</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+        <span class="n">np_feature_images</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">feat_img</span> <span class="ow">in</span> <span class="n">brain_image</span><span class="o">.</span><span class="n">feature_images</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">np_feature_images</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">sitk</span><span class="o">.</span><span class="n">GetArrayFromImage</span><span class="p">(</span><span class="n">feat_img</span><span class="p">)</span>
+
+        <span class="n">pickable_brain_image</span> <span class="o">=</span> <span class="n">PicklableBrainImage</span><span class="p">(</span><span class="n">brain_image</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="n">brain_image</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">np_images</span><span class="p">,</span>
+                                                   <span class="n">brain_image</span><span class="o">.</span><span class="n">image_properties</span><span class="p">,</span>
+                                                   <span class="n">brain_image</span><span class="o">.</span><span class="n">transformation</span><span class="p">)</span>
+        <span class="n">pickable_brain_image</span><span class="o">.</span><span class="n">np_feature_images</span> <span class="o">=</span> <span class="n">np_feature_images</span>
+        <span class="n">pickable_brain_image</span><span class="o">.</span><span class="n">feature_matrix</span> <span class="o">=</span> <span class="n">brain_image</span><span class="o">.</span><span class="n">feature_matrix</span>
+
+        <span class="k">return</span> <span class="n">pickable_brain_image</span></div></div>
+
+
+<div class="viewcode-block" id="PicklableToBrainImageBridge"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PicklableToBrainImageBridge">[docs]</a><span class="k">class</span> <span class="nc">PicklableToBrainImageBridge</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A :class:`PicklableBrainImage` to :class:`BrainImage &lt;data.structure.BrainImage&gt;` bridge.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PicklableToBrainImageBridge.convert"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PicklableToBrainImageBridge.convert">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">picklable_brain_image</span><span class="p">:</span> <span class="n">PicklableBrainImage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">structure</span><span class="o">.</span><span class="n">BrainImage</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Converts a :class:`PicklableBrainImage` to :class:`BrainImage &lt;data.structure.BrainImage&gt;`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            picklable_brain_image (PicklableBrainImage): A pickable brain image.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BrainImage: The brain image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">images</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">np_img</span> <span class="ow">in</span> <span class="n">picklable_brain_image</span><span class="o">.</span><span class="n">np_images</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">images</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">NumpySimpleITKImageBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">np_img</span><span class="p">,</span> <span class="n">picklable_brain_image</span><span class="o">.</span><span class="n">image_properties</span><span class="p">)</span>
+
+        <span class="n">feature_images</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">np_feat_img</span> <span class="ow">in</span> <span class="n">picklable_brain_image</span><span class="o">.</span><span class="n">np_feature_images</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">feature_images</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">NumpySimpleITKImageBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">np_feat_img</span><span class="p">,</span>
+                                                                               <span class="n">picklable_brain_image</span><span class="o">.</span><span class="n">image_properties</span><span class="p">)</span>
+
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">picklable_brain_image</span><span class="o">.</span><span class="n">pickable_transform</span><span class="o">.</span><span class="n">get_sitk_transformation</span><span class="p">()</span>
+
+        <span class="n">brain_image</span> <span class="o">=</span> <span class="n">structure</span><span class="o">.</span><span class="n">BrainImage</span><span class="p">(</span><span class="n">picklable_brain_image</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="n">picklable_brain_image</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
+        <span class="n">brain_image</span><span class="o">.</span><span class="n">feature_matrix</span> <span class="o">=</span> <span class="n">picklable_brain_image</span><span class="o">.</span><span class="n">feature_matrix</span>
+        <span class="k">return</span> <span class="n">brain_image</span></div></div>
+
+
+<div class="viewcode-block" id="DefaultPickleHelper"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.DefaultPickleHelper">[docs]</a><span class="k">class</span> <span class="nc">DefaultPickleHelper</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Default pickle helper class&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DefaultPickleHelper.make_params_picklable"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.DefaultPickleHelper.make_params_picklable">[docs]</a>    <span class="k">def</span> <span class="nf">make_params_picklable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Default function called to ensure that all parameters can be pickled before transferred to the new process.</span>
+<span class="sd">        To be overwritten if non-picklable parameters are contained in ``params``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params (tuple): Parameters to be rendered picklable.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: The modified parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">params</span></div>
+
+<div class="viewcode-block" id="DefaultPickleHelper.recover_params"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.DefaultPickleHelper.recover_params">[docs]</a>    <span class="k">def</span> <span class="nf">recover_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Default function called to recover (from the pickle state) the original parameters in another process.</span>
+<span class="sd">        To be overwritten if non-picklable parameters are contained in ``params``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params (tuple): Parameters to be recovered.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: The recovered parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">params</span></div>
+
+<div class="viewcode-block" id="DefaultPickleHelper.make_return_value_picklable"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.DefaultPickleHelper.make_return_value_picklable">[docs]</a>    <span class="k">def</span> <span class="nf">make_return_value_picklable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ret_val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Default function called to ensure that all return values ``ret_val`` can be pickled before transferring</span>
+<span class="sd">        back to the original process.</span>
+<span class="sd">        To be overwritten if non-picklable objects are contained in ``ret_val``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ret_val: Return values of the function executed in another process.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The modified return values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ret_val</span></div>
+
+<div class="viewcode-block" id="DefaultPickleHelper.recover_return_value"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.DefaultPickleHelper.recover_return_value">[docs]</a>    <span class="k">def</span> <span class="nf">recover_return_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ret_val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Default function called to ensure that all return values ``ret_val`` can be pickled before transferring</span>
+<span class="sd">        back to the original process.</span>
+<span class="sd">        To be overwritten if non-picklable objects are contained in ``ret_val``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ret_val: Return values of the function executed in another process.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The modified return values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ret_val</span></div></div>
+
+
+<div class="viewcode-block" id="PreProcessingPickleHelper"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PreProcessingPickleHelper">[docs]</a><span class="k">class</span> <span class="nc">PreProcessingPickleHelper</span><span class="p">(</span><span class="n">DefaultPickleHelper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Pre-processing pickle helper class&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PreProcessingPickleHelper.make_return_value_picklable"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PreProcessingPickleHelper.make_return_value_picklable">[docs]</a>    <span class="k">def</span> <span class="nf">make_return_value_picklable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ret_val</span><span class="p">:</span> <span class="n">structure</span><span class="o">.</span><span class="n">BrainImage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PicklableBrainImage</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Ensures that all pre-processing return values ``ret_val`` can be pickled before transferring back to</span>
+<span class="sd">        the original process.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ret_val(BrainImage): Return values of the pre-processing function executed in another process.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PicklableBrainImage: The modified pre-processing return values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">BrainImageToPicklableBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">ret_val</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PreProcessingPickleHelper.recover_return_value"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PreProcessingPickleHelper.recover_return_value">[docs]</a>    <span class="k">def</span> <span class="nf">recover_return_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ret_val</span><span class="p">:</span> <span class="n">PicklableBrainImage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">structure</span><span class="o">.</span><span class="n">BrainImage</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Recovers (from the pickle state) the original pre-processing return values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ret_val(PicklableBrainImage): Pre-processing return values to be recovered.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BrainImage: The recovered pre-processing return values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">PicklableToBrainImageBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">ret_val</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="PostProcessingPickleHelper"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PostProcessingPickleHelper">[docs]</a><span class="k">class</span> <span class="nc">PostProcessingPickleHelper</span><span class="p">(</span><span class="n">DefaultPickleHelper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Post-processing pickle helper class&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PostProcessingPickleHelper.make_params_picklable"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PostProcessingPickleHelper.make_params_picklable">[docs]</a>    <span class="k">def</span> <span class="nf">make_params_picklable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">structure</span><span class="o">.</span><span class="n">BrainImage</span><span class="p">,</span> <span class="n">sitk</span><span class="o">.</span><span class="n">Image</span><span class="p">,</span> <span class="n">sitk</span><span class="o">.</span><span class="n">Image</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;Ensures that all post-processing parameters can be pickled before transferred to the new process.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params (tuple): Post-processing parameters to be rendered picklable.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: The modified post-processing parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">brain_img</span><span class="p">,</span> <span class="n">segmentation</span><span class="p">,</span> <span class="n">probability</span><span class="p">,</span> <span class="n">fn_kwargs</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="n">picklable_brain_image</span> <span class="o">=</span> <span class="n">BrainImageToPicklableBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">brain_img</span><span class="p">)</span>
+        <span class="n">np_segmentation</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">SimpleITKNumpyImageBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">segmentation</span><span class="p">)</span>
+        <span class="n">np_probability</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">SimpleITKNumpyImageBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">probability</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">picklable_brain_image</span><span class="p">,</span> <span class="n">np_segmentation</span><span class="p">,</span> <span class="n">np_probability</span><span class="p">,</span> <span class="n">fn_kwargs</span></div>
+
+<div class="viewcode-block" id="PostProcessingPickleHelper.recover_params"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PostProcessingPickleHelper.recover_params">[docs]</a>    <span class="k">def</span> <span class="nf">recover_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PicklableBrainImage</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;Recovers (from the pickle state) the original post-processing parameters in another process.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params (tuple): Post-processing parameters to be recovered.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: The recovered post-processing parameters.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">picklable_img</span><span class="p">,</span> <span class="n">np_segmentation</span><span class="p">,</span> <span class="n">np_probability</span><span class="p">,</span> <span class="n">fn_kwargs</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">PicklableToBrainImageBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">picklable_img</span><span class="p">)</span>
+        <span class="n">segmentation</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">NumpySimpleITKImageBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">np_segmentation</span><span class="p">,</span> <span class="n">picklable_img</span><span class="o">.</span><span class="n">image_properties</span><span class="p">)</span>
+        <span class="n">probability</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">NumpySimpleITKImageBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">np_probability</span><span class="p">,</span> <span class="n">picklable_img</span><span class="o">.</span><span class="n">image_properties</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">segmentation</span><span class="p">,</span> <span class="n">probability</span><span class="p">,</span> <span class="n">fn_kwargs</span></div>
+
+<div class="viewcode-block" id="PostProcessingPickleHelper.make_return_value_picklable"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PostProcessingPickleHelper.make_return_value_picklable">[docs]</a>    <span class="k">def</span> <span class="nf">make_return_value_picklable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ret_val</span><span class="p">:</span> <span class="n">sitk</span><span class="o">.</span><span class="n">Image</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">conversion</span><span class="o">.</span><span class="n">ImageProperties</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Ensures that all post-processing return values ``ret_val`` can be pickled before transferring back to</span>
+<span class="sd">        the original process.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ret_val(sitk.Image): Return values of the post-processing function executed in another process.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The modified post-processing return values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">np_img</span><span class="p">,</span> <span class="n">image_properties</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">SimpleITKNumpyImageBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">ret_val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np_img</span><span class="p">,</span> <span class="n">image_properties</span></div>
+
+<div class="viewcode-block" id="PostProcessingPickleHelper.recover_return_value"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.PostProcessingPickleHelper.recover_return_value">[docs]</a>    <span class="k">def</span> <span class="nf">recover_return_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ret_val</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">conversion</span><span class="o">.</span><span class="n">ImageProperties</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">sitk</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Recovers (from the pickle state) the original post-processing return values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ret_val: Post-processing return values to be recovered.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            sitk.Image: The recovered post-processing return values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">np_img</span><span class="p">,</span> <span class="n">image_properties</span> <span class="o">=</span> <span class="n">ret_val</span>
+        <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">NumpySimpleITKImageBridge</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">np_img</span><span class="p">,</span> <span class="n">image_properties</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="MultiProcessor"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.MultiProcessor">[docs]</a><span class="k">class</span> <span class="nc">MultiProcessor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class managing multiprocessing&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MultiProcessor.run"><a class="viewcode-back" href="../../../mialab.utilities.html#mialab.utilities.multi_processor.MultiProcessor.run">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">fn</span><span class="p">:</span> <span class="n">callable</span><span class="p">,</span> <span class="n">param_list</span><span class="p">:</span> <span class="nb">iter</span><span class="p">,</span> <span class="n">fn_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pickle_helper_cls</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">DefaultPickleHelper</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Executes the function ``fn`` in parallel (different processes) for each parameter in the parameter list.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fn (callable): Function to be executed in another process.</span>
+<span class="sd">            param_list (List[tuple]): List containing the parameters for each ``fn`` call.</span>
+<span class="sd">            fn_kwargs (dict): kwargs for the ``fn`` function call.</span>
+<span class="sd">            pickle_helper_cls: Class responsible for the pickling of the parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of all return values of the ``fn`` calls</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">fn_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fn_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">helper</span> <span class="o">=</span> <span class="n">pickle_helper_cls</span><span class="p">()</span>
+        <span class="c1"># add additional_params</span>
+        <span class="n">param_list</span> <span class="o">=</span> <span class="p">((</span><span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">fn_kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">param_list</span><span class="p">)</span>
+        <span class="n">param_list</span> <span class="o">=</span> <span class="p">(</span><span class="n">helper</span><span class="o">.</span><span class="n">make_params_picklable</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">param_list</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">pmp</span><span class="o">.</span><span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+            <span class="n">ret_vals</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">MultiProcessor</span><span class="o">.</span><span class="n">_wrap_fn</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">pickle_helper_cls</span><span class="p">),</span> <span class="n">param_list</span><span class="p">)</span>
+        <span class="n">ret_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">helper</span><span class="o">.</span><span class="n">recover_return_value</span><span class="p">(</span><span class="n">ret_val</span><span class="p">)</span> <span class="k">for</span> <span class="n">ret_val</span> <span class="ow">in</span> <span class="n">ret_vals</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">ret_vals</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_wrap_fn</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">pickle_helper_cls</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">wrapped_fn</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">):</span>
+            <span class="c1"># create instance due to possible race condition (not sure if really possible)</span>
+            <span class="n">helper</span> <span class="o">=</span> <span class="n">pickle_helper_cls</span><span class="p">()</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">recover_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">shared_params</span> <span class="o">=</span> <span class="n">params</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">ret_val</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">shared_params</span><span class="p">)</span>
+            <span class="n">ret_val</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_return_value_picklable</span><span class="p">(</span><span class="n">ret_val</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ret_val</span>
+
+        <span class="k">return</span> <span class="n">wrapped_fn</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2017-2022, Medical Image Analysis Group, ARTORG Center for Biomedical Engineering Sciences, University of Bern
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/scripts/furo.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/tabs.js"></script>
+    </body>
+</html>
