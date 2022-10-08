@@ -157,7 +157,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
     evaluator.clear()
 
     # plot dice results as a boxplot for each label
-    boxplot.main(result_file, )
+    boxplot.plot(result_file, result_dir)
 
 
 
