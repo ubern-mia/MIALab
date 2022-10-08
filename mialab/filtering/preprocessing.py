@@ -132,7 +132,12 @@ class ImageRegistration(pymia_fltr.Filter):
         transform = params.transformation
         is_ground_truth = params.is_ground_truth  # the ground truth will be handled slightly different
 
-        image = sitk.Resample(image, referenceImage=atlas, transform=transform, interpolator=sitk.sitkNearestNeighbor if is_ground_truth else sitk.sitkLinear, outputPixelType=image.GetPixelIDValue())
+        if is_ground_truth:
+            interpolator = sitk.sitkNearestNeighbor
+        else:
+            interpolator = sitk.sitkLinear
+
+        image = sitk.Resample(image, referenceImage=atlas, transform=transform, interpolator=interpolator, outputPixelType=image.GetPixelIDValue())
         # note: if you are interested in registration, and want to test it, have a look at
         # pymia.filtering.registration.MultiModalRegistration. Think about the type of registration, i.e.
         # do you want to register to an atlas or inter-subject? Or just ask us, we can guide you ;-)
