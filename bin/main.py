@@ -19,12 +19,14 @@ try:
     import mialab.data.structure as structure
     import mialab.utilities.file_access_utilities as futil
     import mialab.utilities.pipeline_utilities as putil
+    import boxplot as boxplot
 except ImportError:
     # Append the MIALab root directory to Python path
     sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))
     import mialab.data.structure as structure
     import mialab.utilities.file_access_utilities as futil
     import mialab.utilities.pipeline_utilities as putil
+    import boxplot as boxplot
 
 LOADING_KEYS = [structure.BrainImageTypes.T1w,
                 structure.BrainImageTypes.T2w,
@@ -153,6 +155,10 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
     # clear results such that the evaluator is ready for the next evaluation
     evaluator.clear()
+
+    # plot dice results as a boxplot for each label
+    boxplot.main(result_file, )
+
 
 
 if __name__ == "__main__":
