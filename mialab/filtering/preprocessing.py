@@ -29,7 +29,7 @@ class ImageNormalization(pymia_fltr.Filter):
         img_arr = sitk.GetArrayFromImage(image)
 
         # todo: normalize the image using numpy
-        warnings.warn('No normalization implemented. Returning unprocessed image.')
+        img_arr = (img_arr - img_arr.mean()) / img_arr.std()
 
         img_out = sitk.GetImageFromArray(img_arr)
         img_out.CopyInformation(image)
@@ -78,7 +78,7 @@ class SkullStripping(pymia_fltr.Filter):
         mask = params.img_mask  # the brain mask
 
         # todo: remove the skull from the image by using the brain mask
-        warnings.warn('No skull-stripping implemented. Returning unprocessed image.')
+        image = sitk.Mask(image, mask)
 
         return image
 
@@ -128,12 +128,11 @@ class ImageRegistration(pymia_fltr.Filter):
 
         # todo: replace this filter by a registration. Registration can be costly, therefore, we provide you the
         # transformation, which you only need to apply to the image!
-        warnings.warn('No registration implemented. Returning unregistered image')
-
         atlas = params.atlas
         transform = params.transformation
         is_ground_truth = params.is_ground_truth  # the ground truth will be handled slightly different
 
+        image = sitk.Resample(image, referenceImage=atlas, transform=transform, interpolator=sitk.sitkNearestNeighbor if is_ground_truth else sitk.sitkLinear, outputPixelType=image.GetPixelIDValue())
         # note: if you are interested in registration, and want to test it, have a look at
         # pymia.filtering.registration.MultiModalRegistration. Think about the type of registration, i.e.
         # do you want to register to an atlas or inter-subject? Or just ask us, we can guide you ;-)
