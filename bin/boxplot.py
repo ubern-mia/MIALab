@@ -16,7 +16,7 @@ def plot(result_file: str, result_dir: str):
     # alternative: instead of manually loading/reading the csv file you could also use the pandas package
     # but you will need to install it first ('pip install pandas') and import it to this file ('import pandas as pd')
     # pass  # pass is just a placeholder if there is no other code
-    df = pd.read_csv(os.path.join(result_dir, result_file), sep=";")
+    df = pd.read_csv(os.path.join(result_file), sep=";")
     df.boxplot(by='LABEL', column='DICE', grid=False)
     plt.savefig(os.path.join(result_dir, 'boxplot_dice.png'), format="png")
     plt.show()
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--result_file',
         type=str,
-        default='results.csv',
+        default='./mia-result/2022-10-08-19-32-34/results.csv',
         help='Name of the file containing the results.'
     )
 
