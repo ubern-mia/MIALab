@@ -10,3 +10,4 @@ sphinx_rtd_theme>=0.5.0
 furo>=2021.7.31b41
 sphinx-inline-tabs>=2021.3.28b7
 sphinx-copybutton==0.5.0
+pandas==1.5.0

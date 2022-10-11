@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # SLURM Settings
-#SBATCH --job-name="GIVE_IT_A_NAME"
+#SBATCH --job-name="Julians_JOB"
 #SBATCH --time=24:00:00
 #SBATCH --mem-per-cpu=128G
 #SBATCH --partition=epyc2
 #SBATCH --qos=job_epyc2
-#SBATCH --mail-user=[forename].[surname]@students.unibe.ch
+#SBATCH --mail-user=julian.lehmann@students.unibe.ch
 #SBATCH --mail-type=ALL
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
@@ -19,5 +19,4 @@ eval "$(conda shell.bash hook)"
 conda activate mialab
 
 # Run your code
-./create_ubelix_env.sh
-#srun python3 main.py
+srun python3 ../../bin/main.py
