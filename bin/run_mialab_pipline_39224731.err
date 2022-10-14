@@ -1,0 +1,28 @@
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/utilities/pipeline_utilities.py:71: UserWarning: No features from T2-weighted image extracted.
+  warnings.warn('No features from T2-weighted image extracted.')
+main.py:77: UserWarning: Random forest parameters not properly set.
+  warnings.warn('Random forest parameters not properly set.')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/utilities/pipeline_utilities.py:295: UserWarning: Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?
+  warnings.warn('Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/utilities/pipeline_utilities.py:71: UserWarning: No features from T2-weighted image extracted.
+  warnings.warn('No features from T2-weighted image extracted.')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')

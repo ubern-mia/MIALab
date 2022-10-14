@@ -1,0 +1,57 @@
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/utilities/pipeline_utilities.py:71: UserWarning: No features from T2-weighted image extracted.
+  warnings.warn('No features from T2-weighted image extracted.')
+main.py:77: UserWarning: Random forest parameters not properly set.
+  warnings.warn('Random forest parameters not properly set.')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/utilities/pipeline_utilities.py:295: UserWarning: Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?
+  warnings.warn('Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/utilities/pipeline_utilities.py:71: UserWarning: No features from T2-weighted image extracted.
+  warnings.warn('No features from T2-weighted image extracted.')
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/numpy/core/_methods.py:233: RuntimeWarning: invalid value encountered in subtract
+  x = asanyarray(arr - arrmean)
+Traceback (most recent call last):
+  File "main.py", line 200, in <module>
+    main(args.result_dir, args.data_atlas_dir, args.data_train_dir, args.data_test_dir)
+  File "main.py", line 160, in main
+    boxplot.main(result_file, )
+AttributeError: module 'boxplot' has no attribute 'main'
+srun: error: bnode040: task 0: Exited with exit code 1

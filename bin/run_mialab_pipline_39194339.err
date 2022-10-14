@@ -1,0 +1,71 @@
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/utilities/pipeline_utilities.py:71: UserWarning: No features from T2-weighted image extracted.
+  warnings.warn('No features from T2-weighted image extracted.')
+main.py:77: UserWarning: Random forest parameters not properly set.
+  warnings.warn('Random forest parameters not properly set.')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/utilities/pipeline_utilities.py:295: UserWarning: Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?
+  warnings.warn('Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/utilities/pipeline_utilities.py:71: UserWarning: No features from T2-weighted image extracted.
+  warnings.warn('No features from T2-weighted image extracted.')
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pymia/evaluation/metric/categorical.py:430: NotComputableMetricWarning: Unable to compute Hausdorff distance due to empty prediction mask, returning inf
+  warnings.warn('Unable to compute Hausdorff distance due to empty prediction mask, returning inf',
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/MIALab/MIALab/bin/../mialab/filtering/postprocessing.py:33: UserWarning: No post-processing implemented. Can you think about something?
+  warnings.warn('No post-processing implemented. Can you think about something?')
+/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/numpy/core/_methods.py:233: RuntimeWarning: invalid value encountered in subtract
+  x = asanyarray(arr - arrmean)
+Traceback (most recent call last):
+  File "main.py", line 200, in <module>
+    main(args.result_dir, args.data_atlas_dir, args.data_train_dir, args.data_test_dir)
+  File "main.py", line 160, in main
+    boxplot.plot(result_file, result_dir)
+  File "/storage/homefs/ac18b057/MIALab/MIALab/bin/boxplot.py", line 19, in plot
+    df = pd.read_csv(os.path.join(result_dir, result_file), sep=";")
+  File "/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pandas/util/_decorators.py", line 311, in wrapper
+    return func(*args, **kwargs)
+  File "/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 678, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 575, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 932, in __init__
+    self._engine = self._make_engine(f, self.engine)
+  File "/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 1216, in _make_engine
+    self.handles = get_handle(  # type: ignore[call-overload]
+  File "/storage/homefs/ac18b057/.conda/envs/mialab/lib/python3.8/site-packages/pandas/io/common.py", line 786, in get_handle
+    handle = open(
+FileNotFoundError: [Errno 2] No such file or directory: 'mia-result/2022-10-09-04-15-01/mia-result/2022-10-09-04-15-01/results.csv'
+srun: error: bnode012: task 0: Exited with exit code 1

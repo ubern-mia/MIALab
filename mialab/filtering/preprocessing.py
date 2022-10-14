@@ -79,12 +79,15 @@ class SkullStripping(pymia_fltr.Filter):
         Returns:
             sitk.Image: The skull stripped image.
         """
-        mask = sitk.Cast(params.img_mask, sitk.sitkFloat32)  # the brain mask
-
-        # todo: remove the skull from the image by using the brain mask
-        image = sitk.Cast(image, sitk.sitkFloat32)
-        image = image * mask
-        # warnings.warn('No skull-stripping implemented. Returning unprocessed image.')
+        # mask = sitk.Cast(params.img_mask, sitk.sitkFloat32)  # the brain mask
+        #
+        # # todo: remove the skull from the image by using the brain mask
+        # image = sitk.Cast(image, sitk.sitkFloat32)
+        # image = image * mask
+        # # warnings.warn('No skull-stripping implemented. Returning unprocessed image.')
+        # or
+        mask = params.img_mask
+        image = sitk.Mask(image, mask)
 
         return image
 
@@ -143,12 +146,16 @@ class ImageRegistration(pymia_fltr.Filter):
             image = sitk.Resample(image,
                                   referenceImage=atlas,
                                   transform=transform,
-                                  interpolator=sitk.sitkNearestNeighbor)
+                                  interpolator=sitk.sitkNearestNeighbor,
+                                  defaultPixelValue=0,
+                                  outputPixelType=image.GetPixelIDValue())
         else:
             image = sitk.Resample(image,
                                   referenceImage=atlas,
                                   transform=transform,
-                                  interpolator=sitk.sitkBSpline)
+                                  interpolator=sitk.sitkLinear,
+                                  defaultPixelValue=0.0,
+                                  outputPixelType=image.GetPixelIDValue())
 
         # note: if you are interested in registration, and want to test it, have a look at
         # pymia.filtering.registration.MultiModalRegistration. Think about the type of registration, i.e.
