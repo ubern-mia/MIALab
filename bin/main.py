@@ -50,6 +50,9 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
         - Evaluation of the segmentation
     """
 
+    # set seed for reproducible results
+    np.random.seed(42)
+
     # load atlas images
     putil.load_atlas_images(data_atlas_dir)
 
@@ -76,8 +79,8 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
     warnings.warn('Random forest parameters not properly set.')
     forest = sk_ensemble.RandomForestClassifier(max_features=images[0].feature_matrix[0].shape[1],
-                                                n_estimators=1,
-                                                max_depth=5)
+                                                n_estimators=10,
+                                                max_depth=10)
 
     start_time = timeit.default_timer()
     forest.fit(data_train, labels_train)
