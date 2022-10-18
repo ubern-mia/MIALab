@@ -13,8 +13,10 @@ def main():
     # but you will need to install it first ('pip install pandas') and import it to this file ('import pandas as pd')
     #pass  # pass is just a placeholder if there is no other code
     print('halllllllllllllllllllllllllo')
-    results = pd.read_csv('2022-10-11-09-14-44/results.csv', sep=';')
-    results.boxplot(by='LABEL', column=['DICE'], grid=False)
+    results = pd.read_csv('mia-result/2022-10-12-08-25-55/results.csv', sep=';')
+    test = results.boxplot(by='LABEL', column=['DICE'], grid=False)
+    test.plot()
+    plt.show()
 
 if __name__ == '__main__':
     main()
