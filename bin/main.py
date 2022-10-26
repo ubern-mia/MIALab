@@ -157,6 +157,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
 if __name__ == "__main__":
     """The program's entry point."""
+    np.random.seed(42)
 
     script_dir = os.path.dirname(sys.argv[0])
 
