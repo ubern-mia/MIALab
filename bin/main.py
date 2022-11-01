@@ -16,6 +16,8 @@ import pymia.data.conversion as conversion
 import pymia.evaluation.writer as writer
 from sklearn.neighbors import KNeighborsClassifier
 
+from mialab.classifier.classifier_controller import ClassificationController
+
 try:
     import mialab.data.structure as structure
     import mialab.utilities.file_access_utilities as futil
@@ -52,13 +54,12 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
     # load atlas images
     putil.load_atlas_images(data_atlas_dir)
 
-    print('-' * 5, 'Training...')
-
     # crawl the training image directories
     crawler = futil.FileSystemDataCrawler(data_train_dir,
                                           LOADING_KEYS,
                                           futil.BrainImageFilePathGenerator(),
                                           futil.DataDirectoryFilter())
+
     pre_process_params = {'skullstrip_pre': True,
                           'normalization_pre': True,
                           'registration_pre': True,
@@ -73,108 +74,17 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
     data_train = np.concatenate([img.feature_matrix[0] for img in images])
     labels_train = np.concatenate([img.feature_matrix[1] for img in images]).squeeze()
 
-    ## CHOOSE CLASSIFIER TO USE:
-    ## RFC
-    # print("Classifier: Random Forest, n_estimators = 10, max_depth = 10")
-    # clf = sk_ensemble.RandomForestClassifier(max_features=images[0].feature_matrix[0].shape[1],
-    #                                            n_estimators=10,
-    #                                            max_depth=10)
+    classifiers = [
+        KNeighborsClassifier(n_neighbors=1, weights='distance')
+        sk_ensemble.RandomForestClassifier(max_features=images[0].feature_matrix[0].shape[1], n_estimators=10, max_depth=10)
+    ]
+    cc = ClassificationController(classifiers, data_train, labels_train)
 
-
-    ## KNN
-    print("Classifier: K-Neighbors, n_neighbors=1, weights='distance'")
-    clf = KNeighborsClassifier(n_neighbors=1, weights='distance')
-
-
-    start_time = timeit.default_timer()
-    clf.fit(data_train, labels_train)
-    print(' Time elapsed:', timeit.default_timer() - start_time, 's')
-
-    ## CURRENTLY ONLY FIOR RFC
-    # TODO: Generalize for other classifiers
-    """
-    # print the feature importance for the training
-    featureLabels = ["AtlasCoordsX", "AtlasCoordsY", "AtlasCoordsZ", "T1wIntensities", "T2wIntensities", "T1WGradient",
-                     "T2wGradient"]
-    featureImportancesOrdered = (-clf.feature_importances_).argsort()
-    featureLabelsOrdered = [featureLabels[arg] for arg in featureImportancesOrdered]
-    featureImportancePrint = ["{}: {:.4f}".format(label, value) for label, value in
-                              zip(featureLabelsOrdered, clf.feature_importances_[featureImportancesOrdered])]
-    print("Feature importance in descending order:\n", featureImportancePrint)
-    """
-
-    # create a result directory with timestamp
-    t = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-    result_dir = os.path.join(result_dir, t)
-    os.makedirs(result_dir, exist_ok=True)
-
-    print('-' * 5, 'Testing...')
-
-    # initialize evaluator
-    evaluator = putil.init_evaluator()
-
-    # crawl the training image directories
-    crawler = futil.FileSystemDataCrawler(data_test_dir,
-                                          LOADING_KEYS,
-                                          futil.BrainImageFilePathGenerator(),
-                                          futil.DataDirectoryFilter())
-
-    # load images for testing and pre-process
-    pre_process_params['training'] = False
-    images_test = putil.pre_process_batch(crawler.data, pre_process_params, multi_process=False)
-
-    images_prediction = []
-    images_probabilities = []
-
-    for img in images_test:
-        print('-' * 10, 'Testing', img.id_)
-
-        start_time = timeit.default_timer()
-        predictions = clf.predict(img.feature_matrix[0])
-        probabilities = clf.predict_proba(img.feature_matrix[0])
-        print(' Time elapsed:', timeit.default_timer() - start_time, 's')
-
-        # convert prediction and probabilities back to SimpleITK images
-        image_prediction = conversion.NumpySimpleITKImageBridge.convert(predictions.astype(np.uint8),
-                                                                        img.image_properties)
-        image_probabilities = conversion.NumpySimpleITKImageBridge.convert(probabilities, img.image_properties)
-
-        # evaluate segmentation without post-processing
-        evaluator.evaluate(image_prediction, img.images[structure.BrainImageTypes.GroundTruth], img.id_)
-
-        images_prediction.append(image_prediction)
-        images_probabilities.append(image_probabilities)
-
-    # post-process segmentation and evaluate with post-processing
-    # post_process_params = {'simple_post': True}
-    # images_post_processed = putil.post_process_batch(images_test, images_prediction, images_probabilities,
-    #                                                  post_process_params, multi_process=True)
-
-    for i, img in enumerate(images_test):
-        # evaluator.evaluate(images_post_processed[i], img.images[structure.BrainImageTypes.GroundTruth],
-        #                    img.id_ + '-PP')
-
-        # save results
-        sitk.WriteImage(images_prediction[i], os.path.join(result_dir, images_test[i].id_ + '_SEG.mha'), True)
-        # sitk.WriteImage(images_post_processed[i], os.path.join(result_dir, images_test[i].id_ + '_SEG-PP.mha'), True)
-
-    # use two writers to report the results
-    os.makedirs(result_dir, exist_ok=True)  # generate result directory, if it does not exists
-    result_file = os.path.join(result_dir, 'results.csv')
-    writer.CSVWriter(result_file).write(evaluator.results)
-
-    print('\nSubject-wise results...')
-    writer.ConsoleWriter().write(evaluator.results)
-
-    # report also mean and standard deviation among all subjects
-    result_summary_file = os.path.join(result_dir, 'results_summary.csv')
-    functions = {'MEAN': np.mean, 'STD': np.std}
-    writer.CSVStatisticsWriter(result_summary_file, functions=functions).write(evaluator.results)
-    print('\nAggregated statistic results...')
-    writer.ConsoleStatisticsWriter(functions=functions).write(evaluator.results)
-
-    # clear results such that the evaluator is ready for the next evaluation
-    evaluator.clear()
+    cc.train()
+    cc.feature_importance()
+    cc.test()
+    cc.post_process()
+    cc.evaluate()
 
 
 if __name__ == "__main__":
