@@ -74,10 +74,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
     data_train = np.concatenate([img.feature_matrix[0] for img in images])
     labels_train = np.concatenate([img.feature_matrix[1] for img in images]).squeeze()
 
-    classifiers = [
-        KNeighborsClassifier(n_neighbors=1, weights='distance')
-        sk_ensemble.RandomForestClassifier(max_features=images[0].feature_matrix[0].shape[1], n_estimators=10, max_depth=10)
-    ]
+    classifiers = [KNeighborsClassifier(n_neighbors=1, weights='distance'), sk_ensemble.RandomForestClassifier(max_features=images[0].feature_matrix[0].shape[1], n_estimators=10, max_depth=10)]
     cc = ClassificationController(classifiers, data_train, labels_train)
 
     cc.train()
