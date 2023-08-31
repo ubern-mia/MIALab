@@ -2,7 +2,7 @@ pathos==0.2.9
 pymia==0.3.2
 matplotlib==3.5.2
 numpy~=1.23.1
-Pillow==9.2.0
+Pillow==9.3.0
 scikit_learn==1.0.2
 SimpleITK==2.1.1.2
 Sphinx>=3.2.1
