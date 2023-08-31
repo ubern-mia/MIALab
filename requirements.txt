@@ -6,7 +6,7 @@ Pillow==9.3.0
 scikit_learn==1.0.2
 SimpleITK==2.1.1.2
 Sphinx>=3.2.1
-sphinx_rtd_theme>=0.5.0
+sphinx_rtd_theme>=1.1.0
 furo>=2021.7.31b41
 sphinx-inline-tabs>=2021.3.28b7
 sphinx-copybutton==0.5.0
