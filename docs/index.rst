@@ -4,14 +4,23 @@
     :maxdepth: 1
     :caption: Getting started
 
-    background
-    pipeline
-    experiments
-    data
     installation
     ide
     tools
     ubelix
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Lecture notes
+
+    background
+    data
+    pipeline
+    pre-processing
+    registration
+    post-processing
+    feature-extraction
+    machine-learning
 
 .. toctree::
     :maxdepth: 2
