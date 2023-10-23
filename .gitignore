@@ -1,4 +1,13 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+
+# ignore jobscript due to personal emails
+docs/additional_material/template_jobscript.sh
+
+#ignore sbatch outputs
+docs/additional_material/*.out
+docs/additional_material/*.err
+
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
