@@ -28,7 +28,7 @@ class ImageNormalization(pymia_fltr.Filter):
 
         img_arr = sitk.GetArrayFromImage(image)
 
-        # todo: normalize the image using numpy
+        # todo: normalize the image using numpy  # anschinend nur one line of code
         warnings.warn('No normalization implemented. Returning unprocessed image.')
 
         img_out = sitk.GetImageFromArray(img_arr)
