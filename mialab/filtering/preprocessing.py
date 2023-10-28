@@ -6,6 +6,7 @@ import warnings
 
 import pymia.filtering.filter as pymia_fltr
 import SimpleITK as sitk
+import numpy as np
 
 
 class ImageNormalization(pymia_fltr.Filter):
@@ -28,10 +29,14 @@ class ImageNormalization(pymia_fltr.Filter):
 
         img_arr = sitk.GetArrayFromImage(image)
 
-        # todo: normalize the image using numpy  # anschinend nur one line of code
-        warnings.warn('No normalization implemented. Returning unprocessed image.')
+        # Perform image normalization using NumPy
+        min_val = np.min(img_arr)
+        max_val = np.max(img_arr)
 
-        img_out = sitk.GetImageFromArray(img_arr)
+        normalized_img_arr = (img_arr - min_val) / (max_val - min_val)
+
+        # Create a new SimpleITK image from the normalized NumPy array
+        img_out = sitk.GetImageFromArray(normalized_img_arr)
         img_out.CopyInformation(image)
 
         return img_out
@@ -66,21 +71,24 @@ class SkullStripping(pymia_fltr.Filter):
         super().__init__()
 
     def execute(self, image: sitk.Image, params: SkullStrippingParameters = None) -> sitk.Image:
-        """Executes a skull stripping on an image.
+        """Executes skull stripping on an image.
 
         Args:
             image (sitk.Image): The image.
             params (SkullStrippingParameters): The parameters with the brain mask.
 
         Returns:
-            sitk.Image: The normalized image.
+            sitk.Image: The skull-stripped image.
         """
-        mask = params.img_mask  # the brain mask
+        if params is None or params.img_mask is None:
+            raise ValueError("SkullStrippingParameters with img_mask is required for skull stripping.")
 
-        # todo: remove the skull from the image by using the brain mask
-        warnings.warn('No skull-stripping implemented. Returning unprocessed image.')
+        mask = params.img_mask  # The brain mask
 
-        return image
+        # Apply the brain mask to remove non-brain regions
+        stripped_image = image * mask
+
+        return stripped_image
 
     def __str__(self):
         """Gets a printable string representation.
@@ -126,19 +134,43 @@ class ImageRegistration(pymia_fltr.Filter):
             sitk.Image: The registered image.
         """
 
-        # todo: replace this filter by a registration. Registration can be costly, therefore, we provide you the
-        # transformation, which you only need to apply to the image!
-        warnings.warn('No registration implemented. Returning unregistered image')
+
+        #warnings.warn('No registration implemented. Returning unregistered image')
 
         atlas = params.atlas
         transform = params.transformation
         is_ground_truth = params.is_ground_truth  # the ground truth will be handled slightly different
 
+        # Create a registration object
+        registration = sitk.ImageRegistrationMethod()
+
+        # Choose a similarity metric (e.g., mutual information)
+        registration.SetMetricAsMattesMutualInformation()
+
+        # Choose an optimizer (e.g., gradient descent)
+        registration.SetOptimizerAsGradientDescent(learningRate=0.1, numberOfIterations=100,
+                                                   estimateLearningRate=registration.EachIteration)
+
+        # Create the transformation (e.g., affine)
+        initial_transform = sitk.AffineTransform(3)
+
+        # Set the initial transformation parameters (if needed)
+        initial_transform.SetCenter([0, 0, 0])  # Adjust as needed
+
+        registration.SetInitialTransform(initial_transform, inPlace=False)
+
+        # Execute the registration
+        final_transform = registration.Execute(sitk.Cast(image, sitk.sitkFloat32), sitk.Cast(atlas, sitk.sitkFloat32))
+
+        # Apply the final transformation to the image
+        registered_image = sitk.Resample(image, atlas, final_transform, sitk.sitkLinear, 0.0, sitk.sitkUInt16)
+
+
         # note: if you are interested in registration, and want to test it, have a look at
         # pymia.filtering.registration.MultiModalRegistration. Think about the type of registration, i.e.
         # do you want to register to an atlas or inter-subject? Or just ask us, we can guide you ;-)
 
-        return image
+        return registered_image
 
     def __str__(self):
         """Gets a printable string representation.
