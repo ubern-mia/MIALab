@@ -28,10 +28,13 @@ class ImageNormalization(pymia_fltr.Filter):
 
         img_arr = sitk.GetArrayFromImage(image)
 
-        # todo: normalize the image using numpy  # anschinend nur one line of code
-        warnings.warn('No normalization implemented. Returning unprocessed image.')
+        # Toodo: normalize the image using numpy --> Done
+        # Normalized the image array to be in a range from 0 to 1.
+        normalized_img_arr = (img_arr - img_arr.min()) / (img_arr.max() - img_arr.min())
+        # warnings.warn('No normalization implemented. Returning unprocessed image.') WARNING OUTDATED
 
-        img_out = sitk.GetImageFromArray(img_arr)
+        # changed the value in the () from img_arr to normalized_img_arr
+        img_out = sitk.GetImageFromArray(normalized_img_arr)
         img_out.CopyInformation(image)
 
         return img_out
@@ -75,12 +78,16 @@ class SkullStripping(pymia_fltr.Filter):
         Returns:
             sitk.Image: The normalized image.
         """
+        if params is None or params.img_mask is None:
+            raise ValueError("SkullStrippingParameters with img_mask must be provided.")
+
         mask = params.img_mask  # the brain mask
 
-        # todo: remove the skull from the image by using the brain mask
-        warnings.warn('No skull-stripping implemented. Returning unprocessed image.')
+        # toodo: remove the skull from the image by using the brain mask
+        stripped_image = sitk.Mask(image, mask)
+        # warnings.warn('No skull-stripping implemented. Returning unprocessed image.') WARNING OUTDATED
 
-        return image
+        return stripped_image
 
     def __str__(self):
         """Gets a printable string representation.
@@ -126,19 +133,22 @@ class ImageRegistration(pymia_fltr.Filter):
             sitk.Image: The registered image.
         """
 
-        # todo: replace this filter by a registration. Registration can be costly, therefore, we provide you the
+        # toodo: replace this filter by a registration. Registration can be costly, therefore, we provide you the
         # transformation, which you only need to apply to the image!
-        warnings.warn('No registration implemented. Returning unregistered image')
+        # warnings.warn('No registration implemented. Returning unregistered image') WARNING OUTDATED
 
         atlas = params.atlas
         transform = params.transformation
         is_ground_truth = params.is_ground_truth  # the ground truth will be handled slightly different
 
+        # Apply the transformation to the image
+        transformed_image = sitk.Resample(image, transform)
+
         # note: if you are interested in registration, and want to test it, have a look at
         # pymia.filtering.registration.MultiModalRegistration. Think about the type of registration, i.e.
         # do you want to register to an atlas or inter-subject? Or just ask us, we can guide you ;-)
 
-        return image
+        return transformed_image
 
     def __str__(self):
         """Gets a printable string representation.
