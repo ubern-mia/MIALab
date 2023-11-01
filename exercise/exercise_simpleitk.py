@@ -1,3 +1,4 @@
+
 import sys
 import os
 
@@ -8,7 +9,7 @@ try:
     import exercise.helper as helper
 except ImportError:
     # Append the MIALab root directory to Python path
-    sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))
+    sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), r'C:\Users\stude\OneDrive\Master\3.Semester\Medical Image Analysis Lab\Code\MIALab_Lukas_Studer'))
     import exercise.helper as helper
 
 
