@@ -42,7 +42,7 @@ Select your operating system to get the corresponding installation steps:
    #. Clone your MIALab repository fork
 
       -  Open "Git Bash"
-      -  :bash:`cd \path\to\where\you\want\the\code`
+      -  :bash:`cd \\path\\to\\where\\you\\want\\the\\code`
       -  Clone the MIALab repository fork using the URL from the :ref:`installation_initial_steps_label`
       -  :bash:`git clone https://github.com/[yourgithubaccount]/MIALab.git`
 
@@ -65,16 +65,16 @@ Select your operating system to get the corresponding installation steps:
 
    #. Install all required packages for the MIALab
 
-      -  :bash:`cd \path\to\MIALab\repository`
+      -  :bash:`cd \\path\\to\\MIALab\\repository`
       -  :bash:`pip install -r requirements.txt` will install all required packages
 
    #. Execute the hello world to verify the installation
 
-      -  :bash:`python .\bin\hello_world.py`
+      -  :bash:`python .\\bin\\hello_world.py`
 
    #. Run Sphinx to create the documentation
 
-      -  :bash:`sphinx-build -b html .\docs .\docs\_build`
+      -  :bash:`sphinx-build -b html .\\docs .\\docs\\_build`
       -  The documentation is now available under ``.\docs\_build\index.html``
 
 .. tab:: Linux
