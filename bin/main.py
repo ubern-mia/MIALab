@@ -74,7 +74,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
     #warnings.warn('Random forest parameters not properly set.')
     forest = sk_ensemble.RandomForestClassifier(max_features=images[0].feature_matrix[0].shape[1],
-                                                n_estimators=100, # Set the value of n_estimators to a typical value
+                                                n_estimators=85, # Set the value of n_estimators to a typical value
                                                 max_depth=5) # Set the max_depth to 10, hopefully avoiding overfitting
 
     start_time = timeit.default_timer()
