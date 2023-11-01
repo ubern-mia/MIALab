@@ -30,7 +30,9 @@ class ImagePostProcessing(pymia_fltr.Filter):
         """
 
         # todo: replace this filter by a post-processing - or do we need post-processing at all?
-        warnings.warn('No post-processing implemented. Can you think about something?')
+        # Currently not sure if we should post-processe but will do some simple smoothing Using Gaussian
+        image = sitk.SmoothingRecursiveGaussian(image,sigma=1)
+        #warnings.warn('No post-processing implemented. Can you think about something?')
 
         return image
 
