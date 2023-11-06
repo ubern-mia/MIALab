@@ -25,6 +25,7 @@ def main():
     plt.grid(axis='y')
     plt.show()
     #  in a boxplot
+    #Some dummy stuff
 
     # alternative: instead of manually loading/reading the csv file you could also use the pandas package
     # but you will need to install it first ('pip install pandas') and import it to this file ('import pandas as pd')
