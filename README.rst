@@ -19,7 +19,7 @@ We have set up an entire pipeline to solve this task, specifically:
 - Post-processing
 - Evaluation
 
-During the laboratory you will get to know the entire pipeline and investigate one of these pipeline elements in-depth (see `experiments <https://mialab.readthedocs.io/en/latest/experiments.html>`_).
+During the laboratory you will get to know the entire pipeline and investigate one of these pipeline elements in-depth (see `pipeline <https://mialab.readthedocs.io/en/latest/pipeline.html>`_).
 You will get to know and to use various libraries and software tools needed in the daily life as biomedical engineer or researcher in the medical image analysis domain (see `tools <https://mialab.readthedocs.io/en/latest/tools.html>`_).
 
 Enjoy!
